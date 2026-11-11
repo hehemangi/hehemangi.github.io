@@ -7,267 +7,223 @@
 <title>Hemangi Ganatra Portfolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,900&family=Lora:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400;700&display=swap">
 <style>
-/* Layout: a horizontal filmstrip of full-height colour panels — one panel per course (01–05) plus the bill.
-   Fixed header with a numbered course index and a progress %, vertical rails between panels,
-   giant headlines with image slots set between the words. Stacks vertically on phones. */
+/* Layout: a landscape filmstrip. Full-height panels scroll sideways (wheel, drag, keys), with a fixed
+   header (brand · The bill · menu), a full-screen course menu, a progress % and vertical
+   "Scroll / Drag" rails. Dark base; green, yellow and pink panels. Stacks vertically on phones. */
 :root{
-  --paper:#FAF0D0; --ink:#141210; --red:#D63A24; --pink:#F26BA3; --mango:#FFC93C;
-  --leaf:#2E9E5B; --coral:#F56E3C; --burgundy:#6E1423; --gold:#C9962B; --cocoa:#2B0F12;
-  --blush:#FFD6E4; --kesar:#E2A028; --pista:#BEDE96; --grey:#7D735A; --ph:#E9D8A0; --receipt:#FFFCF0;
-  --display:"Playfair Display", Georgia, "Times New Roman", serif;
-  --body:Lora, Georgia, serif;
+  --ink:#141210;     /* base */
+  --ink-2:#221f1b;   /* placeholder on dark */
+  --cream:#FAF0D0;   /* text on dark */
+  --green:#2E9E5B;
+  --yellow:#FFC93C;
+  --pink:#F26BA3;
+  --display:"Libre Caslon Display", "Libre Caslon Text", Georgia, serif;
+  --text:"Libre Caslon Text", Georgia, serif;
   --mono:"Space Mono", ui-monospace, "Courier New", monospace;
-  --top:96px; --bot:48px;
-  color-scheme:light;
+  --top:92px; --bot:44px;
+  color-scheme:dark;
 }
 *{box-sizing:border-box}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 html,body{height:100%}
-body{background:var(--ink);color:var(--ink);font-family:var(--body);font-size:15.5px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{background:var(--ink);color:var(--cream);font-family:var(--text);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit}
-a:focus-visible,button:focus-visible{outline:3px solid var(--mango);outline-offset:3px}
-p{margin:0}
-h1,h2,h3{margin:0;font-family:var(--display);text-wrap:balance}
-.label{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase;line-height:1.4}
-.note{font-family:var(--mono);font-size:12px;line-height:1.5}
-.lead{font-style:italic;font-size:clamp(17px,1.5vw,19px);line-height:1.5}
-.loud{font-family:var(--display);font-weight:900;line-height:.88;letter-spacing:-.03em}
-.loud em{font-style:italic}
-.h2{font-family:var(--display);font-weight:700;font-size:clamp(21px,2vw,26px);line-height:1.15}
-.c-red{color:var(--red)} .c-pink{color:var(--pink)} .c-leaf{color:var(--leaf)} .c-coral{color:var(--coral)} .c-mango{color:var(--mango)} .c-gold{color:var(--gold)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}
+p{margin:0} h1,h2,h3{margin:0;font-weight:400;text-wrap:balance}
+.mono{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;line-height:1.4}
+.note{font-family:var(--mono);font-size:11.5px;line-height:1.55}
+.big{font-family:var(--display);font-weight:400;line-height:.86;letter-spacing:-.02em}
+.it{font-family:var(--text);font-style:italic;letter-spacing:-.03em}
+.lead{font-style:italic;font-size:clamp(17px,2.4vh,21px);line-height:1.45}
 
 /* ---------- Header ---------- */
-.hdr{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;
-  padding:calc(16px + env(safe-area-inset-top,0px)) max(20px,env(safe-area-inset-right,0px)) 16px max(20px,env(safe-area-inset-left,0px));pointer-events:none}
+.hdr{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:calc(18px + env(safe-area-inset-top,0px)) max(22px,env(safe-area-inset-right,0px)) 18px max(22px,env(safe-area-inset-left,0px));pointer-events:none;color:var(--cream);mix-blend-mode:difference}
 .hdr > *{pointer-events:auto}
-.chip{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--paper);border:2px solid var(--paper);border-radius:999px;padding:7px 14px;text-decoration:none}
-.brand i{width:10px;height:10px;border-radius:50%;background:var(--red);box-shadow:13px 0 0 var(--mango),26px 0 0 var(--leaf);margin-right:26px}
-.index{display:flex;gap:4px;background:var(--ink);border:2px solid var(--paper);border-radius:999px;padding:4px;list-style:none;margin:0}
-.index a{display:inline-flex;gap:6px;align-items:center;color:var(--paper);text-decoration:none;padding:5px 11px;border-radius:999px}
-.index a b{font-weight:700;opacity:.55}
-.index a.on{background:var(--paper);color:var(--ink)}
-.index a.on b{opacity:1;color:var(--red)}
-.index a:hover:not(.on){background:#2a2622}
-.cta{background:var(--red);border-color:var(--red)}
-.cta:hover{background:var(--paper);color:var(--ink)}
-.pct{position:fixed;right:max(20px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:20;font-family:var(--display);font-weight:900;font-size:34px;line-height:1;color:var(--paper);mix-blend-mode:difference;font-variant-numeric:tabular-nums;pointer-events:none}
+.hdr-r{display:flex;gap:10px;align-items:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:34px;padding:0 12px;border:1.5px solid currentColor;background:transparent;color:inherit;text-decoration:none;cursor:pointer}
+.sq{width:34px;padding:0}
+.sq::after{content:"";width:12px;height:12px;background:currentColor}
+.burger{width:40px;padding:0;border:0;flex-direction:column;gap:6px}
+.burger i{display:block;width:30px;height:2px;background:currentColor}
+.pct{position:fixed;right:max(22px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:30;font-family:var(--display);font-size:40px;line-height:1;color:var(--cream);mix-blend-mode:difference;font-variant-numeric:tabular-nums;pointer-events:none}
 
-/* ---------- Strip ---------- */
+/* ---------- Full-screen menu ---------- */
+.menu-ov{position:fixed;inset:0;z-index:40;background:var(--pink);color:var(--ink);display:grid;grid-template-rows:auto 1fr auto;
+  padding:calc(18px + env(safe-area-inset-top,0px)) max(22px,env(safe-area-inset-right,0px)) calc(22px + env(safe-area-inset-bottom,0px)) max(22px,env(safe-area-inset-left,0px));
+  clip-path:circle(0 at calc(100% - 42px) 36px);transition:clip-path .55s cubic-bezier(.7,0,.2,1);visibility:hidden}
+.menu-ov.open{clip-path:circle(150% at calc(100% - 42px) 36px);visibility:visible}
+.menu-top{display:flex;justify-content:space-between;align-items:center}
+.menu-ov ol{list-style:none;margin:0;padding:0;align-self:center;display:flex;flex-direction:column;gap:2px}
+.menu-ov li a{display:flex;align-items:baseline;gap:18px;text-decoration:none;font-family:var(--display);font-size:clamp(44px,10vh,104px);line-height:1}
+.menu-ov li a b{font-family:var(--mono);font-size:13px;letter-spacing:.1em;font-weight:700}
+.menu-ov li a:hover em,.menu-ov li a:focus-visible em{font-family:var(--text);font-style:italic;color:var(--cream)}
+.menu-ov li a em{font-style:normal}
+.menu-ov li a small{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;opacity:.7}
+.menu-foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.x{width:40px;height:40px;border:0;background:none;position:relative;cursor:pointer;color:inherit}
+.x::before,.x::after{content:"";position:absolute;left:5px;right:5px;top:50%;height:2px;background:currentColor;transform:rotate(45deg)}
+.x::after{transform:rotate(-45deg)}
+
+/* ---------- Strip & panels ---------- */
 .strip{display:flex;flex-direction:column}
-.panel{position:relative;display:flex;gap:clamp(28px,3vw,56px);padding:calc(var(--top) + 8px) 20px var(--bot)}
-.rail{flex:none;width:58px;align-self:stretch;border-left:2px solid currentColor;border-right:2px solid currentColor;display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding-block:4px 8px;text-decoration:none;margin-block:calc(-1 * (var(--top) + 8px)) calc(-1 * var(--bot))}
-.rail span{writing-mode:vertical-rl;transform:rotate(180deg)}
-.rail .arw{font-family:var(--mono);font-weight:700;font-size:20px;margin-top:calc(var(--top) - 12px)}
+.panel{position:relative;display:flex;gap:clamp(28px,3vw,56px);padding:calc(var(--top) + 6px) 22px var(--bot)}
 .col{flex:none;display:flex;flex-direction:column;gap:18px;min-width:0}
-.numeral{font-family:var(--display);font-weight:900;line-height:.8;font-size:clamp(220px,62vh,640px);letter-spacing:-.06em;-webkit-text-stroke:3px currentColor;color:transparent;align-self:flex-end;margin-bottom:-.06em}
-
-/* panels' colour */
-.p-ink{background:var(--ink);color:var(--paper)}
-.p-red{background:var(--red);color:var(--paper)}
-.p-paper{background:var(--paper)}
-.p-mango{background:var(--mango)}
-.p-blush{background:var(--blush)}
-.p-burg{background:var(--burgundy);color:var(--paper)}
+.rail{flex:none;width:56px;align-self:stretch;border-left:1.5px solid currentColor;border-right:1.5px solid currentColor;display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding-block:4px 10px;text-decoration:none;margin-block:calc(-1 * (var(--top) + 6px)) calc(-1 * var(--bot))}
+.rail span{writing-mode:vertical-rl;transform:rotate(180deg)}
+.rail .arw{writing-mode:horizontal-tb;transform:none;font-family:var(--mono);font-size:20px;margin-top:calc(var(--top) - 14px)}
+.p-ink{background:var(--ink);color:var(--cream)}
+.p-green{background:var(--green);color:var(--cream)}
+.p-yellow{background:var(--yellow);color:var(--ink)}
+.p-pink{background:var(--pink);color:var(--ink)}
+.c-green{color:var(--green)} .c-yellow{color:var(--yellow)} .c-pink{color:var(--pink)} .c-cream{color:var(--cream)} .c-ink{color:var(--ink)}
 
 /* image slots */
-.ph{background:var(--ph);color:var(--grey);border:2px solid currentColor;border-radius:12px;display:grid;place-items:center;text-align:center;padding:12px;max-width:100%}
-.ph .note{display:block}
-.ph-pink{background:var(--pink);color:var(--ink)}
-.ph-gold{background:var(--gold);color:var(--cocoa)}
-.ph-dark{background:var(--cocoa);color:var(--gold)}
-.ph-ink{background:#2a2622;color:var(--paper)}
+.ph{border:1.5px solid currentColor;display:grid;place-items:center;text-align:center;padding:12px;max-width:100%;background:rgba(20,18,16,.08)}
+.p-ink .ph,.p-green .ph{background:rgba(250,240,208,.06)}
+.ph .note{display:block;opacity:.8}
 
-/* split-word headline with image chips between words */
-.split{font-family:var(--display);font-weight:900;line-height:.92;letter-spacing:-.03em;font-size:clamp(56px,13.5vh,150px)}
-.split .ln{display:flex;align-items:center;gap:.18em;white-space:nowrap}
-.split .slot{display:inline-grid;place-items:center;height:.78em;border-radius:.12em;border:2px solid currentColor;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;line-height:1.2;text-align:center;padding:4px}
-.slot.w1{width:1.6em} .slot.w2{width:2.4em} .slot.w3{width:1.1em}
+/* split headline with images between the words */
+.split{font-family:var(--display);line-height:.92;letter-spacing:-.02em;font-size:clamp(60px,16vh,176px)}
+.split .ln{display:flex;align-items:center;gap:.16em;white-space:nowrap}
+.slot{display:inline-grid;place-items:center;height:.8em;border:1.5px solid currentColor;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;line-height:1.25;text-align:center;padding:4px;flex:none}
+.w1{width:1.5em} .w2{width:2.3em} .w3{width:1.05em}
 
-/* stickers */
-.ring{width:var(--s,140px);aspect-ratio:1;border-radius:50%;position:relative;display:grid;place-items:center;flex:none;color:var(--ink);filter:drop-shadow(3px 3px 0 var(--ink))}
-.ring svg{position:absolute;inset:0;width:100%;height:100%;animation:spin 22s linear infinite}
-.ring text{font-family:var(--mono);font-weight:700;font-size:10.5px;letter-spacing:2.4px;text-transform:uppercase;fill:currentColor}
-.ring .core{font-family:var(--display);font-weight:900;line-height:.9;font-size:calc(var(--s,140px)*.22)}
+/* rotating badge */
+.ring{width:var(--s,150px);aspect-ratio:1;border-radius:50%;position:relative;display:grid;place-items:center;flex:none}
+.ring svg{position:absolute;inset:0;width:100%;height:100%;animation:spin 24s linear infinite}
+.ring text{font-family:var(--mono);font-weight:700;font-size:10px;letter-spacing:2.6px;text-transform:uppercase;fill:currentColor}
+.ring .core{font-family:var(--display);font-size:calc(var(--s,150px)*.3);line-height:1}
 @keyframes spin{to{transform:rotate(360deg)}}
-.burst{clip-path:polygon(50% 0,58% 13%,72% 4%,75% 20%,91% 17%,86% 33%,100% 40%,88% 51%,100% 62%,85% 68%,90% 84%,74% 81%,70% 97%,57% 87%,46% 100%,39% 85%,24% 94%,23% 78%,7% 80%,13% 64%,0 55%,12% 45%,2% 32%,18% 28%,15% 12%,31% 16%,35% 0,46% 12%);display:grid;place-items:center;text-align:center}
-.pill{border-radius:999px;padding:9px 18px;border:2px solid var(--ink);display:inline-block}
-.stamp{border:2px dashed currentColor;border-radius:50%;width:88px;aspect-ratio:1;display:grid;place-items:center;text-align:center;transform:rotate(-12deg);flex:none}
-.tag{font-family:var(--mono);font-weight:700;font-size:10px;letter-spacing:.12em;text-transform:uppercase;border-radius:999px;padding:5px 12px;white-space:nowrap;border:2px solid currentColor}
+
+.tag{font-family:var(--mono);font-weight:700;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:5px 10px;border:1.5px solid currentColor;white-space:nowrap}
 .tags{display:flex;gap:8px;flex-wrap:wrap}
-.go{display:inline-flex;align-self:flex-start;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border:2px solid currentColor;border-radius:999px;padding:8px 16px}
-.go:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.go{display:inline-flex;align-self:flex-start;gap:10px;align-items:center;font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;border:1.5px solid currentColor;padding:9px 14px}
+.go:hover{background:currentColor}
+.go:hover span{color:var(--ink)}
+.p-ink .go:hover span,.p-green .go:hover span{color:var(--ink)}
+.p-yellow .go:hover span,.p-pink .go:hover span{color:var(--cream)}
 
 /* ---------- 01 Home ---------- */
-.cover-title{font-family:var(--display);font-weight:900;font-size:clamp(84px,30vh,330px);line-height:.85;letter-spacing:-.035em;color:var(--paper)}
-.cover-title .o1{color:var(--red)} .cover-title .o2{color:var(--mango);font-style:italic}
-.cover-title .o3{color:var(--pink)}
-.home-a{justify-content:space-between}
-.home-a .tasting{font-family:var(--display);font-style:italic;font-size:clamp(22px,3.2vh,32px)}
-.courses{display:grid;grid-template-columns:repeat(4,max-content);gap:12px 40px}
-.courses .label{color:var(--mango);margin-bottom:6px}
-.courses ul{list-style:none;margin:0;padding:0;font-size:15px;line-height:1.5}
-.courses a{text-decoration:none;border-bottom:1px solid currentColor}
-.home-b{justify-content:space-between;width:min(46vw,640px)}
-.home-b .ring{--s:150px;background:var(--pink);align-self:flex-end}
-.home-c{justify-content:flex-end;gap:14px}
-.home-c .burst{width:150px;aspect-ratio:1;background:var(--mango);color:var(--ink);transform:rotate(-12deg)}
-.home-c .pill{background:var(--leaf);color:var(--paper);transform:rotate(-6deg)}
-.intro-copy{max-width:360px;font-size:16px}
+.hero-title{font-family:var(--display);font-size:clamp(90px,25vh,270px);line-height:.82;letter-spacing:-.03em}
+.hero-title span{display:block}
+.hero-a{justify-content:space-between;width:min(66vw,1040px)}
+.hero-foot{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.hero-foot .lead{max-width:320px}
 
 /* ---------- 02 About ---------- */
-.about-head{width:min(34vw,440px);justify-content:space-between}
-.about-photo{justify-content:flex-end}
-.about-photo .ph{height:min(62vh,560px);aspect-ratio:340/440}
-.facts{display:grid;grid-template-columns:repeat(2,250px);grid-auto-rows:1fr;gap:3px;background:var(--ink);border:3px solid var(--ink);align-self:center}
-.fact{padding:20px;display:flex;flex-direction:column;gap:8px;font-size:13.5px;line-height:1.5}
-.fact ul{list-style:none;margin:0;padding:0}
-.f-exp{background:var(--pink)} .f-do{background:var(--leaf);color:var(--paper)} .f-how{background:var(--mango)} .f-int{background:var(--coral)}
-.sheet{width:320px;align-self:center;background:var(--receipt);border:3px solid var(--ink);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:14px}
-.sheet-grid{display:flex;flex-wrap:wrap;gap:12px}
-.sk{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:10px 14px;border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink)}
-.sk:nth-child(odd){transform:rotate(-3deg)} .sk:nth-child(even){transform:rotate(2.5deg)}
-.sk-round{border-radius:50%;width:94px;aspect-ratio:1;display:grid;place-items:center;text-align:center;padding:6px}
-.sk-pill{border-radius:999px} .sk-tag{border-radius:6px}
+.about-a{width:min(34vw,460px);justify-content:space-between}
+.about-photo .ph{height:100%;aspect-ratio:3/4}
+.about-b{width:min(30vw,400px);justify-content:center;gap:22px}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:18px 24px}
+.facts ul{list-style:none;margin:6px 0 0;padding:0;font-size:14px;line-height:1.55}
+.facts li::before{content:"· ";}
 
 /* ---------- 03 Menu ---------- */
-.menu-head{width:min(36vw,480px);justify-content:space-between}
-.menu-list{width:min(52vw,700px);justify-content:center}
-.course{border:3px solid var(--ink);border-radius:16px;overflow:hidden;background:var(--receipt)}
-.course-head{display:flex;justify-content:space-between;padding:8px 16px;border-bottom:3px solid var(--ink)}
-.ch-starter{background:var(--pink)} .ch-mains{background:var(--red);color:var(--paper)} .ch-side{background:var(--pista)} .ch-dessert{background:var(--coral)}
-.dishes{padding:2px 16px 6px}
-.dish{display:grid;grid-template-columns:14px auto minmax(20px,1fr) auto auto;align-items:center;gap:12px;padding-block:8px;text-decoration:none}
-.dish + .dish{border-top:1px dashed var(--grey)}
-.dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--ink)}
-.dish .name{font-family:var(--display);font-weight:900;font-size:clamp(18px,3vh,26px);line-height:1.1}
-.leader{border-bottom:2px dotted var(--ink);opacity:.45;transform:translateY(5px)}
-.tag-plated{background:var(--ink);color:var(--paper);border-color:var(--ink)}
-.tag-prep{border-style:dashed;color:var(--grey)}
-.dish .disc{font-family:var(--mono);font-size:11px;text-align:right}
-a.dish:hover .name{color:var(--red)}
-.menu-plates{justify-content:center;gap:16px;width:300px}
-.plate{border:3px solid var(--ink);border-radius:18px;padding:20px;text-decoration:none;display:flex;flex-direction:column;gap:10px}
-.plate-skb{background:var(--pink)} .plate-oa{background:var(--burgundy);color:var(--paper)}
-.plate .h2{font-weight:900;font-size:30px}
-.plate:hover .go{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.numeral{font-family:var(--display);line-height:.78;font-size:clamp(240px,74vh,760px);letter-spacing:-.04em;align-self:flex-end;margin-bottom:-.05em}
+.menu-a{width:min(40vw,560px);justify-content:space-between}
+.menu-b{width:min(46vw,640px);justify-content:center;gap:22px}
+.course > .mono{margin-bottom:4px;opacity:.75}
+.dish{display:grid;grid-template-columns:auto minmax(20px,1fr) auto;align-items:baseline;gap:12px;padding-block:5px;text-decoration:none}
+.dish .name{font-family:var(--display);font-size:clamp(24px,4.2vh,40px);line-height:1.05}
+.dish .leader{border-bottom:2px dotted currentColor;opacity:.5;transform:translateY(-6px)}
+.dish .what{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;text-align:right}
+.dish .plated{background:var(--ink);color:var(--yellow);padding:3px 8px}
+a.dish:hover .name{font-family:var(--text);font-style:italic}
+.menu-c{justify-content:space-between;width:min(26vw,320px)}
+
+/* plated cards ("what to film" equivalent) */
+.plate{position:relative;width:min(38vw,520px);height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:18px;text-decoration:none;border:1.5px solid currentColor;overflow:hidden}
+.plate .ph{position:absolute;inset:0;border:0}
+.plate .ph .note{position:absolute;left:14px;bottom:12px}
+.plate h3{position:relative;font-family:var(--display);font-size:clamp(46px,9vh,92px);line-height:.95}
+.plate .plus{position:relative;width:52px;height:52px;border:1.5px solid currentColor;display:grid;place-items:center;font-family:var(--mono);font-size:26px;line-height:1}
+.plate:hover .plus{background:currentColor}
+.plate-skb{background:var(--pink);color:var(--ink)}
+.plate-oa{background:var(--ink);color:var(--yellow)}
+.plate:hover h3{font-family:var(--text);font-style:italic}
 
 /* ---------- Case studies ---------- */
-.case-title{font-size:clamp(64px,15vh,170px)}
-.case-a{width:min(34vw,460px);justify-content:space-between}
-.hero-ph{height:100%;aspect-ratio:840/620;justify-content:stretch}
-.hero-ph .ph{height:100%;border-width:3px}
-.stack3{width:340px;justify-content:space-between;gap:14px}
-.card{border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:6px;font-size:14px;line-height:1.5;border:3px solid currentColor;flex:1}
-.card .h2{font-size:21px}
-.gal{display:flex;flex-direction:row;gap:16px}
-.gal .ph{height:100%;aspect-ratio:416/520}
-.chef{width:min(34vw,440px);border-radius:20px;padding:30px;justify-content:space-between}
-.chef blockquote{margin:10px 0 0;font-family:var(--display);font-style:italic;font-size:clamp(22px,3.4vh,30px);line-height:1.3}
-.next-course{width:min(30vw,380px);justify-content:center;text-decoration:none}
-.next-course .loud{font-size:clamp(48px,9vh,96px)}
-.next-course:hover .loud{text-decoration:underline;text-decoration-thickness:4px;text-underline-offset:8px}
-
-/* SKB */
-.skb .tag{background:var(--pink)}
-.skb .case-title span:nth-child(2){color:var(--pink);-webkit-text-stroke:2px var(--ink)}
-.skb .case-title span:nth-child(3){color:var(--leaf);font-style:italic}
-.cc-leaf{background:var(--leaf);color:var(--paper);border-color:var(--ink)} .cc-mango{background:var(--mango);border-color:var(--ink)} .cc-coral{background:var(--coral);border-color:var(--ink)}
-.flavours{display:flex;gap:14px;align-items:stretch}
-.flavour{width:190px;border-radius:96px 96px 16px 16px;padding:14px 14px 16px;display:flex;flex-direction:column;gap:10px;border:3px solid var(--ink);position:relative}
-.flavour .ph{flex:1;border-radius:86px 86px 10px 10px;background:color-mix(in srgb, var(--paper) 45%, transparent);color:var(--ink);min-height:160px}
-.flavour h3{font-weight:900;font-size:24px;line-height:1.02}
-.flavour .num{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--paper);border-radius:999px;padding:3px 10px}
-.fl-gulabo{background:var(--pink)} .fl-paan{background:var(--leaf);color:var(--paper)} .fl-aam{background:var(--mango)}
-.fl-rang{background:var(--coral)} .fl-shaant{background:var(--pista)} .fl-shahi{background:var(--kesar)}
-.fl-paan .ph{color:var(--paper)}
-.skb .chef{background:var(--ink);color:var(--paper)}
-.skb .chef .label{color:var(--pink)}
-.skb .ring{--s:132px;background:var(--mango)}
-
-/* O&A */
-.oa .tag{background:var(--gold);color:var(--cocoa);border-color:var(--gold)}
-.oa .case-title em{color:var(--gold)}
-.oa .label.gold{color:var(--gold)}
-.oa .ph{border-color:var(--gold)}
-.o-gold{background:var(--gold);color:var(--cocoa);border-color:var(--cocoa)}
-.o-cocoa{background:var(--cocoa);border-color:var(--gold)}
-.o-cocoa .label{color:var(--gold)}
-.o-receipt{background:var(--receipt);color:var(--ink);border-color:var(--gold)}
-.o-outline{border-color:var(--gold)}
-.o-outline .label{color:var(--gold)}
-.oa .chef{background:var(--gold);color:var(--cocoa);border:3px solid var(--cocoa)}
-.diamond-edge{flex:none;width:30px;align-self:stretch;margin-block:calc(-1 * (var(--top) + 8px)) calc(-1 * var(--bot));
-  background:linear-gradient(45deg, transparent 38%, var(--gold) 38% 62%, transparent 62%) 0 0/30px 30px,linear-gradient(-45deg, transparent 38%, var(--gold) 38% 62%, transparent 62%) 0 0/30px 30px,var(--cocoa)}
-.medallion{width:110px;aspect-ratio:1;background:var(--gold);clip-path:polygon(50% 0,61% 20%,85% 15%,80% 39%,100% 50%,80% 61%,85% 85%,61% 80%,50% 100%,39% 80%,15% 85%,20% 61%,0 50%,20% 39%,15% 15%,39% 20%);display:grid;place-items:center;flex:none}
-.medallion::after{content:"";width:40%;aspect-ratio:1;background:var(--burgundy);transform:rotate(45deg)}
-
-/* zigzag edge for SKB */
-.zig-edge{flex:none;width:26px;align-self:stretch;margin-block:calc(-1 * (var(--top) + 8px)) calc(-1 * var(--bot));
-  background:linear-gradient(45deg, var(--pink) 25%, transparent 25%) 0 -13px/26px 26px,linear-gradient(135deg, var(--pink) 25%, transparent 25%) 0 -13px/26px 26px,var(--leaf)}
+.case-title{font-size:clamp(76px,19vh,210px)}
+.case-a{width:min(36vw,500px);justify-content:space-between}
+.hero-ph{height:100%;aspect-ratio:4/3}
+.hero-ph .ph{height:100%}
+.steps{width:min(28vw,380px);justify-content:center;gap:26px}
+.step{display:flex;flex-direction:column;gap:6px;border-top:1.5px solid currentColor;padding-top:12px}
+.step h3{font-family:var(--display);font-size:clamp(28px,4.4vh,40px);line-height:1}
+.flavours{display:grid;grid-template-columns:repeat(3,200px);grid-template-rows:1fr 1fr;gap:12px;height:100%}
+.flavour{display:flex;flex-direction:column;gap:6px;border:1.5px solid currentColor;padding:10px;min-height:0}
+.flavour .ph{flex:1;min-height:0;background:rgba(20,18,16,.1)}
+.flavour h4{margin:0;font-family:var(--display);font-weight:400;font-size:24px;line-height:1}
+.flavour .note{display:flex;justify-content:space-between}
+.gal{display:flex;flex-direction:row;gap:14px}
+.gal .ph{height:100%;aspect-ratio:3/4}
+.quote{width:min(36vw,500px);justify-content:space-between}
+.quote blockquote{margin:0;font-family:var(--text);font-style:italic;font-size:clamp(26px,4.4vh,40px);line-height:1.2;letter-spacing:-.01em}
+.next{width:min(28vw,360px);justify-content:center;text-decoration:none}
+.next .big{font-size:clamp(56px,11vh,120px)}
+.next:hover .big{font-family:var(--text);font-style:italic}
 
 /* ---------- Bill ---------- */
-.bill-a{width:min(52vw,760px);justify-content:space-between}
-.bill-a h2{font-weight:900;font-size:clamp(64px,14vh,150px);line-height:.92;letter-spacing:-.03em}
-.bill-a h2 em{font-style:normal;color:var(--red)}
-.receipt{width:340px;align-self:center;background:var(--receipt);color:var(--ink);padding:28px 26px 24px;font-family:var(--mono);font-size:12px;position:relative;transform:rotate(1.5deg)}
-.receipt::after{content:"";position:absolute;left:0;right:0;bottom:-10px;height:10px;background:linear-gradient(-45deg,transparent 7px,var(--receipt) 0) 0 0/14px 10px,linear-gradient(45deg,transparent 7px,var(--receipt) 0) 0 0/14px 10px}
-.receipt .c{text-align:center} .receipt .sub{color:var(--grey);margin-top:8px}
-.dash{border-top:1px dashed var(--ink);margin:12px 0}
-.item{display:flex;align-items:baseline;gap:6px;padding-block:4px}
-.item .lead-dots{flex:1;border-bottom:1px dotted var(--grey);transform:translateY(-3px);min-width:10px}
+.bill-a{width:min(56vw,820px);justify-content:space-between}
+.bill-a .big{font-size:clamp(70px,17vh,190px)}
+.bill-steps{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:560px}
+.bill-steps > div{border:1.5px solid currentColor;padding:16px;display:flex;flex-direction:column;gap:8px}
+.bill-steps h3{font-family:var(--display);font-size:30px;line-height:1}
+.email{font-family:var(--mono);font-size:13px;user-select:all;word-break:break-all}
+.copy{font-family:var(--mono);font-weight:700;font-size:10px;letter-spacing:.12em;text-transform:uppercase;background:var(--ink);color:var(--yellow);border:0;padding:7px 12px;cursor:pointer;align-self:flex-start}
+.receipt{width:330px;align-self:center;background:#FFFCF0;color:var(--ink);padding:26px 24px 22px;font-family:var(--mono);font-size:11.5px;position:relative;transform:rotate(2deg)}
+.receipt::after{content:"";position:absolute;left:0;right:0;bottom:-10px;height:10px;background:linear-gradient(-45deg,transparent 7px,#FFFCF0 0) 0 0/14px 10px,linear-gradient(45deg,transparent 7px,#FFFCF0 0) 0 0/14px 10px}
+.receipt .c{text-align:center}
+.dash{border-top:1px dashed var(--ink);margin:11px 0}
+.item{display:flex;align-items:baseline;gap:6px;padding-block:3px}
+.item i{flex:1;border-bottom:1px dotted currentColor;transform:translateY(-3px);min-width:10px;opacity:.5}
 .total{display:flex;justify-content:space-between;font-weight:700}
-.total span:last-child{color:var(--red)}
-.thanks{font-family:var(--body);font-style:italic;font-size:16px;text-align:center;line-height:1.5;margin-top:16px}
-.email-row{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px}
-.email{user-select:all;word-break:break-all}
-.copy{font:inherit;font-weight:700;font-size:10px;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:var(--receipt);border:0;border-radius:999px;padding:5px 10px;cursor:pointer}
-.barcode{height:34px;margin:14px auto 0;width:160px;background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 4px,var(--ink) 4px 5px,transparent 5px 8px,var(--ink) 8px 11px,transparent 11px 12px,var(--ink) 12px 13px,transparent 13px 16px)}
-.bill-c{justify-content:flex-end;width:260px}
-.bill-c .ring{--s:150px;background:var(--pink)}
+.total span:last-child{color:var(--pink)}
+.thanks{font-family:var(--text);font-style:italic;font-size:15px;text-align:center;line-height:1.5;margin-top:14px}
+.barcode{height:32px;margin:12px auto 0;width:150px;background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 4px,var(--ink) 4px 5px,transparent 5px 8px,var(--ink) 8px 11px,transparent 11px 12px,var(--ink) 12px 13px,transparent 13px 16px)}
+.credits{width:min(40vw,520px);justify-content:space-between}
+.credits dl{display:grid;grid-template-columns:auto 1fr;gap:10px 20px;margin:0}
+.credits dt{opacity:.75}
+.credits dd{margin:0;font-size:14px}
 
-/* ---------- Horizontal mode (desktop) ---------- */
+/* ---------- Landscape mode ---------- */
 @media (min-width:900px) and (min-height:560px){
   body{overflow:hidden}
   .strip{position:fixed;inset:0;flex-direction:row;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;overscroll-behavior:contain;cursor:grab}
   .strip::-webkit-scrollbar{display:none}
   .strip.drag{cursor:grabbing;user-select:none}
-  .panel{flex:none;height:100%;padding-inline:56px}
-  .panel:first-child{padding-left:max(56px,env(safe-area-inset-left,0px))}
+  .panel{flex:none;height:100%;padding-inline:48px}
+  .panel:first-child{padding-left:max(48px,env(safe-area-inset-left,0px))}
   .col{height:100%}
 }
-/* ---------- Vertical mode (phones, short screens) ---------- */
+/* ---------- Phones / short screens: stack ---------- */
 @media not all and (min-width:900px) and (min-height:560px){
-  :root{--top:84px;--bot:40px}
-  .hdr .index span,.hdr .brand span{display:none}
-  .index a{padding:5px 9px}
-  .panel{flex-direction:column;padding:calc(var(--top) + 8px) max(16px,env(safe-area-inset-left,0px)) var(--bot) max(16px,env(safe-area-inset-right,0px))}
+  :root{--top:80px;--bot:36px}
+  .panel{flex-direction:column;padding:calc(var(--top) + 6px) max(16px,env(safe-area-inset-left,0px)) var(--bot) max(16px,env(safe-area-inset-right,0px))}
   .panel > *{width:100%!important;max-width:100%}
-  .rail{width:auto!important;height:52px;flex-direction:row;border:0;border-top:2px solid currentColor;border-bottom:2px solid currentColor;margin:8px calc(-1 * max(16px,env(safe-area-inset-left,0px))) 0;padding-inline:16px}
+  .rail{height:50px;flex-direction:row;border:0;border-top:1.5px solid currentColor;border-bottom:1.5px solid currentColor;margin:8px calc(-1 * max(16px,env(safe-area-inset-left,0px))) 0;padding-inline:16px;width:auto!important}
   .rail span{writing-mode:horizontal-tb;transform:none}
   .rail .arw{margin:0;transform:rotate(90deg)}
-  .zig-edge,.diamond-edge{display:none}
-  .numeral{font-size:clamp(140px,44vw,260px);align-self:flex-start}
-  .split{font-size:clamp(40px,12vw,72px)}
+  .hero-title{font-size:clamp(68px,22vw,150px)}
+  .split{font-size:clamp(42px,12vw,80px)}
   .split .ln{white-space:normal;flex-wrap:wrap}
-  .cover-title{font-size:clamp(72px,22vw,160px)}
-  .courses{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .case-title{font-size:clamp(60px,18vw,120px)}
+  .numeral{font-size:clamp(150px,50vw,280px);align-self:flex-start}
   .about-photo .ph,.hero-ph .ph,.gal .ph{height:auto;width:100%;aspect-ratio:4/3}
   .hero-ph{height:auto;aspect-ratio:auto}
   .gal{flex-direction:column}
-  .facts{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .flavours{flex-wrap:wrap}
-  .flavour{width:calc(50% - 7px)}
-  .flavour .ph{min-height:180px}
-  .dish{grid-template-columns:14px minmax(0,1fr) auto}
+  .plate{height:auto;min-height:340px}
+  .flavours{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:none;height:auto}
+  .flavour .ph{min-height:150px}
+  .facts,.bill-steps{grid-template-columns:1fr}
+  .dish{grid-template-columns:minmax(0,1fr) auto}
   .dish .leader{display:none}
-  .dish .disc{grid-column:2/-1;text-align:left;color:var(--grey)}
-  .receipt{width:100%!important;max-width:360px}
-  .pct{font-size:24px}
-}
-@media (max-width:560px){
-  .hdr .cta{display:none}
+  .receipt{width:100%!important;max-width:340px}
+  .pct{font-size:28px}
+  .hdr .btn:not(.burger){display:none}
 }
 </style>
 </head>
@@ -276,245 +232,236 @@ a.dish:hover .name{color:var(--red)}
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs><path id="circ" d="M70,70 m-54,0 a54,54 0 1,1 108,0 a54,54 0 1,1 -108,0"/></defs></svg>
 
 <header class="hdr">
-  <a class="chip brand label" href="#home"><i aria-hidden="true"></i><span>Hemangi Ganatra</span></a>
-  <nav aria-label="Courses"><ul class="index label">
-    <li><a href="#home" data-to="home"><b>01</b><span>Home</span></a></li>
-    <li><a href="#about" data-to="about"><b>02</b><span>About</span></a></li>
-    <li><a href="#menu" data-to="menu"><b>03</b><span>Menu</span></a></li>
-    <li><a href="#shake-ko-bulao" data-to="shake-ko-bulao"><b>04</b><span>Shake</span></a></li>
-    <li><a href="#oak-and-awe" data-to="oak-and-awe"><b>05</b><span>Oak</span></a></li>
-  </ul></nav>
-  <a class="chip cta label" href="#bill">The bill</a>
+  <a class="mono" href="#home" style="text-decoration:none">Hemangi Ganatra</a>
+  <div class="hdr-r">
+    <a class="btn sq" href="#home" aria-label="Back to start"></a>
+    <a class="btn mono" href="#bill">The bill</a>
+    <button class="btn burger" type="button" id="open-menu" aria-label="Open menu" aria-expanded="false" aria-controls="menu-ov"><i></i><i></i><i></i></button>
+  </div>
 </header>
 <div class="pct" aria-hidden="true">00%</div>
 
+<div class="menu-ov" id="menu-ov" role="dialog" aria-modal="true" aria-label="Menu">
+  <div class="menu-top"><span class="mono">Hemangi Ganatra — tonight's menu</span><button class="x" type="button" id="close-menu" aria-label="Close menu"></button></div>
+  <ol>
+    <li><a href="#home"><b>01</b><em>Home</em> <small>Portfolio</small></a></li>
+    <li><a href="#about"><b>02</b><em>About</em> <small>Chef's note</small></a></li>
+    <li><a href="#menu"><b>03</b><em>The menu</em> <small>7 dishes</small></a></li>
+    <li><a href="#shake-ko-bulao"><b>04</b><em>Shake Ko Bulao</em> <small>Main</small></a></li>
+    <li><a href="#oak-and-awe"><b>05</b><em>Oak &amp; Awe</em> <small>Main</small></a></li>
+    <li><a href="#bill"><b>—</b><em>The bill</em> <small>Say hi</small></a></li>
+  </ol>
+  <div class="menu-foot"><span class="mono">Packaging · Brand identity · Advertising · Copywriting</span><span class="note">ganatrahemangi93@gmail.com</span></div>
+</div>
+
 <main class="strip" id="strip">
 
-  <!-- ============ 01 HOME ============ -->
+  <!-- ===== 01 HOME ===== -->
   <section class="panel p-ink" id="home" aria-label="Home">
-    <div class="col home-a" style="width:min(64vw,980px)">
-      <p class="label c-mango">— Est. 2026 · Table for one · Mumbai —</p>
-      <div>
-        <h1 class="cover-title" aria-label="Portfolio"><span>P</span><span class="o1">o</span><span>rtf</span><span class="o2">o</span><span>li</span><span class="o3">o</span></h1>
-        <p class="tasting" style="margin-top:10px">a tasting menu of work, by Hemangi Ganatra</p>
-      </div>
-      <div class="courses">
-        <div><p class="label">Starter</p><ul><li>Zine</li></ul></div>
-        <div><p class="label">Mains</p><ul><li>Wear Your Race</li><li>Drop the Label</li><li><a href="#shake-ko-bulao">Shake Ko Bulao</a></li><li><a href="#oak-and-awe">Oak &amp; Awe</a></li></ul></div>
-        <div><p class="label">Side</p><ul><li>Kiss Her, You Fool</li></ul></div>
-        <div><p class="label">Dessert</p><ul><li>Ganatra Foods</li></ul></div>
+    <div class="col hero-a">
+      <h1 class="hero-title" aria-label="Portfolio, Hemangi Ganatra, 2026">
+        <span class="c-pink">Portfolio</span>
+        <span class="c-yellow"><span class="it" style="display:inline">by</span> Hemangi</span>
+        <span class="c-green">2026</span>
+      </h1>
+      <div class="hero-foot">
+        <p class="lead">A tasting menu of work, served loud.</p>
+        <p class="mono" style="opacity:.75">Ecole Intuit Lab · Mumbai<br>Project 03</p>
       </div>
     </div>
-    <div class="col home-c">
-      <div class="burst label">Chef's<br>special</div>
-      <span class="pill label">Served with opinions</span>
-    </div>
-    <a class="rail label" href="#home-2" aria-label="Next panel"><span class="arw">→</span><span>Scroll / drag</span></a>
+    <a class="rail mono" href="#home-2" aria-label="Next panel"><span class="arw">→</span><span>Scroll / Drag</span></a>
   </section>
 
-  <section class="panel p-red" id="home-2" aria-label="Introduction">
-    <div class="col" style="justify-content:space-between">
-      <p class="label">Packaging · Brand identity · Advertising · Copywriting</p>
-      <h2 class="split" aria-label="Feelings, all over the work. Copy first, always.">
-        <span class="ln">Feelings <span class="slot w1 ph-ink" aria-hidden="true">IMG</span></span>
-        <span class="ln"><span class="slot w2" style="background:var(--mango);color:var(--ink)" aria-hidden="true">IMG</span> all over</span>
-        <span class="ln"><em>the work.</em> <span class="slot w3" style="background:var(--pink);color:var(--ink)" aria-hidden="true">IMG</span></span>
-        <span class="ln" style="color:var(--mango)">Copy first, <span class="slot w1" style="background:var(--paper);color:var(--ink)" aria-hidden="true">IMG</span> always.</span>
+  <section class="panel p-ink" id="home-2" aria-label="Introduction">
+    <div class="col" style="justify-content:center">
+      <h2 class="split" aria-label="A tasting menu of feelings, packaging and copy, served loud.">
+        <span class="ln">a tasting <span class="slot w1 c-pink" aria-hidden="true">IMG</span></span>
+        <span class="ln"><span class="slot w2 c-yellow" aria-hidden="true">IMG</span> menu of</span>
+        <span class="ln"><span class="it c-green">feelings,</span> <span class="slot w3 c-green" aria-hidden="true">IMG</span> packaging</span>
+        <span class="ln">&amp; copy <span class="slot w2 c-pink" aria-hidden="true">IMG</span> <span class="it c-yellow">served loud.</span></span>
       </h2>
-      <p class="intro-copy">Most of my projects start with something I've lived, felt, or found deeply annoying. Seven dishes on the menu, two plated in full.</p>
     </div>
-    <div class="col home-b" style="width:300px;justify-content:space-between">
-      <div class="ring" style="--s:150px;background:var(--pink);align-self:flex-end" aria-hidden="true"><svg viewBox="0 0 140 140"><text><textPath href="#circ">fresh daily ★ fresh daily ★ fresh daily ★ </textPath></text></svg><span class="core">Hot!</span></div>
-      <div style="display:flex;flex-direction:column;gap:12px">
-        <a class="go" href="#shake-ko-bulao" style="color:var(--paper)">04 · Shake Ko Bulao →</a>
-        <a class="go" href="#oak-and-awe" style="color:var(--paper)">05 · Oak &amp; Awe →</a>
-      </div>
-    </div>
-    <a class="rail label" href="#about"><span class="arw">→</span><span>02 · About</span></a>
+    <a class="rail mono" href="#about"><span class="arw">→</span><span>02 · About</span></a>
   </section>
 
-  <!-- ============ 02 ABOUT ============ -->
-  <section class="panel p-paper" id="about" aria-labelledby="about-h">
-    <div class="numeral" aria-hidden="true">2</div>
-    <div class="col about-head">
-      <p class="label c-red">Chef's note</p>
-      <div>
-        <h2 id="about-h" class="loud" style="font-size:clamp(72px,17vh,180px)">About <em class="c-pink">me</em><span class="c-red">.</span></h2>
-        <p style="font-family:var(--display);font-size:clamp(20px,2.8vh,26px);line-height:1.3;margin-top:18px">Hi. I'm Hemangi Ganatra. I'm a graphic designer who somehow ended up with feelings all over her work, and honestly? Not complaining.</p>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:12px;font-size:14.5px">
-        <p>I figured out I was serious about packaging during an internship: something about holding a thing you made with your hands and thinking, yeah, that's it.</p>
-        <p>Since then I've been obsessed with the space where design meets writing, where a box or a bottle or a label gets to say something that actually means something. Sometimes all four disciplines in one project, which is chaotic and also my favourite.</p>
-      </div>
+  <!-- ===== 02 ABOUT ===== -->
+  <section class="panel p-green" id="about" aria-labelledby="about-h">
+    <div class="col about-a">
+      <p class="mono">02 · Chef's note</p>
+      <h2 id="about-h" class="big" style="font-size:clamp(84px,22vh,230px)">About <span class="it c-yellow">me</span></h2>
+      <p style="font-size:clamp(18px,2.6vh,22px);line-height:1.4">Hi. I'm Hemangi Ganatra. I'm a graphic designer who somehow ended up with feelings all over her work, and honestly? Not complaining.</p>
     </div>
     <div class="col about-photo">
-      <div class="ph"><div><span class="label">[ Drop image ]</span><span class="note">Your photo — portrait</span></div></div>
-      <p class="note" style="color:var(--grey)">FIG. 02 — THE CHEF</p>
+      <div class="ph"><div><span class="mono">[ Drop image ]</span><span class="note">Your photo — portrait</span></div></div>
     </div>
     <div class="col" style="justify-content:center">
+      <div class="ring c-ink" style="--s:170px;background:var(--yellow)" aria-hidden="true"><svg viewBox="0 0 140 140"><text><textPath href="#circ">packaging ★ identity ★ advertising ★ copy ★ </textPath></text></svg><span class="core">HG</span></div>
+    </div>
+    <div class="col about-b">
+      <p>Most of my projects start with something I've lived, felt, or found deeply annoying. I figured out I was serious about packaging during an internship: something about holding a thing you made with your hands and thinking, yeah, that's it.</p>
+      <p>Since then I've been obsessed with the space where design meets writing, where a box or a bottle or a label gets to say something that actually means something.</p>
       <div class="facts">
-        <div class="fact f-exp"><p class="label">Experience</p><p><strong>Junior Graphic Designer — SMDB</strong><br>Branding and identity projects as part of a creative team, from concept to delivery.</p></div>
-        <div class="fact f-do"><p class="label">What I do</p><ul><li>Packaging design</li><li>Brand identity</li><li>Advertising</li><li>Copywriting</li><li>Art direction</li><li>Editorial · Strategy</li></ul></div>
-        <div class="fact f-how"><p class="label">How I do it</p><ul><li>Illustrator · Photoshop</li><li>InDesign · After Effects</li><li>Figma · Blender</li></ul></div>
-        <div class="fact f-int"><p class="label">Interests</p><ul><li>Coffee, as a ritual</li><li>Cats</li><li>Sketching &amp; illustration</li><li>Reading, newly converted</li><li>Judging menus silently</li></ul></div>
-      </div>
-      <p class="label" style="color:var(--grey)">Currently · Visual Communication, Ecole Intuit Lab, Mumbai</p>
-    </div>
-    <div class="col" style="justify-content:center">
-      <div class="sheet">
-        <p class="label c-red">Sticker sheet</p>
-        <h3 class="h2" style="font-weight:900">Things I'd put on my laptop</h3>
-        <div class="sheet-grid">
-          <span class="sk sk-round" style="background:var(--pink)">Packaging nerd</span>
-          <span class="sk sk-pill" style="background:var(--mango)">Copy first</span>
-          <span class="sk sk-tag" style="background:var(--leaf);color:var(--paper)">Coffee ritual</span>
-          <span class="sk sk-round" style="background:var(--coral)">Cat person</span>
-          <span class="sk sk-pill" style="background:var(--pista)">Judges menus</span>
-          <span class="sk sk-tag" style="background:var(--ink);color:var(--paper)">Feelings included</span>
-          <span class="sk sk-round" style="background:var(--kesar)">Made in Mumbai</span>
-        </div>
+        <div><p class="mono c-yellow">Experience</p><ul><li>Junior Graphic Designer, SMDB</li><li>Branding &amp; identity, concept to delivery</li></ul></div>
+        <div><p class="mono c-yellow">What I do</p><ul><li>Packaging</li><li>Brand identity</li><li>Advertising</li><li>Copywriting</li><li>Art direction</li></ul></div>
+        <div><p class="mono c-yellow">How I do it</p><ul><li>Illustrator · Photoshop</li><li>InDesign · After Effects</li><li>Figma · Blender</li></ul></div>
+        <div><p class="mono c-yellow">Interests</p><ul><li>Coffee, as a ritual</li><li>Cats</li><li>Sketching</li><li>Judging menus silently</li></ul></div>
       </div>
     </div>
-    <a class="rail label" href="#menu"><span class="arw">→</span><span>03 · The menu</span></a>
+    <a class="rail mono" href="#menu"><span class="arw">→</span><span>03 · The menu</span></a>
   </section>
 
-  <!-- ============ 03 MENU ============ -->
-  <section class="panel p-mango" id="menu" aria-labelledby="menu-h">
+  <!-- ===== 03 THE MENU (portfolio landing) ===== -->
+  <section class="panel p-yellow" id="menu" aria-labelledby="menu-h">
     <div class="numeral" aria-hidden="true">3</div>
-    <div class="col menu-head">
-      <p class="label">Table of contents</p>
-      <h2 id="menu-h" class="loud" style="font-size:clamp(80px,22vh,220px)">The <em class="c-red">menu</em></h2>
-      <div style="display:flex;flex-direction:column;gap:10px">
+    <div class="col menu-a">
+      <p class="mono">03 · Table of contents</p>
+      <h2 id="menu-h" class="big" style="font-size:clamp(90px,24vh,250px)">The <span class="it c-pink" style="-webkit-text-stroke:1px var(--ink)">menu</span></h2>
+      <div style="display:flex;flex-direction:column;gap:10px;max-width:420px">
         <p class="lead">Seven dishes. Two are plated in full, the rest are still in the kitchen.</p>
-        <p class="note c-red">ALLERGENS — may contain strong opinions about packaging.</p>
+        <p class="note">ALLERGENS — may contain strong opinions about packaging.</p>
       </div>
     </div>
-    <div class="col menu-list">
-      <div class="course"><div class="course-head ch-starter"><span class="label">Starter</span><span class="label">1 dish</span></div>
-        <div class="dishes"><div class="dish"><span class="dot" style="background:var(--mango)"></span><span class="name">Zine</span><span class="leader"></span><span class="tag tag-prep">In the kitchen</span><span class="disc">Editorial · Copy</span></div></div></div>
-      <div class="course"><div class="course-head ch-mains"><span class="label">Mains</span><span class="label">4 dishes</span></div>
-        <div class="dishes">
-          <div class="dish"><span class="dot" style="background:var(--leaf)"></span><span class="name">Wear Your Race</span><span class="leader"></span><span class="tag tag-prep">In the kitchen</span><span class="disc">Advertising</span></div>
-          <div class="dish"><span class="dot" style="background:var(--coral)"></span><span class="name">Drop the Label</span><span class="leader"></span><span class="tag tag-prep">In the kitchen</span><span class="disc">Strategy · Copy</span></div>
-          <a class="dish" href="#shake-ko-bulao"><span class="dot" style="background:var(--pink)"></span><span class="name">Shake Ko Bulao</span><span class="leader"></span><span class="tag tag-plated">04 · Plated →</span><span class="disc">Identity · Packaging</span></a>
-          <a class="dish" href="#oak-and-awe"><span class="dot" style="background:var(--burgundy)"></span><span class="name">Oak &amp; Awe</span><span class="leader"></span><span class="tag tag-plated">05 · Plated →</span><span class="disc">Packaging · Identity</span></a>
-        </div></div>
-      <div class="course"><div class="course-head ch-side"><span class="label">Side</span><span class="label">1 dish</span></div>
-        <div class="dishes"><div class="dish"><span class="dot" style="background:var(--kesar)"></span><span class="name">Kiss Her, You Fool</span><span class="leader"></span><span class="tag tag-prep">In the kitchen</span><span class="disc">Typography</span></div></div></div>
-      <div class="course"><div class="course-head ch-dessert"><span class="label">Dessert</span><span class="label">1 dish</span></div>
-        <div class="dishes"><div class="dish"><span class="dot" style="background:var(--pista)"></span><span class="name">Ganatra Foods</span><span class="leader"></span><span class="tag tag-prep">In the kitchen</span><span class="disc">Photobook</span></div></div></div>
+    <div class="col menu-b">
+      <div class="course"><p class="mono">Starter</p>
+        <div class="dish"><span class="name">Zine</span><span class="leader"></span><span class="what">Editorial · Copy</span></div></div>
+      <div class="course"><p class="mono">Mains</p>
+        <div class="dish"><span class="name">Wear Your Race</span><span class="leader"></span><span class="what">Advertising</span></div>
+        <div class="dish"><span class="name">Drop the Label</span><span class="leader"></span><span class="what">Strategy · Copy</span></div>
+        <a class="dish" href="#shake-ko-bulao"><span class="name">Shake Ko Bulao</span><span class="leader"></span><span class="what plated">04 · Plated →</span></a>
+        <a class="dish" href="#oak-and-awe"><span class="name">Oak &amp; Awe</span><span class="leader"></span><span class="what plated">05 · Plated →</span></a></div>
+      <div class="course"><p class="mono">Side</p>
+        <div class="dish"><span class="name">Kiss Her, You Fool</span><span class="leader"></span><span class="what">Typography</span></div></div>
+      <div class="course"><p class="mono">Dessert</p>
+        <div class="dish"><span class="name">Ganatra Foods</span><span class="leader"></span><span class="what">Photobook</span></div></div>
     </div>
-    <div class="col menu-plates">
-      <a class="plate plate-skb" href="#shake-ko-bulao"><span class="label">Main · 04</span><span class="h2">Shake Ko Bulao</span><span class="go">Order →</span></a>
-      <a class="plate plate-oa" href="#oak-and-awe"><span class="label c-gold">Main · 05</span><span class="h2">Oak &amp; Awe</span><span class="go c-gold">Order →</span></a>
-    </div>
-    <a class="rail label" href="#shake-ko-bulao"><span class="arw">→</span><span>04 · Shake Ko Bulao</span></a>
+    <a class="rail mono" href="#plated"><span class="arw">→</span><span>Plated in full</span></a>
   </section>
 
-  <!-- ============ 04 SHAKE KO BULAO ============ -->
-  <section class="panel p-blush skb" id="shake-ko-bulao" aria-labelledby="skb-h">
-    <div class="zig-edge" aria-hidden="true"></div>
+  <section class="panel p-ink" id="plated" aria-label="Plated in full">
+    <div class="col" style="justify-content:space-between;width:min(26vw,340px)">
+      <p class="mono c-yellow">Plated in full</p>
+      <h2 class="big" style="font-size:clamp(70px,17vh,180px)">Two <span class="it c-pink">mains</span></h2>
+      <p>Pick a dish. Each one is served course by course: the brief, the thinking, the result.</p>
+    </div>
+    <div class="col"><a class="plate plate-skb" href="#shake-ko-bulao"><div class="ph" aria-hidden="true"><span class="note">[ Drop image ] Shake Ko Bulao bottles</span></div><span class="mono">04 · Identity · Packaging · Copy</span><h3>Shake Ko<br>Bulao</h3><span class="plus" aria-hidden="true">+</span></a></div>
+    <div class="col"><a class="plate plate-oa" href="#oak-and-awe"><div class="ph" aria-hidden="true"><span class="note">[ Drop image ] Oak &amp; Awe box</span></div><span class="mono">05 · Packaging · Brand identity</span><h3>Oak &amp;<br>Awe</h3><span class="plus" aria-hidden="true">+</span></a></div>
+    <a class="rail mono" href="#shake-ko-bulao"><span class="arw">→</span><span>04 · Shake Ko Bulao</span></a>
+  </section>
+
+  <!-- ===== 04 SHAKE KO BULAO ===== -->
+  <section class="panel p-pink" id="shake-ko-bulao" aria-labelledby="skb-h">
     <div class="col case-a">
-      <p class="label c-red">04 · Main · Case study</p>
-      <h2 id="skb-h" class="loud case-title"><span>Shake</span> <span>Ko</span> <span>Bulao</span></h2>
+      <p class="mono">04 · Main · Case study</p>
+      <h2 id="skb-h" class="big case-title">Shake<br><span class="it" style="color:var(--cream);-webkit-text-stroke:1.5px var(--ink)">Ko</span> Bulao</h2>
       <div style="display:flex;flex-direction:column;gap:14px">
         <p class="lead">A milkshake brand where the names do the work.</p>
         <div class="tags"><span class="tag">Brand identity</span><span class="tag">Packaging</span><span class="tag">Copywriting</span></div>
       </div>
     </div>
-    <div class="col hero-ph"><div class="ph ph-pink"><div><span class="label">[ Drop image ]</span><span class="note">Hero — all six bottles lined up</span></div></div></div>
-    <div class="col stack3">
-      <div class="card cc-leaf"><p class="label">The brief</p><h3 class="h2">Copy comes first</h3><p>Create a milkshake brand using copywriting as the primary design direction.</p></div>
-      <div class="card cc-mango"><p class="label">The direction</p><h3 class="h2">People, not products</h3><p>Names that feel like people, not products.</p></div>
-      <div class="card cc-coral"><p class="label">The menu</p><h3 class="h2">Six flavours</h3><p>Six flavours. Six personalities. Each name does the work before the design even starts.</p></div>
+    <div class="col hero-ph"><div class="ph"><div><span class="mono">[ Drop image ]</span><span class="note">Hero — all six bottles lined up</span></div></div></div>
+    <div class="col steps">
+      <div class="step"><p class="mono">The brief</p><h3>Copy comes first</h3><p>Create a milkshake brand using copywriting as the primary design direction.</p></div>
+      <div class="step"><p class="mono">The direction</p><h3>People, not products</h3><p>Names that feel like people, not products.</p></div>
+      <div class="step"><p class="mono">The menu</p><h3>Six flavours</h3><p>Six flavours. Six personalities. Each name does the work before the design even starts.</p></div>
     </div>
-    <div class="col" style="justify-content:space-between;padding-top:14px">
-      <div class="flavours" style="flex:1">
-        <div class="flavour fl-gulabo"><span class="num label">01</span><div class="ph"><span class="label">[ Bottle ]</span></div><h3>Gulabo</h3><p class="label">Rose</p></div>
-        <div class="flavour fl-paan"><span class="num label">02</span><div class="ph"><span class="label">[ Bottle ]</span></div><h3>Paan Pataka</h3><p class="label">Paan</p></div>
-        <div class="flavour fl-aam"><span class="num label">03</span><div class="ph"><span class="label">[ Bottle ]</span></div><h3>Aam Kahani</h3><p class="label">Mango</p></div>
-        <div class="flavour fl-rang"><span class="num label">04</span><div class="ph"><span class="label">[ Bottle ]</span></div><h3>Rang Rasiya</h3><p class="label">Thandai</p></div>
-        <div class="flavour fl-shaant"><span class="num label">05</span><div class="ph"><span class="label">[ Bottle ]</span></div><h3>Shaant Shahi</h3><p class="label">Pista elaichi</p></div>
-        <div class="flavour fl-shahi"><span class="num label">06</span><div class="ph"><span class="label">[ Bottle ]</span></div><h3>Shahi Swaad</h3><p class="label">Kesar badam</p></div>
+    <div class="col">
+      <div class="flavours">
+        <div class="flavour"><div class="ph"><span class="note">[ Bottle ]</span></div><h4>Gulabo</h4><p class="note"><span>01</span><span>Rose</span></p></div>
+        <div class="flavour"><div class="ph"><span class="note">[ Bottle ]</span></div><h4>Paan Pataka</h4><p class="note"><span>02</span><span>Paan</span></p></div>
+        <div class="flavour"><div class="ph"><span class="note">[ Bottle ]</span></div><h4>Aam Kahani</h4><p class="note"><span>03</span><span>Mango</span></p></div>
+        <div class="flavour"><div class="ph"><span class="note">[ Bottle ]</span></div><h4>Rang Rasiya</h4><p class="note"><span>04</span><span>Thandai</span></p></div>
+        <div class="flavour"><div class="ph"><span class="note">[ Bottle ]</span></div><h4>Shaant Shahi</h4><p class="note"><span>05</span><span>Pista elaichi</span></p></div>
+        <div class="flavour"><div class="ph"><span class="note">[ Bottle ]</span></div><h4>Shahi Swaad</h4><p class="note"><span>06</span><span>Kesar badam</span></p></div>
       </div>
     </div>
     <div class="col gal">
-      <div class="ph"><div><span class="label">[ Drop image ]</span><span class="note">Label close-up</span></div></div>
-      <div class="ph"><div><span class="label">[ Drop image ]</span><span class="note">Bottles on a table</span></div></div>
-      <div class="ph"><div><span class="label">[ Drop image ]</span><span class="note">Packaging detail</span></div></div>
+      <div class="ph"><div><span class="mono">[ Drop image ]</span><span class="note">Label close-up</span></div></div>
+      <div class="ph"><div><span class="mono">[ Drop image ]</span><span class="note">Bottles on a table</span></div></div>
+      <div class="ph"><div><span class="mono">[ Drop image ]</span><span class="note">Packaging detail</span></div></div>
     </div>
-    <div class="col chef">
-      <div><p class="label">Chef's note</p><blockquote>Each name does the work before the design even starts. You already know exactly who ordered that shake.</blockquote></div>
-      <div class="ring" aria-hidden="true"><svg viewBox="0 0 140 140"><text><textPath href="#circ">shake ko bulao ★ shake ko bulao ★ </textPath></text></svg><span class="core">6</span></div>
-      <div><p class="label">The result</p><p style="font-size:14px;margin-top:8px">Six flavours, six personalities: Gulabo, Paan Pataka, Aam Kahani, Rang Rasiya, Shaant Shahi and Shahi Swaad.</p></div>
+    <div class="col quote">
+      <p class="mono">Chef's note</p>
+      <blockquote>Each name does the work before the design even starts. You already know exactly who ordered that shake.</blockquote>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px">
+        <p style="max-width:260px"><span class="mono" style="display:block;margin-bottom:6px">The result</span>Six flavours, six personalities.</p>
+        <div class="ring" style="--s:130px;background:var(--ink);color:var(--pink)" aria-hidden="true"><svg viewBox="0 0 140 140"><text><textPath href="#circ">shake ko bulao ★ shake ko bulao ★ </textPath></text></svg><span class="core">6</span></div>
+      </div>
     </div>
-    <a class="rail label" href="#oak-and-awe"><span class="arw">→</span><span>05 · Next course</span></a>
+    <a class="col next" href="#oak-and-awe"><span class="mono">Next course →</span><span class="big">Oak &amp; Awe</span></a>
+    <a class="rail mono" href="#oak-and-awe"><span class="arw">→</span><span>05 · Oak &amp; Awe</span></a>
   </section>
 
-  <!-- ============ 05 OAK & AWE ============ -->
-  <section class="panel p-burg oa" id="oak-and-awe" aria-labelledby="oa-h">
-    <div class="diamond-edge" aria-hidden="true"></div>
+  <!-- ===== 05 OAK & AWE ===== -->
+  <section class="panel p-ink" id="oak-and-awe" aria-labelledby="oa-h">
     <div class="col case-a">
-      <p class="label gold">05 · Main · Case study</p>
-      <div style="display:flex;flex-direction:column;gap:18px">
-        <div class="medallion" aria-hidden="true"></div>
-        <h2 id="oa-h" class="loud case-title">Oak <em>&amp;</em> Awe</h2>
-      </div>
+      <p class="mono c-yellow">05 · Main · Case study</p>
+      <h2 id="oa-h" class="big case-title c-yellow">Oak <span class="it c-cream">&amp;</span><br>Awe</h2>
       <div style="display:flex;flex-direction:column;gap:14px">
         <p class="lead">An Armenian brandy for the generation that wasn't supposed to drink it.</p>
-        <div class="tags"><span class="tag">Packaging</span><span class="tag">Brand identity</span><span class="tag">Prototype</span></div>
+        <div class="tags c-yellow"><span class="tag">Packaging</span><span class="tag">Brand identity</span><span class="tag">Prototype</span></div>
       </div>
     </div>
-    <div class="col hero-ph"><div class="ph ph-gold"><div><span class="label">[ Drop image ]</span><span class="note">Hero — the box, hand-assembled</span></div></div></div>
-    <div class="col stack3">
-      <div class="card o-gold"><p class="label">The brief</p><h3 class="h2">Design a bottle for Armenia</h3><p>We were assigned a country and had to design an alcohol bottle for it. I got Armenia.</p></div>
-      <div class="card o-cocoa"><p class="label">The pattern</p><h3 class="h2">Folk patterns</h3><p>I went deep into Armenian geometric folk patterns, the kind you find on carpets and church walls, and built a brand around that visual language.</p></div>
-      <div class="card o-receipt"><p class="label">The problem</p><h3 class="h2">Brandy has an image problem</h3><p>Nobody under 30 thinks brandy is for them. It sits on your dad's shelf and comes out at funerals.</p></div>
+    <div class="col hero-ph c-yellow"><div class="ph"><div><span class="mono">[ Drop image ]</span><span class="note">Hero — the box, hand-assembled</span></div></div></div>
+    <div class="col steps">
+      <div class="step"><p class="mono c-yellow">The brief</p><h3>A bottle for Armenia</h3><p>We were assigned a country and had to design an alcohol bottle for it. I got Armenia.</p></div>
+      <div class="step"><p class="mono c-yellow">The problem</p><h3>Brandy has an image problem</h3><p>Nobody under 30 thinks brandy is for them. It sits on your dad's shelf and comes out at funerals.</p></div>
+      <div class="step"><p class="mono c-yellow">The pattern</p><h3>Folk patterns</h3><p>Armenian geometric folk patterns from carpets and church walls became the brand's visual language: deep burgundy, gold, bold symmetry.</p></div>
     </div>
-    <div class="col stack3">
-      <div class="card o-outline"><p class="label">Palette</p><h3 class="h2">Burgundy &amp; gold</h3><p>Deep burgundy, gold, bold symmetry.</p></div>
-      <div class="card o-gold"><p class="label">The name</p><h3 class="h2">Oak &amp; Awe</h3><p>Bold but approachable. The kind of thing you would want on your shelf just for how it looks.</p></div>
-      <div class="ph ph-dark" style="flex:1"><div><span class="label">[ Drop image ]</span><span class="note">Pattern swatch — Armenian geometric motif</span></div></div>
+    <div class="col gal c-yellow">
+      <div class="ph"><div><span class="mono">[ Drop image ]</span><span class="note">Pattern swatch</span></div></div>
+      <div class="ph"><div><span class="mono">[ Drop image ]</span><span class="note">Flask in the gift set</span></div></div>
+      <div class="ph"><div><span class="mono">[ Drop image ]</span><span class="note">Label detail</span></div></div>
     </div>
-    <div class="col gal">
-      <div class="ph ph-dark"><div><span class="label">[ Drop image ]</span><span class="note">Box, hand-assembled</span></div></div>
-      <div class="ph ph-dark"><div><span class="label">[ Drop image ]</span><span class="note">Flask in the gift set</span></div></div>
-      <div class="ph ph-dark"><div><span class="label">[ Drop image ]</span><span class="note">Label detail</span></div></div>
+    <div class="col quote">
+      <p class="mono c-yellow">Chef's note</p>
+      <blockquote class="c-yellow">The goal wasn't to make brandy look young. It was to make it look worth keeping.</blockquote>
+      <p style="max-width:380px"><span class="mono c-yellow" style="display:block;margin-bottom:6px">The result</span>Oak &amp; Awe, hand-assembled into a physical prototype. Bold but approachable, the kind of thing you'd want on your shelf just for how it looks.</p>
     </div>
-    <div class="col chef">
-      <div><p class="label">Chef's note</p><blockquote>The goal wasn't to make brandy look young. It was to make it look worth keeping.</blockquote></div>
-      <div><p class="label">The result</p><p style="font-size:14px;margin-top:8px">Oak &amp; Awe, hand-assembled into a physical prototype: an Armenian brandy for the generation that was not supposed to drink it.</p></div>
-    </div>
-    <div class="diamond-edge" aria-hidden="true"></div>
-    <a class="rail label" href="#bill"><span class="arw">→</span><span>The bill</span></a>
+    <a class="rail mono" href="#bill"><span class="arw">→</span><span>The bill</span></a>
   </section>
 
-  <!-- ============ THE BILL ============ -->
-  <section class="panel p-ink" id="bill" aria-labelledby="bill-h">
+  <!-- ===== THE BILL ===== -->
+  <section class="panel p-yellow" id="bill" aria-labelledby="bill-h">
     <div class="col bill-a">
-      <p class="label">Hemangi Ganatra — Portfolio 2026</p>
-      <h2 id="bill-h">Thanks for making it to the <em>end.</em></h2>
-      <p class="note" style="color:var(--grey)">SET IN PLAYFAIR DISPLAY, LORA &amp; SPACE MONO.</p>
+      <p class="mono">The bill</p>
+      <h2 id="bill-h" class="big">Thanks for making it to the <span class="it c-pink" style="-webkit-text-stroke:1px var(--ink)">end.</span></h2>
+      <div class="bill-steps">
+        <div><p class="mono">Step 1</p><h3>Copy my email</h3><span class="email" id="email">ganatrahemangi93@gmail.com</span><button class="copy" type="button">Copy</button></div>
+        <div><p class="mono">Step 2</p><h3>Say hi</h3><p>Briefs, internships, or a strong opinion about a label. All welcome.</p></div>
+      </div>
     </div>
     <div class="col" style="justify-content:center">
       <div class="receipt">
         <p class="c" style="font-weight:700;letter-spacing:.12em">HEMANGI GANATRA</p>
-        <p class="c sub">TABLE 01 · 2026 · SERVER: HEMANGI</p>
+        <p class="c" style="opacity:.6;margin-top:6px">TABLE 01 · 2026 · SERVER: HEMANGI</p>
         <div class="dash"></div>
-        <div class="item"><span>Feelings, all over the work</span><span class="lead-dots"></span><span>included</span></div>
-        <div class="item"><span>Packaging, judged silently</span><span class="lead-dots"></span><span>free</span></div>
-        <div class="item"><span>Coffee, as a ritual</span><span class="lead-dots"></span><span>daily</span></div>
-        <div class="item"><span>Copy that does the work</span><span class="lead-dots"></span><span>always</span></div>
+        <div class="item"><span>Feelings, all over the work</span><i></i><span>included</span></div>
+        <div class="item"><span>Packaging, judged silently</span><i></i><span>free</span></div>
+        <div class="item"><span>Coffee, as a ritual</span><i></i><span>daily</span></div>
+        <div class="item"><span>Copy that does the work</span><i></i><span>always</span></div>
         <div class="dash"></div>
         <div class="total"><span>TOTAL</span><span>One chat?</span></div>
-        <p class="thanks">Thanks for making it to the end. Still going for the wow, same. Always.</p>
-        <div class="email-row"><span class="email">ganatrahemangi93@gmail.com</span><button class="copy" type="button">Copy</button></div>
+        <p class="thanks">Still going for the wow, same. Always.</p>
         <div class="barcode" aria-hidden="true"></div>
       </div>
     </div>
-    <div class="col bill-c">
-      <div class="ring" aria-hidden="true"><svg viewBox="0 0 140 140"><text><textPath href="#circ">thank you ★ come again ★ thank you ★ </textPath></text></svg><span class="core">Bye!</span></div>
-      <a class="go" href="#home" style="color:var(--paper)">← Back to 01</a>
+    <a class="rail mono" href="#credits"><span class="arw">→</span><span>Credits</span></a>
+  </section>
+
+  <section class="panel p-green" id="credits" aria-label="Credits">
+    <div class="col credits">
+      <p class="mono">Credits</p>
+      <h2 class="big" style="font-size:clamp(64px,15vh,160px)">Made by <span class="it c-yellow">hand.</span></h2>
+      <dl class="mono">
+        <dt>Design &amp; words</dt><dd>Hemangi Ganatra</dd>
+        <dt>School</dt><dd>Ecole Intuit Lab, Mumbai</dd>
+        <dt>Project</dt><dd>03 · Personal Branding &amp; Portfolio</dd>
+        <dt>Type</dt><dd>Libre Caslon &amp; Space Mono</dd>
+      </dl>
+    </div>
+    <div class="col" style="justify-content:space-between;width:260px">
+      <div class="ring" style="--s:170px;background:var(--pink);color:var(--ink)" aria-hidden="true"><svg viewBox="0 0 140 140"><text><textPath href="#circ">thank you ★ come again ★ thank you ★ </textPath></text></svg><span class="core">Bye</span></div>
+      <a class="go" href="#home"><span>← Back to 01</span></a>
     </div>
   </section>
 </main>
@@ -522,35 +469,35 @@ a.dish:hover .name{color:var(--red)}
 <script>
 (function(){
   var strip=document.getElementById('strip'), pct=document.querySelector('.pct');
-  var links=[].slice.call(document.querySelectorAll('.index a'));
-  var courses=['home','about','menu','shake-ko-bulao','oak-and-awe'];
+  var ov=document.getElementById('menu-ov'), openB=document.getElementById('open-menu'), closeB=document.getElementById('close-menu');
   var mq=matchMedia('(min-width: 900px) and (min-height: 560px)');
   function H(){return mq.matches;}
 
-  // copy email
+  function openMenu(){ov.classList.add('open');openB.setAttribute('aria-expanded','true');setTimeout(function(){closeB.focus();},60);}
+  function closeMenu(){ov.classList.remove('open');openB.setAttribute('aria-expanded','false');openB.focus();}
+  openB.addEventListener('click',openMenu); closeB.addEventListener('click',closeMenu);
+  addEventListener('keydown',function(e){ if(e.key==='Escape'&&ov.classList.contains('open')) closeMenu(); });
+
   document.addEventListener('click',function(e){
     var b=e.target.closest('.copy'); if(!b) return;
-    var el=b.previousElementSibling;
+    var el=document.getElementById('email');
     function sel(){var r=document.createRange();r.selectNodeContents(el);var s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Selected';}
     try{navigator.clipboard.writeText(el.textContent).then(function(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy';},1600);},sel);}catch(err){sel();}
   });
 
-  // wheel → sideways
   strip.addEventListener('wheel',function(e){
     if(!H()) return;
     if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){ strip.scrollLeft+=e.deltaY; e.preventDefault(); }
   },{passive:false});
 
-  // drag with mouse
   var down=false,sx=0,sl=0,moved=0;
   strip.addEventListener('pointerdown',function(e){ if(!H()||e.pointerType!=='mouse'||e.button!==0) return; down=true;moved=0;sx=e.clientX;sl=strip.scrollLeft; });
   addEventListener('pointermove',function(e){ if(!down) return; var dx=e.clientX-sx; moved=Math.max(moved,Math.abs(dx)); if(moved>5){strip.classList.add('drag');strip.scrollLeft=sl-dx;} });
   addEventListener('pointerup',function(){ down=false; setTimeout(function(){strip.classList.remove('drag');},0); });
   strip.addEventListener('click',function(e){ if(moved>5){e.preventDefault();e.stopPropagation();moved=0;} },true);
 
-  // keys
   addEventListener('keydown',function(e){
-    if(!H()) return;
+    if(!H()||ov.classList.contains('open')) return;
     var k=e.key, w=strip.clientWidth*.8;
     if(k==='ArrowRight'||k==='PageDown'||(k===' '&&!e.shiftKey)){strip.scrollBy({left:w,behavior:'smooth'});e.preventDefault();}
     else if(k==='ArrowLeft'||k==='PageUp'||(k===' '&&e.shiftKey)){strip.scrollBy({left:-w,behavior:'smooth'});e.preventDefault();}
@@ -558,35 +505,28 @@ a.dish:hover .name{color:var(--red)}
     else if(k==='End'){strip.scrollTo({left:strip.scrollWidth,behavior:'smooth'});}
   });
 
-  // progress + active course
   function update(){
-    var p, pos, view;
-    if(H()){ p=strip.scrollLeft/Math.max(1,strip.scrollWidth-strip.clientWidth); pos=strip.scrollLeft+strip.clientWidth*.4; view='offsetLeft'; }
-    else { p=scrollY/Math.max(1,document.documentElement.scrollHeight-innerHeight); pos=scrollY+innerHeight*.4; view='offsetTop'; }
-    pct.textContent=String(Math.round(p*100)).padStart(2,'0')+'%';
-    var cur='home';
-    courses.forEach(function(id){ if(document.getElementById(id)[view]<=pos) cur=id; });
-    if(document.getElementById('bill')[view]<=pos) cur='bill';
-    links.forEach(function(a){ a.classList.toggle('on',a.dataset.to===cur); });
+    var p=H()? strip.scrollLeft/Math.max(1,strip.scrollWidth-strip.clientWidth) : scrollY/Math.max(1,document.documentElement.scrollHeight-innerHeight);
+    pct.textContent=String(Math.min(100,Math.round(p*100))).padStart(2,'0')+'%';
   }
   strip.addEventListener('scroll',update,{passive:true});
   addEventListener('scroll',update,{passive:true});
   addEventListener('resize',update);
 
-  // hash → panel
   function go(id,smooth){
     var el=document.getElementById(id); if(!el) return;
-    var b=smooth&&!matchMedia('(prefers-reduced-motion: reduce)').matches?'smooth':'auto';
     var panel=el.closest('.panel')||el;
-    if(H()) strip.scrollTo({left:panel.offsetLeft,behavior:b});
-    else window.scrollTo({top:panel.offsetTop,behavior:b});
+    var b=smooth&&!matchMedia('(prefers-reduced-motion: reduce)').matches?'smooth':'auto';
+    if(H()) strip.scrollTo({left:panel.offsetLeft,behavior:b}); else window.scrollTo({top:panel.offsetTop,behavior:b});
   }
   document.addEventListener('click',function(e){
     var a=e.target.closest('a[href^="#"]'); if(!a) return;
     var id=a.getAttribute('href').slice(1); if(!document.getElementById(id)) return;
     e.preventDefault();
-    try{ history.replaceState(null,'','#'+id); }catch(err){}
-    go(id,true);
+    var wasOpen=ov.classList.contains('open');
+    if(wasOpen){ov.classList.remove('open');openB.setAttribute('aria-expanded','false');}
+    try{history.replaceState(null,'','#'+id);}catch(err){}
+    go(id,!wasOpen);
   });
   addEventListener('hashchange',function(){ go(location.hash.slice(1),true); });
   if(location.hash) go(location.hash.slice(1),false);
