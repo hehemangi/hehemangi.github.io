@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Hemangi Ganatra — graphic designer in Mumbai. Packaging, brand identity, advertising and copywriting, served as a tasting menu.">
+<title>Hemangi Ganatra Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Lora:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&display=swap">
+<style>
+/* Layout: one menu card per page. Cover in a double-ruled frame; courses as pages; the bill closes every page. */
+:root{
+  /* Colour — taken from the Figma colour styles */
+  --paper:#FAF0D0; --ink:#141210; --red:#D63A24; --pink:#F26BA3; --mango:#FFC93C;
+  --leaf:#2E9E5B; --coral:#F56E3C; --burgundy:#6E1423; --gold:#C9962B; --cocoa:#2B0F12;
+  --blush:#FFD6E4; --kesar:#E2A028; --pista:#BEDE96; --grey:#7D735A; --ph:#E9D8A0; --receipt:#FFFCF0;
+  /* Type — Playfair Display, Lora, Space Mono */
+  --display:"Playfair Display", Georgia, "Times New Roman", serif;
+  --body:Lora, Georgia, serif;
+  --mono:"Space Mono", ui-monospace, "Courier New", monospace;
+  --gutter:max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r:max(16px, env(safe-area-inset-right, 0px));
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+a{color:inherit}
+a:focus-visible,button:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.wrap{max-width:1280px;margin:0 auto;padding-left:var(--gutter);padding-right:var(--gutter-r)}
+.label{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase;line-height:1.4}
+.note{font-family:var(--mono);font-size:12px;line-height:1.5}
+.lead{font-family:var(--body);font-style:italic;font-size:clamp(17px,1.6vw,19px);line-height:1.5}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0}
+.section-title{font-weight:900;font-size:clamp(56px,9vw,120px);line-height:1;letter-spacing:-.02em}
+.title{font-weight:900;font-size:clamp(44px,5.5vw,64px);line-height:1;letter-spacing:-.02em}
+.h2{font-weight:700;font-size:clamp(22px,2.2vw,28px);line-height:1.15;letter-spacing:-.01em}
+p{margin:0}
+.view[hidden]{display:none!important}
+
+/* ---------- Nav ---------- */
+.nav{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-block:28px}
+.nav a{text-decoration:none}
+.nav ul{display:flex;gap:6px 0;list-style:none;margin:0;padding:0;flex-wrap:wrap}
+.nav li+li::before{content:"·";margin:0 10px}
+.nav a[aria-current="page"]{color:var(--red)}
+.nav a:hover{text-decoration:underline;text-underline-offset:4px}
+.on-dark .nav{color:var(--paper)}
+.on-dark .nav a[aria-current="page"]{color:var(--mango)}
+
+/* ---------- Cover (home) ---------- */
+.cover{padding:24px max(24px,var(--gutter)) 24px max(24px,var(--gutter-r))}
+.frame{border:2px solid var(--ink);padding:6px}
+.frame-inner{border:1px solid var(--ink);position:relative;overflow:hidden}
+.cover-body{text-align:center;padding:12px clamp(16px,4vw,48px) 0;position:relative}
+.eyebrow{color:var(--red);margin-top:20px}
+.mega{font-family:var(--display);font-weight:900;font-size:clamp(76px,19.5vw,290px);line-height:.95;letter-spacing:-.01em;margin:clamp(8px,2vw,24px) 0 0}
+.tasting{font-family:var(--display);font-style:italic;font-size:clamp(22px,2.4vw,30px);margin-top:clamp(8px,1.5vw,20px)}
+.rule{width:80px;height:2px;background:var(--ink);margin:24px auto}
+.courses{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;max-width:1240px;margin:0 auto;padding-bottom:40px}
+.courses .label{color:var(--red);margin-bottom:12px}
+.courses ul{list-style:none;margin:0;padding:0;font-size:15px;line-height:1.5}
+.courses a{text-decoration:none;border-bottom:1px solid transparent}
+.courses a:hover{border-color:currentColor}
+.plated-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--red);margin-left:6px;vertical-align:middle}
+.seat{display:inline-block;margin-bottom:36px;text-decoration:none}
+.marquee{background:var(--red);color:var(--paper);overflow:hidden;white-space:nowrap;margin:0 0 32px;padding-block:18px}
+.marquee-track{display:inline-flex;animation:slide 32s linear infinite}
+.marquee span{font-family:var(--mono);font-weight:700;font-size:clamp(13px,1.2vw,16px);letter-spacing:.18em;padding-right:.9em}
+@keyframes slide{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.marquee-track{animation:none}}
+
+.sticker{position:absolute;display:grid;place-items:center;text-align:center;z-index:2;pointer-events:none}
+.st-fresh{left:2%;top:46%;width:clamp(96px,12vw,170px);aspect-ratio:1;border-radius:50%;background:var(--pink);transform:rotate(14deg);font-family:var(--display);font-weight:900;font-size:clamp(18px,2.2vw,30px);line-height:1}
+.st-chef{right:1.5%;top:6%;width:clamp(110px,14vw,200px);aspect-ratio:1;background:var(--mango);clip-path:polygon(50% 0,58% 13%,72% 4%,75% 20%,91% 17%,86% 33%,100% 40%,88% 51%,100% 62%,85% 68%,90% 84%,74% 81%,70% 97%,57% 87%,46% 100%,39% 85%,24% 94%,23% 78%,7% 80%,13% 64%,0 55%,12% 45%,2% 32%,18% 28%,15% 12%,31% 16%,35% 0,46% 12%);transform:rotate(-14deg)}
+.st-chef span{transform:rotate(0deg)}
+.st-opinions{right:19%;top:51%;background:var(--leaf);color:var(--paper);border-radius:999px;padding:10px 22px;transform:rotate(-6deg)}
+.st-dishes{right:3%;bottom:96px;width:clamp(88px,10vw,140px);aspect-ratio:1;border-radius:50%;background:var(--coral);transform:rotate(10deg);font-family:var(--display);font-weight:900;font-size:clamp(18px,2vw,28px);line-height:1}
+
+/* Home: today's specials */
+.specials{padding-block:clamp(64px,8vw,110px)}
+.specials-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:40px}
+.specials-head p{max-width:380px}
+.special-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.special{display:flex;flex-direction:column;gap:18px;text-decoration:none;border-radius:20px;padding:clamp(20px,2.4vw,32px);transition:transform .2s ease}
+.special:hover{transform:translateY(-4px) rotate(-.4deg)}
+@media (prefers-reduced-motion:reduce){.special:hover{transform:none}}
+.special .ph{aspect-ratio:16/10}
+.special-skb{background:var(--blush)}
+.special-oa{background:var(--burgundy);color:var(--paper)}
+.special-meta{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.special .go{white-space:nowrap}
+.home-about{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:clamp(24px,5vw,80px);align-items:end;border-top:2px solid var(--ink);padding-top:40px;margin-top:clamp(64px,8vw,100px)}
+.home-about .lead{font-size:clamp(20px,2.2vw,26px);font-family:var(--display)}
+.textlink{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border-bottom:2px solid currentColor;padding-bottom:2px}
+
+/* ---------- Image placeholders ---------- */
+.ph{background:var(--ph);border-radius:14px;display:grid;place-items:center;text-align:center;padding:16px;color:var(--grey);min-height:120px;max-width:100%}
+.ph .note{display:block;margin-top:4px}
+.ph-dark{background:var(--cocoa);color:var(--gold)}
+.ph-gold{background:var(--gold);color:var(--cocoa)}
+.ph-pink{background:var(--pink);color:var(--ink)}
+
+/* ---------- About ---------- */
+.about{padding-block:clamp(40px,6vw,80px) clamp(64px,8vw,110px)}
+.about .label.red{color:var(--red)}
+.about-row{display:grid;grid-template-columns:minmax(0,340px) minmax(0,400px) minmax(0,1fr);gap:32px;margin-top:40px;align-items:start}
+.about-row .ph{aspect-ratio:340/440;min-height:0}
+.fig{margin-top:10px;color:var(--grey)}
+.about-copy{display:flex;flex-direction:column;gap:16px;font-size:15.5px}
+.about-copy p:first-child{font-family:var(--display);font-size:22px;line-height:1.35}
+.facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:stretch}
+.fact{border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.55}
+.f-exp{background:var(--pink)} .f-do{background:var(--leaf);color:var(--paper)}
+.f-how{background:var(--mango)} .f-int{background:var(--coral)}
+.fact ul{list-style:none;margin:0;padding:0}
+.fact li+li{margin-top:4px}
+.fact strong{font-weight:600}
+.about-more{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px;margin-top:clamp(56px,7vw,96px);border-top:2px solid var(--ink);padding-top:32px}
+.about-more h2{margin-bottom:12px}
+
+/* ---------- Menu (portfolio landing) ---------- */
+.menu{padding-block:clamp(40px,6vw,80px) clamp(64px,8vw,110px)}
+.menu-row{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:64px}
+.menu-intro{display:flex;flex-direction:column;gap:24px}
+.menu-intro .section-title{font-size:clamp(64px,10vw,140px)}
+.allergens{color:var(--red)}
+.course + .course{margin-top:28px}
+.course > .label{color:var(--red);margin-bottom:6px}
+.dish{display:grid;grid-template-columns:16px 28px auto minmax(24px,1fr) auto auto;align-items:center;gap:12px;padding-block:6px;text-decoration:none}
+.dot{width:16px;height:16px;border-radius:50%}
+.dish .num{font-family:var(--mono);font-size:12px;color:var(--grey)}
+.dish .name{font-family:var(--display);font-weight:700;font-size:clamp(20px,2.2vw,28px);line-height:1.15}
+.leader{border-bottom:2px dotted var(--ink);opacity:.45;transform:translateY(4px)}
+.tag{font-family:var(--mono);font-weight:700;font-size:10px;letter-spacing:.12em;text-transform:uppercase;border-radius:999px;padding:5px 12px;white-space:nowrap}
+.tag-plated{background:var(--ink);color:var(--paper)}
+.tag-prep{border:1px dashed var(--grey);color:var(--grey)}
+.dish .disc{font-family:var(--mono);font-size:12px;text-align:right}
+a.dish:hover .name{color:var(--red)}
+a.dish:hover .leader{opacity:1}
+.menu-foot{margin-top:56px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.mini{border-radius:16px;padding:24px;text-decoration:none;display:flex;justify-content:space-between;gap:16px;align-items:center}
+.mini-skb{background:var(--pink)} .mini-oa{background:var(--burgundy);color:var(--paper)}
+.mini .h2{font-size:24px}
+
+/* ---------- Case study shared ---------- */
+.case{padding-block:clamp(32px,4vw,56px) clamp(64px,8vw,100px)}
+.case-head{display:grid;grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:40px;align-items:start}
+.case-head .ph{aspect-ratio:840/520;min-height:0}
+.title-block{display:flex;flex-direction:column;gap:16px}
+.tags{display:flex;gap:8px;flex-wrap:wrap}
+.cards3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:40px;align-items:stretch}
+.card{border-radius:18px;padding:26px;display:flex;flex-direction:column;gap:10px;font-size:14.5px;line-height:1.55}
+.gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:40px}
+.gallery .ph{aspect-ratio:416/380;min-height:0}
+.chef{border-radius:20px;padding:clamp(28px,3.4vw,48px);margin-top:40px;display:grid;grid-template-columns:minmax(0,1.9fr) minmax(0,1fr);gap:48px}
+.chef blockquote{margin:12px 0 0;font-family:var(--display);font-style:italic;font-size:clamp(20px,2.2vw,26px);line-height:1.3}
+.chef p{font-size:14px;margin-top:12px}
+.next{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:48px;padding-top:24px;border-top:2px solid currentColor}
+.next a{text-decoration:none}
+.next .h2{display:block;margin-top:6px}
+.next a:hover .h2{text-decoration:underline;text-underline-offset:6px}
+
+/* Shake Ko Bulao — blush, loud, multicoloured */
+#shake-ko-bulao{background:var(--blush)}
+.skb .tag{background:var(--pink);color:var(--ink)}
+.skb .label.red{color:var(--red)}
+.c-leaf{background:var(--leaf);color:var(--paper)} .c-mango{background:var(--mango)} .c-coral{background:var(--coral)}
+.flavours{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px;margin-top:16px;align-items:stretch}
+.flavour{border-radius:18px;padding:16px;display:grid;grid-template-rows:auto 1fr auto;gap:12px}
+.flavour .ph{aspect-ratio:164/230;min-height:0;border-radius:10px;background:color-mix(in srgb, var(--paper) 45%, transparent);color:var(--ink)}
+.flavour h3{font-weight:700;font-size:clamp(19px,1.8vw,24px);line-height:1.1;align-self:start}
+.fl-gulabo{background:var(--pink)} .fl-paan{background:var(--leaf);color:var(--paper)}
+.fl-aam{background:var(--mango)} .fl-rang{background:var(--coral)}
+.fl-shaant{background:var(--pista)} .fl-shahi{background:var(--kesar)}
+.fl-paan .ph{color:var(--paper)}
+.skb .gallery .ph{background:var(--ph)}
+.skb .chef{background:var(--ink);color:var(--paper)}
+.skb .chef .label{color:var(--pink)}
+.skb .next{border-color:var(--ink)}
+
+/* Oak & Awe — burgundy, gold, symmetrical, quiet */
+#oak-and-awe{background:var(--burgundy);color:var(--paper)}
+.oa .label.gold{color:var(--gold)}
+.oa .tag{background:var(--gold);color:var(--cocoa)}
+.oa .title{font-size:clamp(48px,6vw,72px)}
+.oa .lead{color:color-mix(in srgb,var(--paper) 88%,var(--gold))}
+.o-gold{background:var(--gold);color:var(--cocoa)}
+.o-cocoa{background:var(--cocoa);color:var(--paper)}
+.o-receipt{background:var(--receipt);color:var(--ink)}
+.o-outline{border:1.5px solid var(--gold);color:var(--paper)}
+.o-cocoa .label,.o-outline .label{color:var(--gold)}
+.oa .card .label{color:inherit;opacity:.8}
+.oa .o-cocoa .label,.oa .o-outline .label{opacity:1}
+.oa .chef{background:var(--gold);color:var(--cocoa)}
+.oa .next{border-color:var(--gold)}
+.oa .nav{color:var(--paper)}
+.oa .gallery .ph{aspect-ratio:416/380}
+.oa .swatch{min-height:0}
+.ornament{display:flex;align-items:center;gap:14px;color:var(--gold);margin:56px 0 8px}
+.ornament::before,.ornament::after{content:"";flex:1;height:1px;background:var(--gold);opacity:.6}
+.ornament span{font-family:var(--mono);font-size:11px;letter-spacing:.2em}
+
+/* ---------- The bill (footer on every page) ---------- */
+.bill{background:var(--ink);color:var(--paper)}
+.bill-inner{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,360px);gap:48px;align-items:start;padding-block:clamp(56px,6vw,90px) 40px}
+.bill h2{font-weight:900;font-size:clamp(52px,7.4vw,108px);line-height:1;letter-spacing:-.02em}
+.bill h2 em{font-style:normal;color:var(--red)}
+.bill .head{color:var(--paper);margin-bottom:clamp(32px,5vw,64px)}
+.colophon{color:var(--grey);padding-bottom:36px}
+.receipt{background:var(--receipt);color:var(--ink);padding:30px 28px 26px;font-family:var(--mono);font-size:12px;position:relative}
+.receipt::after{content:"";position:absolute;left:0;right:0;bottom:-10px;height:10px;background:linear-gradient(-45deg,transparent 7px,var(--receipt) 0) 0 0/14px 10px,linear-gradient(45deg,transparent 7px,var(--receipt) 0) 0 0/14px 10px}
+.receipt .c{text-align:center}
+.receipt .sub{color:var(--grey);margin-top:10px}
+.dash{border-top:1px dashed var(--ink);margin:14px 0}
+.item{display:flex;align-items:baseline;gap:6px;padding-block:5px}
+.item .lead-dots{flex:1;border-bottom:1px dotted var(--grey);transform:translateY(-3px);min-width:12px}
+.total{display:flex;justify-content:space-between;font-weight:700}
+.total span:last-child{color:var(--red)}
+.thanks{font-family:var(--body);font-style:italic;font-size:17px;text-align:center;line-height:1.5;margin-top:18px}
+.email-row{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px}
+.email{user-select:all;word-break:break-all}
+.copy{font:inherit;font-weight:700;font-size:10px;letter-spacing:.1em;text-transform:uppercase;background:var(--ink);color:var(--receipt);border:0;border-radius:999px;padding:5px 10px;cursor:pointer}
+.barcode{height:36px;margin:16px auto 0;width:160px;background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 4px,var(--ink) 4px 5px,transparent 5px 8px,var(--ink) 8px 11px,transparent 11px 12px,var(--ink) 12px 13px,transparent 13px 16px)}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1080px){
+  .about-row{grid-template-columns:minmax(0,300px) minmax(0,1fr)}
+  .facts{grid-column:1/-1}
+  .flavours{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .st-opinions{right:4%;top:auto;bottom:150px}
+}
+@media (max-width:820px){
+  .courses{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:28px}
+  .special-grid,.home-about,.menu-row,.case-head,.cards3,.chef,.about-more,.menu-foot,.bill-inner{grid-template-columns:minmax(0,1fr)}
+  .gallery{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .gallery .ph:last-child{grid-column:1/-1;aspect-ratio:16/9}
+  .about-row{grid-template-columns:minmax(0,1fr)}
+  .about-row .ph{aspect-ratio:4/3}
+  .menu-row{gap:40px}
+  .dish{grid-template-columns:16px auto minmax(24px,1fr) auto;row-gap:2px}
+  .dish .num{display:none}
+  .dish .disc{grid-column:2/-1;text-align:left;color:var(--grey)}
+  .chef{gap:24px}
+  .st-fresh{top:auto;bottom:150px}
+  .st-chef{top:56px}
+}
+@media (max-width:520px){
+  .cover{padding:12px max(12px,var(--gutter)) 12px max(12px,var(--gutter-r))}
+  .facts,.flavours{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .gallery{grid-template-columns:minmax(0,1fr)}
+  .gallery .ph:last-child{aspect-ratio:416/380}
+  .nav ul{font-size:10px}
+  .st-opinions{display:none}
+  .st-dishes{bottom:84px}
+  .dish .tag{grid-column:2/-1;justify-self:start}
+  .dish .leader{display:none}
+  .dish{grid-template-columns:16px minmax(0,1fr)}
+}
+</style>
+</head>
+<body>
+
+<!-- =================== HOME =================== -->
+<main id="home" class="view">
+  <section class="cover" aria-label="Cover">
+    <div class="frame"><div class="frame-inner">
+      <div class="wrap" style="max-width:none">
+        <nav class="nav label" aria-label="Main">
+          <a href="#home" aria-current="page">Hemangi Ganatra</a>
+          <ul><li><a href="#about">About</a></li><li><a href="#menu">The menu</a></li><li><a href="#bill-home">The bill</a></li></ul>
+        </nav>
+      </div>
+      <div class="cover-body">
+        <p class="label eyebrow">— Est. 2026 · Table for one —</p>
+        <h1 class="mega">Portfolio</h1>
+        <p class="tasting">a tasting menu of work</p>
+        <div class="rule" aria-hidden="true"></div>
+        <div class="courses">
+          <div><p class="label">Starter</p><ul><li>Zine</li></ul></div>
+          <div><p class="label">Mains</p><ul>
+            <li>Wear Your Race</li><li>Drop the Label</li>
+            <li><a href="#shake-ko-bulao">Shake Ko Bulao</a><span class="plated-dot" title="Plated in full"></span></li>
+            <li><a href="#oak-and-awe">Oak &amp; Awe</a><span class="plated-dot" title="Plated in full"></span></li>
+          </ul></div>
+          <div><p class="label">Side</p><ul><li>Kiss Her, You Fool</li></ul></div>
+          <div><p class="label">Dessert</p><ul><li>Ganatra Foods</li></ul></div>
+        </div>
+        <a class="label seat" href="#specials">Take a seat ↓</a>
+      </div>
+      <div class="marquee" aria-hidden="true"><div class="marquee-track">
+        <span>PACKAGING ★ BRAND IDENTITY ★ ADVERTISING ★ COPYWRITING ★</span><span>PACKAGING ★ BRAND IDENTITY ★ ADVERTISING ★ COPYWRITING ★</span><span>PACKAGING ★ BRAND IDENTITY ★ ADVERTISING ★ COPYWRITING ★</span>
+        <span>PACKAGING ★ BRAND IDENTITY ★ ADVERTISING ★ COPYWRITING ★</span><span>PACKAGING ★ BRAND IDENTITY ★ ADVERTISING ★ COPYWRITING ★</span><span>PACKAGING ★ BRAND IDENTITY ★ ADVERTISING ★ COPYWRITING ★</span>
+      </div></div>
+      <div class="sticker st-fresh" aria-hidden="true">FRESH<br>DAILY</div>
+      <div class="sticker st-chef label" aria-hidden="true"><span>Chef's<br>special</span></div>
+      <div class="sticker st-opinions label" aria-hidden="true">Served with opinions</div>
+      <div class="sticker st-dishes" aria-hidden="true">7<br>DISHES</div>
+    </div></div>
+  </section>
+
+  <section id="specials" class="specials wrap" aria-labelledby="specials-h">
+    <div class="specials-head">
+      <div><p class="label" style="color:var(--red)">Today's specials</p><h2 id="specials-h" class="title" style="margin-top:10px">Plated in full</h2></div>
+      <p>Two of the seven dishes, served course by course. The rest are still in the kitchen.</p>
+    </div>
+    <div class="special-grid">
+      <a class="special special-skb" href="#shake-ko-bulao">
+        <div class="ph ph-pink"><div><span class="label">[ Drop image ]</span><span class="note">Hero — all six bottles lined up</span></div></div>
+        <div class="special-meta"><span class="label">Main · 04</span><span class="label">Identity · Packaging · Copy</span></div>
+        <h3 class="title" style="font-size:clamp(36px,4vw,52px)">Shake Ko Bulao</h3>
+        <p class="lead">A milkshake brand where the names do the work.</p>
+        <span class="textlink go">See the dish →</span>
+      </a>
+      <a class="special special-oa" href="#oak-and-awe">
+        <div class="ph ph-gold"><div><span class="label">[ Drop image ]</span><span class="note">Hero — the box, hand-assembled</span></div></div>
+        <div class="special-meta"><span class="label" style="color:var(--gold)">Main · 07</span><span class="label" style="color:var(--gold)">Packaging · Brand identity</span></div>
+        <h3 class="title" style="font-size:clamp(36px,4vw,52px)">Oak &amp; Awe</h3>
+        <p class="lead">An Armenian brandy for the generation that wasn't supposed to drink it.</p>
+        <span class="textlink go" style="color:var(--gold)">See the dish →</span>
+      </a>
+    </div>
+    <div class="home-about">
+      <div><p class="label" style="color:var(--red)">Chef's note</p><h2 class="section-title" style="font-size:clamp(48px,6vw,84px);margin-top:10px">About me</h2></div>
+      <div style="display:flex;flex-direction:column;gap:20px;align-items:flex-start">
+        <p class="lead">I'm a graphic designer who somehow ended up with feelings all over her work. Packaging, brand identity, advertising and copywriting, sometimes all four at once.</p>
+        <a class="textlink" href="#about">Meet the chef →</a>
+      </div>
+    </div>
+  </section>
+  <div data-bill id="bill-home"></div>
+</main>
+
+<!-- =================== ABOUT =================== -->
+<main id="about" class="view" hidden>
+  <div class="wrap">
+    <nav class="nav label" aria-label="Main">
+      <a href="#home">Hemangi Ganatra</a>
+      <ul><li><a href="#about" aria-current="page">About</a></li><li><a href="#menu">The menu</a></li><li><a href="#bill-about">The bill</a></li></ul>
+    </nav>
+  </div>
+  <section class="about wrap" aria-labelledby="about-h">
+    <p class="label red">Chef's note</p>
+    <h1 id="about-h" class="section-title" style="margin-top:8px">About me</h1>
+    <div class="about-row">
+      <div>
+        <div class="ph"><div><span class="label">[ Drop image ]</span><span class="note">Your photo — portrait</span></div></div>
+        <p class="note fig">FIG. 02 — THE CHEF</p>
+      </div>
+      <div class="about-copy">
+        <p>Hi. I'm Hemangi Ganatra. I'm a graphic designer who somehow ended up with feelings all over her work, and honestly? Not complaining.</p>
+        <p>Most of my projects start with something I've lived, felt, or found deeply annoying. I figured out I was serious about packaging during an internship: something about holding a thing you made with your hands and thinking, yeah, that's it.</p>
+        <p>Since then I've been obsessed with the space where design meets writing, where a box or a bottle or a label gets to say something that actually means something. I do packaging, brand identity, advertising and copywriting. Sometimes all four in one project, which is chaotic and also my favourite.</p>
+      </div>
+      <div class="facts">
+        <div class="fact f-exp"><p class="label">Experience</p><p><strong>Junior Graphic Designer — SMDB</strong><br>Worked across branding and identity projects as part of a creative team, from concept to delivery.</p></div>
+        <div class="fact f-do"><p class="label">What I do</p><ul><li>Packaging design</li><li>Brand identity</li><li>Advertising</li><li>Copywriting</li><li>Art direction</li><li>Editorial design</li><li>Brand strategy</li></ul></div>
+        <div class="fact f-how"><p class="label">How I do it</p><ul><li>Illustrator · Photoshop</li><li>InDesign · After Effects</li><li>Figma · Blender</li></ul></div>
+        <div class="fact f-int"><p class="label">Interests</p><ul><li>Making coffee like it's a ritual</li><li>Cats</li><li>Sketching &amp; illustration</li><li>Reading, newly converted</li><li>Finding packaging in stores and menus in restaurants, and judging it silently</li></ul></div>
+      </div>
+    </div>
+    <div class="about-more">
+      <div><p class="label red">Currently</p><h2 class="h2" style="margin-top:8px">Studying Visual Communication at Ecole Intuit Lab, Mumbai.</h2></div>
+      <div style="display:flex;flex-direction:column;gap:16px;align-items:flex-start">
+        <p>Seven dishes so far, from a zine to a family photobook. Two are plated in full.</p>
+        <a class="textlink" href="#menu">Read the menu →</a>
+      </div>
+    </div>
+  </section>
+  <div data-bill id="bill-about"></div>
+</main>
+
+<!-- =================== PORTFOLIO LANDING =================== -->
+<main id="menu" class="view" hidden>
+  <div class="wrap">
+    <nav class="nav label" aria-label="Main">
+      <a href="#home">Hemangi Ganatra</a>
+      <ul><li><a href="#about">About</a></li><li><a href="#menu" aria-current="page">The menu</a></li><li><a href="#bill-menu">The bill</a></li></ul>
+    </nav>
+  </div>
+  <section class="menu wrap" aria-labelledby="menu-h">
+    <div class="menu-row">
+      <div class="menu-intro">
+        <p class="label" style="color:var(--red)">Table of contents</p>
+        <h1 id="menu-h" class="section-title">The menu</h1>
+        <p class="lead">Seven dishes. Two are plated in full, the rest are still in the kitchen.</p>
+        <p class="note allergens">ALLERGENS — may contain strong opinions about packaging.</p>
+      </div>
+      <div>
+        <div class="course"><p class="label">Starter</p>
+          <div class="dish"><span class="dot" style="background:var(--mango)"></span><span class="num">—</span><span class="name">Zine</span><span class="leader"></span><span class="tag tag-prep">In the kitchen</span><span class="disc">Editorial · Copywriting</span></div>
+        </div>
+        <div class="course"><p class="label">Mains</p>
+          <div class="dish"><span class="dot" style="background:var(--leaf)"></span><span class="num">—</span><span class="name">Wear Your Race</span><span class="leader"></span><span class="tag tag-prep">In the kitchen</span><span class="disc">Advertising · Art direction</span></div>
+          <div class="dish"><span class="dot" style="background:var(--coral)"></span><span class="num">—</span><span class="name">Drop the Label</span><span class="leader"></span><span class="tag tag-prep">In the kitchen</span><span class="disc">Brand strategy · Copywriting</span></div>
+          <a class="dish" href="#shake-ko-bulao"><span class="dot" style="background:var(--pink)"></span><span class="num">04</span><span class="name">Shake Ko Bulao</span><span class="leader"></span><span class="tag tag-plated">Plated →</span><span class="disc">Identity · Packaging · Copy</span></a>
+          <a class="dish" href="#oak-and-awe"><span class="dot" style="background:var(--burgundy)"></span><span class="num">07</span><span class="name">Oak &amp; Awe</span><span class="leader"></span><span class="tag tag-plated">Plated →</span><span class="disc">Packaging · Brand identity</span></a>
+        </div>
+        <div class="course"><p class="label">Side</p>
+          <div class="dish"><span class="dot" style="background:var(--kesar)"></span><span class="num">—</span><span class="name">Kiss Her, You Fool</span><span class="leader"></span><span class="tag tag-prep">In the kitchen</span><span class="disc">Custom typography</span></div>
+        </div>
+        <div class="course"><p class="label">Dessert</p>
+          <div class="dish"><span class="dot" style="background:var(--pista)"></span><span class="num">—</span><span class="name">Ganatra Foods</span><span class="leader"></span><span class="tag tag-prep">In the kitchen</span><span class="disc">Editorial · Photobook</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="menu-foot">
+      <a class="mini mini-skb" href="#shake-ko-bulao"><div><p class="label">Main · 04</p><p class="h2">Shake Ko Bulao</p></div><span class="textlink">Order →</span></a>
+      <a class="mini mini-oa" href="#oak-and-awe"><div><p class="label" style="color:var(--gold)">Main · 07</p><p class="h2">Oak &amp; Awe</p></div><span class="textlink" style="color:var(--gold)">Order →</span></a>
+    </div>
+  </section>
+  <div data-bill id="bill-menu"></div>
+</main>
+
+<!-- =================== SHAKE KO BULAO =================== -->
+<main id="shake-ko-bulao" class="view skb" hidden>
+  <div class="wrap">
+    <nav class="nav label" aria-label="Main">
+      <a href="#home">Hemangi Ganatra</a>
+      <ul><li><a href="#about">About</a></li><li><a href="#menu" aria-current="page">The menu</a></li><li><a href="#bill-skb">The bill</a></li></ul>
+    </nav>
+  </div>
+  <article class="case wrap" aria-labelledby="skb-h">
+    <header class="case-head">
+      <div class="title-block">
+        <p class="label red">Main · Case study 04</p>
+        <h1 id="skb-h" class="title">Shake Ko Bulao</h1>
+        <p class="lead">A milkshake brand where the names do the work.</p>
+        <div class="tags"><span class="tag">Brand identity</span><span class="tag">Packaging</span><span class="tag">Copywriting</span></div>
+      </div>
+      <div class="ph ph-pink"><div><span class="label">[ Drop image ]</span><span class="note">Hero — all six bottles lined up</span></div></div>
+    </header>
+
+    <div class="cards3">
+      <div class="card c-leaf"><p class="label">The brief</p><h2 class="h2">Copy comes first</h2><p>Create a milkshake brand using copywriting as the primary design direction.</p></div>
+      <div class="card c-mango"><p class="label">The direction</p><h2 class="h2">People, not products</h2><p>Names that feel like people, not products.</p></div>
+      <div class="card c-coral"><p class="label">The menu</p><h2 class="h2">Six flavours</h2><p>Six flavours. Six personalities. Each name does the work before the design even starts.</p></div>
+    </div>
+
+    <div class="flavours" style="margin-top:40px">
+      <div class="flavour fl-gulabo"><div class="ph"><span class="label">[ Bottle ]</span></div><h3>Gulabo</h3><p class="label">Rose</p></div>
+      <div class="flavour fl-paan"><div class="ph"><span class="label">[ Bottle ]</span></div><h3>Paan Pataka</h3><p class="label">Paan</p></div>
+      <div class="flavour fl-aam"><div class="ph"><span class="label">[ Bottle ]</span></div><h3>Aam Kahani</h3><p class="label">Mango</p></div>
+      <div class="flavour fl-rang"><div class="ph"><span class="label">[ Bottle ]</span></div><h3>Rang Rasiya</h3><p class="label">Thandai</p></div>
+      <div class="flavour fl-shaant"><div class="ph"><span class="label">[ Bottle ]</span></div><h3>Shaant Shahi</h3><p class="label">Pista elaichi</p></div>
+      <div class="flavour fl-shahi"><div class="ph"><span class="label">[ Bottle ]</span></div><h3>Shahi Swaad</h3><p class="label">Kesar badam</p></div>
+    </div>
+
+    <div class="gallery">
+      <div class="ph"><div><span class="label">[ Drop image ]</span><span class="note">Label close-up</span></div></div>
+      <div class="ph"><div><span class="label">[ Drop image ]</span><span class="note">Bottles on a table</span></div></div>
+      <div class="ph"><div><span class="label">[ Drop image ]</span><span class="note">Packaging detail</span></div></div>
+    </div>
+
+    <div class="chef">
+      <div><p class="label">Chef's note</p><blockquote>Each name does the work before the design even starts. You already know exactly who ordered that shake.</blockquote></div>
+      <div><p class="label">The result</p><p>Six flavours, six personalities: Gulabo, Paan Pataka, Aam Kahani, Rang Rasiya, Shaant Shahi and Shahi Swaad.</p></div>
+    </div>
+
+    <nav class="next" aria-label="Courses">
+      <a href="#menu"><span class="label">← Back to</span><span class="h2">The menu</span></a>
+      <a href="#oak-and-awe" style="text-align:right"><span class="label">Next course →</span><span class="h2">Oak &amp; Awe</span></a>
+    </nav>
+  </article>
+  <div data-bill id="bill-skb"></div>
+</main>
+
+<!-- =================== OAK & AWE =================== -->
+<main id="oak-and-awe" class="view oa" hidden>
+  <div class="wrap">
+    <nav class="nav label" aria-label="Main">
+      <a href="#home">Hemangi Ganatra</a>
+      <ul><li><a href="#about">About</a></li><li><a href="#menu" aria-current="page">The menu</a></li><li><a href="#bill-oa">The bill</a></li></ul>
+    </nav>
+  </div>
+  <article class="case wrap" aria-labelledby="oa-h">
+    <header class="case-head">
+      <div class="title-block">
+        <p class="label gold">Main · Case study 07</p>
+        <h1 id="oa-h" class="title">Oak &amp; Awe</h1>
+        <p class="lead">An Armenian brandy for the generation that wasn't supposed to drink it.</p>
+        <div class="tags"><span class="tag">Packaging</span><span class="tag">Brand identity</span><span class="tag">Prototype</span></div>
+      </div>
+      <div class="ph ph-gold"><div><span class="label">[ Drop image ]</span><span class="note">Hero — the box, hand-assembled</span></div></div>
+    </header>
+
+    <div class="cards3">
+      <div class="card o-gold"><p class="label">The brief</p><h2 class="h2">Design a bottle for Armenia</h2><p>We were assigned a country and had to design an alcohol bottle for it. I got Armenia.</p></div>
+      <div class="card o-cocoa"><p class="label">The pattern</p><h2 class="h2">Folk patterns</h2><p>I went deep into Armenian geometric folk patterns, the kind you find on carpets and church walls, and built a brand around that visual language.</p></div>
+      <div class="card o-receipt"><p class="label">The problem</p><h2 class="h2">Brandy has an image problem</h2><p>Nobody under 30 thinks brandy is for them. It sits on your dad's shelf and comes out at funerals. It's serious in a way that feels uninviting.</p></div>
+    </div>
+    <div class="cards3" style="margin-top:16px">
+      <div class="card o-outline"><p class="label">Palette</p><h2 class="h2">Burgundy &amp; gold</h2><p>Deep burgundy, gold, bold symmetry.</p></div>
+      <div class="card o-gold"><p class="label">The name</p><h2 class="h2">Oak &amp; Awe</h2><p>Bold but approachable. The kind of thing you would want on your shelf just for how it looks.</p></div>
+      <div class="ph ph-dark swatch"><div><span class="label">[ Drop image ]</span><span class="note">Pattern swatch — Armenian geometric motif</span></div></div>
+    </div>
+
+    <div class="ornament" aria-hidden="true"><span>◆ THE GIFT SET ◆</span></div>
+    <div class="gallery" style="margin-top:16px">
+      <div class="ph ph-dark"><div><span class="label">[ Drop image ]</span><span class="note">Box, hand-assembled</span></div></div>
+      <div class="ph ph-dark"><div><span class="label">[ Drop image ]</span><span class="note">Flask in the gift set</span></div></div>
+      <div class="ph ph-dark"><div><span class="label">[ Drop image ]</span><span class="note">Label detail</span></div></div>
+    </div>
+
+    <div class="chef">
+      <div><p class="label">Chef's note</p><blockquote>The goal wasn't to make brandy look young. It was to make it look worth keeping.</blockquote></div>
+      <div><p class="label">The result</p><p>Oak &amp; Awe, hand-assembled into a physical prototype: an Armenian brandy for the generation that was not supposed to drink it.</p></div>
+    </div>
+
+    <nav class="next" aria-label="Courses">
+      <a href="#shake-ko-bulao"><span class="label" style="color:var(--gold)">← Previous course</span><span class="h2">Shake Ko Bulao</span></a>
+      <a href="#menu" style="text-align:right"><span class="label" style="color:var(--gold)">Back to →</span><span class="h2">The menu</span></a>
+    </nav>
+  </article>
+  <div data-bill id="bill-oa"></div>
+</main>
+
+<template id="bill-tpl">
+  <footer class="bill" aria-label="The bill">
+    <div class="wrap">
+      <div class="bill-inner">
+        <div>
+          <p class="label head">Hemangi Ganatra — Portfolio 2026</p>
+          <h2>Thanks for making it to the <em>end.</em></h2>
+        </div>
+        <div class="receipt">
+          <p class="c" style="font-weight:700;letter-spacing:.12em">HEMANGI GANATRA</p>
+          <p class="c sub">TABLE 01 · 2026 · SERVER: HEMANGI</p>
+          <div class="dash"></div>
+          <div class="item"><span>Feelings, all over the work</span><span class="lead-dots"></span><span>included</span></div>
+          <div class="item"><span>Packaging, judged silently</span><span class="lead-dots"></span><span>free</span></div>
+          <div class="item"><span>Coffee, as a ritual</span><span class="lead-dots"></span><span>daily</span></div>
+          <div class="item"><span>Copy that does the work</span><span class="lead-dots"></span><span>always</span></div>
+          <div class="dash"></div>
+          <div class="total"><span>TOTAL</span><span>One chat?</span></div>
+          <p class="thanks">Thanks for making it to the end. Still going for the wow, same. Always.</p>
+          <div class="email-row"><span class="email">ganatrahemangi93@gmail.com</span><button class="copy" type="button">Copy</button></div>
+          <div class="barcode" aria-hidden="true"></div>
+        </div>
+      </div>
+      <p class="note colophon">SET IN PLAYFAIR DISPLAY, LORA &amp; SPACE MONO.</p>
+    </div>
+  </footer>
+</template>
+
+<script>
+(function(){
+  var tpl=document.getElementById('bill-tpl');
+  document.querySelectorAll('[data-bill]').forEach(function(slot){ slot.appendChild(tpl.content.cloneNode(true)); });
+
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('.copy'); if(!b) return;
+    var t=b.previousElementSibling.textContent;
+    function sel(){ var r=document.createRange(); r.selectNodeContents(b.previousElementSibling); var s=getSelection(); s.removeAllRanges(); s.addRange(r); b.textContent='Selected'; }
+    try{ navigator.clipboard.writeText(t).then(function(){ b.textContent='Copied'; setTimeout(function(){b.textContent='Copy'},1600); },sel); }catch(err){ sel(); }
+  });
+
+  var views=['home','about','menu','shake-ko-bulao','oak-and-awe'];
+  function route(){
+    var h=(location.hash||'').slice(1);
+    var target=views.indexOf(h)>-1?h:null, anchor=null;
+    if(!target && h){ var el=document.getElementById(h); var v=el&&el.closest('.view'); if(v){target=v.id; anchor=el;} }
+    target=target||'home';
+    views.forEach(function(id){ document.getElementById(id).hidden=(id!==target); });
+    document.body.style.background = target==='oak-and-awe' ? 'var(--burgundy)' : target==='shake-ko-bulao' ? 'var(--blush)' : 'var(--paper)';
+    if(anchor){ anchor.scrollIntoView(); } else { window.scrollTo(0,0); }
+  }
+  addEventListener('hashchange',route); route();
+})();
+</script>
+</body>
+</html>
