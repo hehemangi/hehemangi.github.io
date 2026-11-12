@@ -154,7 +154,11 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
 /* bits */
 .ph{border:1.5px solid currentColor;display:grid;place-items:center;text-align:center;padding:10px;background:rgba(20,18,16,.06);min-height:0}
 .ph-photo{padding:0;overflow:hidden}
-.ph-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;filter:sepia(.18) saturate(.92) contrast(1.03)}
+.ph-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;filter:sepia(.18) saturate(.92) contrast(1.03);
+  --t:clamp(0,calc(var(--pull,0) / -24),1);
+  transform:scale(calc(2.2 - var(--t) * 1.2));transform-origin:50% 78%;
+  transition:transform .55s cubic-bezier(.3,1.4,.5,1)}
+.photo-card.dragging .ph-photo img{transition:none}
 .ph .note{display:block;opacity:.75}
 .grow{flex:1;min-height:0}
 .ring{width:var(--s,140px);aspect-ratio:1;border-radius:50%;position:relative;display:grid;place-items:center;flex:none;background:var(--yellow);color:var(--ink)}
@@ -170,9 +174,9 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
   background-image:radial-gradient(rgba(250,240,208,.08) 1px,transparent 1.6px)!important;background-size:6px 6px!important}
 .pocket-page .holes b{background:#000}
 .pocket-wrap{position:relative;width:76%;aspect-ratio:3/3.7;margin-bottom:calc(var(--u)*2);cursor:grab}
-.photo-card{position:absolute;left:7%;right:7%;top:0;height:74%;background:var(--paper);padding:10px 10px 0;transform:rotate(-2.5deg) translateY(var(--pull,0%));transition:transform .55s cubic-bezier(.3,1.4,.5,1);box-shadow:0 4px 10px rgba(0,0,0,.45)}
+.photo-card{position:absolute;left:7%;right:7%;top:0;height:74%;background:var(--paper);padding:10px 10px 0;transform:rotate(-2.5deg) translateY(calc(var(--pull,0) * 1%));transition:transform .55s cubic-bezier(.3,1.4,.5,1);box-shadow:0 4px 10px rgba(0,0,0,.45)}
 .photo-card .ph{height:calc(100% - 10px);color:var(--ink)}
-.pocket-wrap:hover .photo-card,.pocket-wrap:focus-visible .photo-card,.pocket-wrap.out .photo-card{--pull:-24%}
+.pocket-wrap:hover .photo-card,.pocket-wrap:focus-visible .photo-card,.pocket-wrap.out .photo-card{--pull:-24}
 .photo-card.dragging{transition:none;cursor:grabbing}
 .pocket{position:absolute;left:0;right:0;bottom:0;height:60%;background:var(--yellow);color:var(--ink);clip-path:polygon(0 22%,100% 0,100% 100%,0 100%);
   display:flex;align-items:flex-end;justify-content:space-between;padding:calc(var(--u)*2.6) calc(var(--u)*3);
@@ -682,7 +686,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
       var deltaPct=(dy/photoDrag.h)*100;
       var pull=Math.max(-34,Math.min(4,basePull+deltaPct));
       photoDrag.lastPull=pull;
-      photoDrag.card.style.setProperty('--pull',pull+'%');
+      photoDrag.card.style.setProperty('--pull',pull);
       return;
     }
     if(!drag) return;
