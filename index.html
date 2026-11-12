@@ -107,10 +107,8 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
 .page.l{padding:calc(var(--u)*8.5) calc(var(--u)*9) calc(var(--u)*8) calc(var(--u)*6.5)}
 .f-back{transform:rotateY(180deg)}
 .page.alt{background-color:var(--paper-2)}
-.page::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .5s;background:linear-gradient(to right,rgba(20,18,16,.32),rgba(20,18,16,0) 45%,rgba(255,255,255,.12) 70%,rgba(20,18,16,.16)),
-  radial-gradient(ellipse at 100% 100%,rgba(20,18,16,.16),transparent 60%)}
+.page::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .5s;background:linear-gradient(to right,rgba(20,18,16,.32),rgba(20,18,16,0) 45%,rgba(255,255,255,.12) 70%,rgba(20,18,16,.16))}
 .leaf.moving .page::after,.leaf.drag .page::after{opacity:1}
-.page.kraft::after{opacity:1;background:radial-gradient(ellipse 120% 70% at 0 100%,rgba(0,0,0,.14),transparent 60%)}
 .holes{position:absolute;top:0;bottom:0;width:18px;pointer-events:none}
 .r .holes{left:6px} .l .holes{right:6px}
 .holes b{position:absolute;left:2px;width:14px;height:14px;margin-top:-7px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#473a2b,#1c1610 60%);box-shadow:inset 0 2px 3px rgba(0,0,0,.75),inset 0 -1px 1px rgba(255,255,255,.08)}
@@ -123,11 +121,16 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
 
 /* index tabs: a fixed rail on the book's edge — not part of a flipping leaf, so turning a page never flips a tab */
 .page.kraft{background-color:var(--kraft);color:#2a1d0e;background-image:var(--kraft-tex);background-size:160px 160px,7px 7px,11px 11px,100% 100%;background-position:0 0,0 0,3px 5px,0 0}
-.tabs{position:absolute;right:-34px;top:50%;transform:translateY(-50%);z-index:12;display:flex;flex-direction:column;gap:12px;pointer-events:auto}
-.tab{width:34px;height:calc(var(--ph) * .15);display:flex;align-items:center;justify-content:center;text-align:center;
+/* a continuous thumb-index: each tab spans exactly the pages of its own section, so "The chef"
+   runs alongside the chef pages only, stopping where "Main dishes" begins, and so on. Hidden
+   while the closed cover (front or back) is showing, like a real binder's tabs. */
+.tabs{position:absolute;right:-34px;top:0;bottom:0;z-index:12;opacity:0;pointer-events:none;transition:opacity .3s}
+.binder:not(.at-start):not(.at-end) .tabs{opacity:1;pointer-events:auto}
+.tab{position:absolute;left:0;width:34px;top:var(--t);height:var(--h);display:flex;align-items:center;justify-content:center;text-align:center;
   background:var(--paper);color:var(--ink);text-decoration:none;font-family:var(--mono);font-weight:700;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;writing-mode:vertical-rl;
-  border:1px solid rgba(20,18,16,.12);border-left:0;border-radius:0 7px 7px 0;box-shadow:2px 1px 0 rgba(20,18,16,.08)}
+  border:1px solid rgba(20,18,16,.12);border-left:0;border-top-width:.5px;border-bottom-width:.5px;border-radius:0 5px 5px 0}
 .tab:hover,.tab.cur{background:var(--yellow)}
+.tab-thin{font-size:7.5px;letter-spacing:.08em}
 
 /* covers */
 .cover{border-radius:3px 8px 8px 3px;color:#2a1d0e;padding:calc(var(--u)*8) calc(var(--u)*7);justify-content:center;align-items:center;box-shadow:inset 6px 0 0 rgba(0,0,0,.14)}
@@ -313,7 +316,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
         <div class="label" style="width:78%">
           <p class="mono">Ex libris</p>
           <p class="big" style="font-size:calc(var(--u)*5.6)">This book belongs to <span class="hl">Hemangi Ganatra</span></p>
-          <p class="note">If found, please return to the chef.<br>Reward: one cutting chai.</p>
+          <p class="note">If found, please return to the chef.<br>Reward: one iced coffee.</p>
         </div>
       </section>
     </div>
@@ -530,11 +533,11 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 
     <div class="rings" aria-hidden="true"><i class="br"></i><i class="br"></i><i class="br"></i></div>
     <nav class="tabs" id="tabs" aria-label="Jump to section">
-      <a class="tab" href="#chef">The chef</a>
-      <a class="tab" href="#mains">Main dishes</a>
-      <a class="tab" href="#shake-ko-bulao">04 Shake</a>
-      <a class="tab" href="#oak-and-awe">05 Oak</a>
-      <a class="tab" href="#say-hi">Other</a>
+      <a class="tab" href="#chef" style="--t:10%;--h:18%">The chef</a>
+      <a class="tab tab-thin" href="#mains" style="--t:28%;--h:9%">Mains</a>
+      <a class="tab" href="#shake-ko-bulao" style="--t:37%;--h:18%">04 Shake</a>
+      <a class="tab" href="#oak-and-awe" style="--t:55%;--h:30%">05 Oak</a>
+      <a class="tab" href="#say-hi" style="--t:85%;--h:15%">Other</a>
     </nav>
   </div>
 </main>
@@ -557,7 +560,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
   function H(){return mq.matches;}
   var cur=0, busy=0;
 
-  binder.querySelectorAll('.page:not(.kraft)').forEach(function(p){ p.insertAdjacentHTML('beforeend','<i class="holes" aria-hidden="true"><b></b><b></b><b></b></i>'); });
+  binder.querySelectorAll('.page').forEach(function(p){ p.insertAdjacentHTML('beforeend','<i class="holes" aria-hidden="true"><b></b><b></b><b></b></i>'); });
 
   function size(){
     if(!H()){ root.style.removeProperty('--ph'); return; }
