@@ -9,9 +9,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400;700&display=swap">
 <style>
-/* Layout: an open recipe book lying on a dark desk. Portrait cream pages run sideways as spreads
-   (spine shadow, page numbers, running heads, chapter tabs), moved by a smoothed scroll
-   (wheel / trackpad / drag with inertia / arrow keys). Cloth cover front and back. Stacks on phones. */
+/* Layout: a recipe book lying open on a dark desk. One spread at a time; each sheet turns over the
+   spine in 3D (click, drag the corner, wheel, arrow keys). Cream pages with spine shadow, page numbers,
+   running heads and chapter tabs; green cloth cover front and back. Stacks on phones. */
 :root{
   --desk:#141210; --ink:#141210; --paper:#FAF0D0; --paper-2:#F3E5BC; --edge:#DCCB98;
   --green:#2E9E5B; --yellow:#FFC93C; --pink:#F26BA3; --muted:#7D735A;
@@ -66,22 +66,36 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
 .x::before,.x::after{content:"";position:absolute;left:5px;right:5px;top:50%;height:2px;background:currentColor;transform:rotate(45deg)} .x::after{transform:rotate(-45deg)}
 
 /* ---------- The book ---------- */
-.book{position:fixed;left:0;right:0;top:var(--hdr);bottom:var(--ftr);overflow:hidden;touch-action:none;cursor:grab}
-.book.drag{cursor:grabbing;user-select:none}
-.track{display:flex;align-items:center;height:100%;padding:22px max(48px,env(safe-area-inset-left,0px)) 22px;width:max-content;will-change:transform}
-.page{flex:none;position:relative;width:var(--pw);height:var(--ph);background-color:var(--paper);color:var(--ink);
+.stage{position:fixed;left:0;right:0;top:var(--hdr);bottom:var(--ftr);display:grid;place-items:center;perspective:2600px;touch-action:none;user-select:none}
+.book3d{position:relative;width:calc(var(--pw) * 2);height:var(--ph);transition:transform .9s cubic-bezier(.645,.045,.355,1)}
+.book3d.at-start{transform:translateX(calc(var(--pw) * -.5))}
+.book3d.at-end{transform:translateX(calc(var(--pw) * .5))}
+.book3d::after{content:"";position:absolute;left:4%;right:4%;bottom:-26px;height:30px;background:radial-gradient(ellipse at center,rgba(0,0,0,.6),transparent 70%);z-index:-1}
+.leaf{position:absolute;top:0;left:50%;width:var(--pw);height:100%;transform-origin:left center;transform-style:preserve-3d;
+  transition:transform .95s cubic-bezier(.645,.045,.355,1);cursor:pointer}
+.leaf.flipped{transform:rotateY(-180deg)}
+.leaf.drag{transition:none}
+.page{position:absolute;inset:0;background-color:var(--paper);color:var(--ink);backface-visibility:hidden;-webkit-backface-visibility:hidden;
   padding:calc(var(--u)*9) calc(var(--u)*6.5) calc(var(--u)*8);display:flex;flex-direction:column;gap:calc(var(--u)*2.4);
-  box-shadow:0 4px 0 -1px var(--edge),0 8px 0 -2px #BFAE7E,0 20px 36px -12px rgba(0,0,0,.6)}
-.page.l{background-image:linear-gradient(to left,rgba(20,18,16,.28),rgba(20,18,16,.06) 4%,rgba(20,18,16,0) 10%);margin-left:16px}
+  box-shadow:0 4px 0 -1px var(--edge),0 8px 0 -2px #BFAE7E}
+.f-back{transform:rotateY(180deg)}
+.page::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .5s;background:linear-gradient(to right,rgba(20,18,16,.35),rgba(20,18,16,0) 45%,rgba(255,255,255,.12) 70%,rgba(20,18,16,.18))}
+.leaf.moving .page::after,.leaf.drag .page::after{opacity:1}
+.page.l{background-image:linear-gradient(to left,rgba(20,18,16,.28),rgba(20,18,16,.06) 4%,rgba(20,18,16,0) 10%)}
 .page.r{background-image:linear-gradient(to right,rgba(20,18,16,.32),rgba(20,18,16,.08) 4%,rgba(20,18,16,0) 11%)}
 .page.alt{background-color:var(--paper-2)}
-.page.l + .page.r{margin-left:0}
 .rh,.folio{position:absolute;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.65}
 .rh{top:calc(var(--u)*4)} .folio{bottom:calc(var(--u)*3.6)}
 .l .rh,.l .folio{left:calc(var(--u)*6.5)} .r .rh,.r .folio{right:calc(var(--u)*6.5)}
 .folio{font-family:var(--display);font-size:calc(var(--u)*2.6);letter-spacing:0;opacity:.8;font-weight:400}
-.tab{position:absolute;top:-20px;height:30px;padding:0 14px;display:flex;align-items:flex-start;padding-top:5px;border-radius:6px 6px 0 0;font-family:var(--mono);font-weight:700;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);z-index:-1}
+.tab{position:absolute;top:-20px;height:30px;padding:0 14px;display:flex;align-items:flex-start;padding-top:5px;border-radius:6px 6px 0 0;font-family:var(--mono);font-weight:700;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink)}
 .r .tab{right:calc(var(--u)*6)} .l .tab{left:calc(var(--u)*6)}
+.page{overflow:visible}
+.hint{position:fixed;left:50%;bottom:calc(var(--ftr) + 6px);transform:translateX(-50%);font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);z-index:5;pointer-events:none;transition:opacity .4s}
+.navbtn{position:fixed;top:50%;z-index:6;width:46px;height:46px;border:1.5px solid var(--paper);background:var(--desk);color:var(--paper);font-family:var(--mono);font-size:20px;cursor:pointer;display:grid;place-items:center}
+.navbtn:hover{background:var(--paper);color:var(--ink)}
+.navbtn:disabled{opacity:.25;cursor:default;background:var(--desk);color:var(--paper)}
+#prev{left:max(14px,env(safe-area-inset-left,0px))} #next{right:max(14px,env(safe-area-inset-right,0px))}
 
 /* bleed colour pages */
 .bleed-green{background-color:var(--green)!important;color:var(--paper)}
@@ -89,11 +103,11 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
 .bleed-yellow{background-color:var(--yellow)!important}
 
 /* covers */
-.cover{background:var(--green)!important;color:var(--paper);border-radius:4px 16px 16px 4px;margin-right:30px;
+.cover{background:var(--green)!important;color:var(--paper);border-radius:4px 16px 16px 4px;
   box-shadow:inset 14px 0 0 rgba(0,0,0,.18),inset 16px 0 0 rgba(255,255,255,.06),0 26px 50px -10px rgba(0,0,0,.75)!important;
   justify-content:space-between;align-items:flex-start}
-.cover::after{content:"";position:absolute;inset:calc(var(--u)*3);border:1.5px solid rgba(250,240,208,.55);border-radius:2px 10px 10px 2px;pointer-events:none}
-.back{border-radius:16px 4px 4px 16px;margin-left:30px!important;box-shadow:inset -14px 0 0 rgba(0,0,0,.18),0 26px 50px -10px rgba(0,0,0,.75)!important}
+.cover::before{content:"";position:absolute;inset:calc(var(--u)*3);border:1.5px solid rgba(250,240,208,.55);border-radius:2px 10px 10px 2px;pointer-events:none}
+.back{border-radius:16px 4px 4px 16px;box-shadow:inset -14px 0 0 rgba(0,0,0,.18),0 26px 50px -10px rgba(0,0,0,.75)!important}
 .cover-title{font-family:var(--display);font-size:calc(var(--u)*17);line-height:.85;letter-spacing:-.03em;color:var(--yellow)}
 
 /* page content pieces */
@@ -153,15 +167,17 @@ dl.cred dd{margin:0;font-size:14.5px}
 /* ---------- Phones / short screens: pages stack ---------- */
 @media not all and (min-width:900px) and (min-height:560px){
   :root{--u:min(1.35vw + 2px, 7px);--hdr:64px}
-  body{overflow:auto}
-  .book{position:static;overflow:visible;touch-action:auto;cursor:auto;padding-top:var(--hdr);padding-bottom:var(--ftr)}
-  .track{flex-direction:column;width:auto;height:auto;padding:16px max(14px,env(safe-area-inset-left,0px)) 28px max(14px,env(safe-area-inset-right,0px));gap:18px;transform:none!important}
-  .page{width:100%;height:auto;min-height:calc(var(--u)*80);margin:0!important;padding:56px 20px 52px;background-image:none!important}
+  .stage{position:static;display:block;perspective:none;touch-action:auto;user-select:auto;padding:calc(var(--hdr) + 16px) max(14px,env(safe-area-inset-left,0px)) calc(var(--ftr) + 28px) max(14px,env(safe-area-inset-right,0px))}
+  .book3d,.book3d.at-start,.book3d.at-end{width:auto;height:auto;transform:none;display:flex;flex-direction:column;gap:18px}
+  .book3d::after{display:none}
+  .leaf,.leaf.flipped{position:static;width:auto;height:auto;transform:none;display:flex;flex-direction:column;gap:18px;cursor:auto}
+  .page,.f-back{position:relative;inset:auto;transform:none;backface-visibility:visible;-webkit-backface-visibility:visible;min-height:calc(var(--u)*80);padding:56px 20px 52px;background-image:none!important}
+  .page::after{display:none}
   .endpaper{background-image:radial-gradient(circle,var(--pink) 22%,transparent 24%)!important;background-size:28px 28px!important}
   .lines{background-image:repeating-linear-gradient(to bottom,transparent 0 31px,rgba(20,18,16,.22) 31px 32px)!important}
   .l .rh,.l .folio{left:20px} .r .rh,.r .folio{right:20px}
   .rh{top:20px} .folio{bottom:16px;font-size:18px}
-  .tab{display:none}
+  .tab,.navbtn,.hint{display:none}
   .cover{min-height:70vh;border-radius:6px 14px 14px 6px}
   .back{border-radius:14px 6px 6px 14px}
   .ph.grow{flex:none;aspect-ratio:4/3}
@@ -197,11 +213,15 @@ dl.cred dd{margin:0;font-size:14.5px}
   <div class="menu-top"><span class="mono">Packaging · Brand identity · Advertising · Copywriting</span><span class="note">ganatrahemangi93@gmail.com</span></div>
 </div>
 
-<main class="book" id="book" aria-label="Recipe book">
-  <div class="track" id="track">
+<button class="navbtn" id="prev" type="button" aria-label="Previous page">←</button>
+<button class="navbtn" id="next" type="button" aria-label="Next page">→</button>
+<p class="hint" id="hint">Click the page, drag the corner or press → to turn</p>
+<main class="stage" id="stage" aria-label="Recipe book">
+  <div class="book3d" id="book3d">
+    <div class="leaf">
 
     <!-- FRONT COVER -->
-    <section class="page cover" id="home" aria-label="Cover">
+    <section class="page f-front cover" id="home" aria-label="Cover">
       <p class="mono" style="position:relative">Vol. 01 · Est. 2026 · Mumbai</p>
       <div style="position:relative">
         <h1 class="cover-title">Port&shy;folio</h1>
@@ -214,7 +234,7 @@ dl.cred dd{margin:0;font-size:14.5px}
     </section>
 
     <!-- p1 endpaper -->
-    <section class="page l endpaper" aria-label="Bookplate">
+    <section class="page f-back l endpaper" aria-label="Bookplate">
       <div class="bookplate">
         <p class="mono">Ex libris</p>
         <p class="big">This book belongs to <span class="it c-pink">Hemangi Ganatra</span></p>
@@ -222,9 +242,11 @@ dl.cred dd{margin:0;font-size:14.5px}
       </div>
       <span class="folio">1</span>
     </section>
+    </div>
+    <div class="leaf">
 
     <!-- p2 intro -->
-    <section class="page r" id="intro" aria-label="Introduction">
+    <section class="page f-front r" id="intro" aria-label="Introduction">
       <span class="rh">Before you cook</span>
       <h2 class="split grow" style="display:flex;flex-direction:column;justify-content:center" aria-label="Feelings all over the work. Copy first, always.">
         <span class="ln">feelings <span class="slot w1 c-pink" aria-hidden="true">IMG</span></span>
@@ -233,22 +255,24 @@ dl.cred dd{margin:0;font-size:14.5px}
         <span class="ln">copy first, <span class="slot w3 c-green" aria-hidden="true">IMG</span></span>
         <span class="ln"><span class="it c-green">always.</span></span>
       </h2>
-      <p class="note c-muted">Scroll, drag or use the arrow keys to turn the pages.</p>
+      <p class="note c-muted">Click, drag or press → to turn the page.</p>
       <span class="folio">2</span>
     </section>
 
     <!-- p3 about -->
-    <section class="page l" id="about" aria-labelledby="about-h">
+    <section class="page f-back l" id="about" aria-labelledby="about-h">
       <span class="rh">The chef</span>
-      <span class="tab" style="background:var(--green);color:var(--paper)">Chef</span>
+      <span class="tab" style="background:var(--green);color:var(--paper);left:calc(var(--u)*5)">Chef</span>
       <h2 id="about-h" class="big" style="font-size:calc(var(--u)*11)">Hi, I'm <span class="it c-green">Hemangi.</span></h2>
       <div class="ph grow"><div><span class="mono">[ Drop image ]</span><span class="note">Your photo — portrait</span></div></div>
       <p class="note c-muted">Fig. 1 — The chef, probably holding coffee.</p>
       <span class="folio">3</span>
     </section>
+    </div>
+    <div class="leaf">
 
     <!-- p4 about cont -->
-    <section class="page r alt" aria-label="About, continued">
+    <section class="page f-front r alt" aria-label="About, continued">
       <span class="rh">The chef</span>
       <h3 class="split" style="font-size:calc(var(--u)*7.6)" aria-label="I design the box, the bottle and the words on it.">
         <span class="ln">I design</span>
@@ -266,9 +290,9 @@ dl.cred dd{margin:0;font-size:14.5px}
     </section>
 
     <!-- p5 contents -->
-    <section class="page l" id="contents" aria-labelledby="toc-h">
+    <section class="page f-back l" id="contents" aria-labelledby="toc-h">
       <span class="rh">Contents</span>
-      <span class="tab" style="background:var(--yellow)">Contents</span>
+      <span class="tab" style="background:var(--yellow);left:calc(var(--u)*17)">Contents</span>
       <h2 id="toc-h" class="big" style="font-size:calc(var(--u)*10)">Con&shy;tents</h2>
       <ol class="toc">
         <li class="course mono">Starter</li>
@@ -285,9 +309,11 @@ dl.cred dd{margin:0;font-size:14.5px}
       </ol>
       <span class="folio">5</span>
     </section>
+    </div>
+    <div class="leaf">
 
     <!-- p6 two mains -->
-    <section class="page r" aria-label="Two recipes in full">
+    <section class="page f-front r" aria-label="Two recipes in full">
       <span class="rh">Cooked in full</span>
       <p class="mono c-muted">Two recipes, in full</p>
       <a href="#shake-ko-bulao" class="ph grow bleed-pink" style="text-decoration:none;border-color:var(--ink);gap:6px;align-content:center"><span class="mono">p.7 · Main</span><span class="big" style="font-size:calc(var(--u)*7)">Shake Ko Bulao</span><span class="note">[ Drop image ] the six bottles</span></a>
@@ -296,16 +322,18 @@ dl.cred dd{margin:0;font-size:14.5px}
     </section>
 
     <!-- ===== Recipe 04: Shake Ko Bulao ===== -->
-    <section class="page l bleed-pink" id="shake-ko-bulao" aria-labelledby="skb-h" style="justify-content:space-between">
+    <section class="page f-back l bleed-pink" id="shake-ko-bulao" aria-labelledby="skb-h" style="justify-content:space-between">
       <span class="rh">Recipe 04</span>
-      <span class="tab" style="background:var(--pink)">Recipe 04</span>
+      <span class="tab" style="background:var(--pink);left:calc(var(--u)*34)">Recipe 04</span>
       <p class="mono">Recipe 04 · Main</p>
       <h2 id="skb-h" class="big" style="font-size:calc(var(--u)*15)">Shake <span class="it" style="color:var(--paper)">Ko</span> Bulao</h2>
       <p class="it" style="font-size:calc(var(--u)*3.2)">A milkshake brand where the names do the work.</p>
       <span class="folio">7</span>
     </section>
+    </div>
+    <div class="leaf">
 
-    <section class="page r" style="--accent:var(--pink)" aria-label="Shake Ko Bulao — recipe card">
+    <section class="page f-front r" style="--accent:var(--pink)" aria-label="Shake Ko Bulao — recipe card">
       <span class="rh">Shake Ko Bulao</span>
       <div class="facts-row">
         <div><p class="mono c-muted">Serves</p><p>Six personalities</p></div>
@@ -320,14 +348,16 @@ dl.cred dd{margin:0;font-size:14.5px}
       <span class="folio">8</span>
     </section>
 
-    <section class="page l alt" style="--accent:var(--pink)" aria-label="Shake Ko Bulao — method 1">
+    <section class="page f-back l alt" style="--accent:var(--pink)" aria-label="Shake Ko Bulao — method 1">
       <span class="rh">Method</span>
       <div class="ph grow"><span class="note">[ Drop image ] early name sketches</span></div>
       <div class="step"><b>1</b><p>Start with words. Build the brand with copy as the design direction.</p></div>
       <span class="folio">9</span>
     </section>
+    </div>
+    <div class="leaf">
 
-    <section class="page r" style="--accent:var(--pink)" aria-label="Shake Ko Bulao — the six names">
+    <section class="page f-front r" style="--accent:var(--pink)" aria-label="Shake Ko Bulao — the six names">
       <span class="rh">Method</span>
       <div class="step"><b>2</b><p>Name each shake like a person, not a product.</p></div>
       <h3 class="split grow" style="font-size:calc(var(--u)*7.4);display:flex;flex-direction:column;justify-content:center" aria-label="Gulabo, Paan Pataka, Aam Kahani, Rang Rasiya, Shaant Shahi, Shahi Swaad">
@@ -341,7 +371,7 @@ dl.cred dd{margin:0;font-size:14.5px}
       <span class="folio">10</span>
     </section>
 
-    <section class="page l" style="--accent:var(--pink)" aria-label="Shake Ko Bulao — method 3 and 4">
+    <section class="page f-back l" style="--accent:var(--pink)" aria-label="Shake Ko Bulao — method 3 and 4">
       <span class="rh">Method</span>
       <div class="ph grow"><span class="note">[ Drop image ] label close-up</span></div>
       <div class="step"><b>3</b><p>Let every label say who ordered it.</p></div>
@@ -349,8 +379,10 @@ dl.cred dd{margin:0;font-size:14.5px}
       <div class="step"><b>4</b><p>Serve: six flavours, six personalities.</p></div>
       <span class="folio">11</span>
     </section>
+    </div>
+    <div class="leaf">
 
-    <section class="page r alt" style="justify-content:center" aria-label="Shake Ko Bulao — chef's note">
+    <section class="page f-front r alt" style="justify-content:center" aria-label="Shake Ko Bulao — chef's note">
       <span class="rh">Chef's note</span>
       <p class="mono c-pink">Chef's note</p>
       <blockquote class="quote">“Each name does the work before the design even starts. You already know exactly who ordered that shake.”</blockquote>
@@ -359,16 +391,18 @@ dl.cred dd{margin:0;font-size:14.5px}
     </section>
 
     <!-- ===== Recipe 05: Oak & Awe ===== -->
-    <section class="page l bleed-yellow" id="oak-and-awe" aria-labelledby="oa-h" style="justify-content:space-between">
+    <section class="page f-back l bleed-yellow" id="oak-and-awe" aria-labelledby="oa-h" style="justify-content:space-between">
       <span class="rh">Recipe 05</span>
-      <span class="tab" style="background:var(--yellow)">Recipe 05</span>
+      <span class="tab" style="background:var(--yellow);left:calc(var(--u)*51)">Recipe 05</span>
       <p class="mono">Recipe 05 · Main</p>
       <h2 id="oa-h" class="big" style="font-size:calc(var(--u)*15)">Oak <span class="it" style="color:var(--paper)">&amp;</span> Awe</h2>
       <p class="it" style="font-size:calc(var(--u)*3.2)">An Armenian brandy for the generation that wasn't supposed to drink it.</p>
       <span class="folio">13</span>
     </section>
+    </div>
+    <div class="leaf">
 
-    <section class="page r" style="--accent:var(--green)" aria-label="Oak and Awe — recipe card">
+    <section class="page f-front r" style="--accent:var(--green)" aria-label="Oak and Awe — recipe card">
       <span class="rh">Oak &amp; Awe</span>
       <div class="facts-row">
         <div><p class="mono c-muted">Serves</p><p>Under-30s</p></div>
@@ -383,15 +417,17 @@ dl.cred dd{margin:0;font-size:14.5px}
       <span class="folio">14</span>
     </section>
 
-    <section class="page l alt" style="justify-content:center;--accent:var(--green)" aria-label="Oak and Awe — the problem">
+    <section class="page f-back l alt" style="justify-content:center;--accent:var(--green)" aria-label="Oak and Awe — the problem">
       <span class="rh">Method</span>
       <div class="step"><b>1</b><p>Know the problem.</p></div>
       <blockquote class="quote" style="font-size:calc(var(--u)*6.6)">Brandy sits on your dad's shelf and comes out at <span class="c-green">funerals.</span></blockquote>
       <p class="note c-muted">Nobody under 30 thinks it's for them.</p>
       <span class="folio">15</span>
     </section>
+    </div>
+    <div class="leaf">
 
-    <section class="page r" style="--accent:var(--green)" aria-label="Oak and Awe — method 2 and 3">
+    <section class="page f-front r" style="--accent:var(--green)" aria-label="Oak and Awe — method 2 and 3">
       <span class="rh">Method</span>
       <div class="ph grow"><span class="note">[ Drop image ] carpet &amp; church-wall patterns</span></div>
       <div class="step"><b>2</b><p>Borrow the patterns from carpets and church walls.</p></div>
@@ -400,7 +436,7 @@ dl.cred dd{margin:0;font-size:14.5px}
       <span class="folio">16</span>
     </section>
 
-    <section class="page l" style="--accent:var(--green)" aria-label="Oak and Awe — method 4 and chef's note">
+    <section class="page f-back l" style="--accent:var(--green)" aria-label="Oak and Awe — method 4 and chef's note">
       <span class="rh">Method</span>
       <div class="ph grow"><span class="note">[ Drop image ] flask in the gift set</span></div>
       <div class="step"><b>4</b><p>Assemble by hand into a real prototype.</p></div>
@@ -408,9 +444,11 @@ dl.cred dd{margin:0;font-size:14.5px}
       <blockquote class="quote" style="font-size:calc(var(--u)*4.2)">“Not brandy that looks young. Brandy that looks worth keeping.”</blockquote>
       <span class="folio">17</span>
     </section>
+    </div>
+    <div class="leaf">
 
     <!-- p18 say hi -->
-    <section class="page r" id="say-hi" aria-labelledby="hi-h">
+    <section class="page f-front r" id="say-hi" aria-labelledby="hi-h">
       <span class="rh">Say hi</span>
       <span class="tab" style="background:var(--green);color:var(--paper)">Say hi</span>
       <h2 id="hi-h" class="big" style="font-size:calc(var(--u)*13)">Say <span class="it c-pink">hi.</span></h2>
@@ -421,15 +459,17 @@ dl.cred dd{margin:0;font-size:14.5px}
     </section>
 
     <!-- p19 notes -->
-    <section class="page l alt lines" aria-label="Notes">
+    <section class="page f-back l alt lines" aria-label="Notes">
       <span class="rh">Notes</span>
       <p class="big" style="font-size:calc(var(--u)*7)">Notes</p>
       <p class="it" style="font-size:calc(var(--u)*3);line-height:calc(var(--u)*4.4)">Thanks for making it to the end.<br>Still going for the wow, same. Always.<br>— H.</p>
       <span class="folio">19</span>
     </section>
+    </div>
+    <div class="leaf">
 
     <!-- p20 colophon -->
-    <section class="page r" aria-label="Colophon" style="justify-content:space-between">
+    <section class="page f-front r" aria-label="Colophon" style="justify-content:space-between">
       <span class="rh">Colophon</span>
       <p class="big" style="font-size:calc(var(--u)*9)">Made by <span class="it c-green">hand.</span></p>
       <dl class="cred">
@@ -443,11 +483,11 @@ dl.cred dd{margin:0;font-size:14.5px}
     </section>
 
     <!-- BACK COVER -->
-    <section class="page cover back" aria-label="Back cover" style="justify-content:center;align-items:center;text-align:center">
+    <section class="page f-back cover back" aria-label="Back cover" style="justify-content:center;align-items:center;text-align:center">
       <div class="ring" style="--s:calc(var(--u)*24);background:var(--yellow);color:var(--ink);position:relative" aria-hidden="true"><svg viewBox="0 0 140 140"><text><textPath href="#circ">thank you ★ come again ★ thank you ★ </textPath></text></svg><span class="core">HG</span></div>
       <p class="mono" style="position:relative;margin-top:calc(var(--u)*4)">Hemangi Ganatra · 2026</p>
     </section>
-
+    </div>
   </div>
 </main>
 
@@ -459,110 +499,147 @@ dl.cred dd{margin:0;font-size:14.5px}
 
 <script>
 (function(){
-  var book=document.getElementById('book'), track=document.getElementById('track');
+  var root=document.documentElement, stage=document.getElementById('stage'), book=document.getElementById('book3d');
+  var leaves=[].slice.call(book.querySelectorAll('.leaf')), N=leaves.length;
   var pct=document.getElementById('pct'), fill=document.getElementById('barfill'), pageno=document.getElementById('pageno');
+  var prevB=document.getElementById('prev'), nextB=document.getElementById('next'), hint=document.getElementById('hint');
   var ov=document.getElementById('menu-ov'), openB=document.getElementById('open-menu'), closeB=document.getElementById('close-menu');
-  var pages=[].slice.call(track.querySelectorAll('.page'));
   var mq=matchMedia('(min-width: 900px) and (min-height: 560px)');
   var reduce=matchMedia('(prefers-reduced-motion: reduce)');
   function H(){return mq.matches;}
+  var cur=0, busy=0;
 
-  /* ---- smooth sideways scroll ---- */
-  var target=0, cur=0, max=0, raf=null, ease=0.085;
-  function measure(){ max=Math.max(0,track.scrollWidth-book.clientWidth); target=clamp(target); cur=clamp(cur); }
-  function clamp(v){ return Math.min(max,Math.max(0,v)); }
-  function tick(){
-    var k=reduce.matches?1:ease;
-    cur+=(target-cur)*k;
-    if(Math.abs(target-cur)<0.15) cur=target;
-    track.style.transform='translate3d('+(-cur).toFixed(2)+'px,0,0)';
-    report(cur, max);
-    raf = (cur!==target) ? requestAnimationFrame(tick) : null;
+  function size(){
+    if(!H()){ root.style.removeProperty('--ph'); return; }
+    var hdr=72, ftr=44;
+    var ph=Math.min(innerHeight-hdr-ftr-52, (innerWidth-150)/2/0.74);
+    root.style.setProperty('--ph', Math.max(300,ph)+'px');
   }
-  function kick(){ if(!raf) raf=requestAnimationFrame(tick); }
-  function setTarget(v){ target=clamp(v); kick(); }
 
-  book.addEventListener('wheel',function(e){
+  function render(changed){
+    leaves.forEach(function(lf,i){
+      var f=i<cur;
+      lf.classList.toggle('flipped',f);
+      var rest=f? i+1 : N-i;
+      if(changed && changed.indexOf(i)>-1){
+        lf.style.zIndex=200+(f? i : N-i);
+        lf.classList.add('moving');
+        (function(lf,rest){ setTimeout(function(){ lf.style.zIndex=rest; lf.classList.remove('moving'); }, reduce.matches?0:980); })(lf,rest);
+      } else if(!lf.classList.contains('moving')) lf.style.zIndex=rest;
+      var fr=lf.querySelector('.f-front'), bk=lf.querySelector('.f-back');
+      var showFront=(i===cur), showBack=(i===cur-1);
+      if(H()){ fr.inert=!showFront; bk.inert=!showBack; } else { fr.inert=false; bk.inert=false; }
+    });
+    book.classList.toggle('at-start',cur===0);
+    book.classList.toggle('at-end',cur===N);
+    prevB.disabled=cur===0; nextB.disabled=cur===N;
+    var p=cur/N;
+    pct.textContent=String(Math.round(p*100)).padStart(2,'0')+'%';
+    fill.style.transform='scaleX('+p.toFixed(4)+')';
+    if(cur===0) pageno.textContent='Cover';
+    else if(cur===N) pageno.textContent='Back cover';
+    else { var a=leaves[cur-1].querySelector('.f-back .folio'), b=leaves[cur].querySelector('.f-front .folio');
+      pageno.textContent='Pages '+(a?a.textContent:'')+(b?'–'+b.textContent:'')+' / 20'; }
+    if(cur>0) hint.style.opacity='0';
+  }
+
+  function goTo(n){
+    n=Math.max(0,Math.min(N,n)); if(n===cur) return;
+    var changed=[], step=n>cur?1:-1, i, k=0;
+    if(step>0){ for(i=cur;i<n;i++) changed.push(i); } else { for(i=cur-1;i>=n;i--) changed.push(i); }
+    var many=changed.length>1 && !reduce.matches;
+    if(many){
+      changed.forEach(function(idx,j){ leaves[idx].style.transitionDelay=(j*90)+'ms'; setTimeout(function(){ leaves[idx].style.transitionDelay=''; }, j*90+1000); });
+    }
+    cur=n; render(changed);
+    busy=Date.now()+(reduce.matches?0:many?500:650);
+  }
+  function next(){ goTo(cur+1); } function prev(){ goTo(cur-1); }
+  prevB.addEventListener('click',prev); nextB.addEventListener('click',next);
+
+  /* wheel / trackpad: one turn per gesture */
+  var acc=0, accT=0;
+  stage.addEventListener('wheel',function(e){
     if(!H()||ov.classList.contains('open')) return;
     e.preventDefault();
-    var m=e.deltaMode===1?32:(e.deltaMode===2?book.clientWidth:1);
-    var d=(Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY)*m;
-    setTarget(target+d*1.1);
+    var d=Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY, now=Date.now();
+    if(now-accT>220) acc=0; accT=now; acc+=d;
+    if(now<busy) return;
+    if(acc>45){ acc=0; next(); } else if(acc<-45){ acc=0; prev(); }
   },{passive:false});
 
-  /* drag with inertia (mouse + touch) */
-  var down=false, sx=0, st=0, lastX=0, lastT=0, vel=0, moved=0;
-  book.addEventListener('pointerdown',function(e){
-    if(!H()||e.button>0) return;
-    down=true; moved=0; sx=lastX=e.clientX; st=target; lastT=performance.now(); vel=0;
-  });
-  addEventListener('pointermove',function(e){
-    if(!down) return;
-    var dx=e.clientX-sx; moved=Math.max(moved,Math.abs(dx));
-    if(moved>4){ book.classList.add('drag'); var now=performance.now(); vel=(lastX-e.clientX)/Math.max(1,now-lastT); lastX=e.clientX; lastT=now; setTarget(st-dx); }
-  });
-  addEventListener('pointerup',function(){
-    if(!down) return; down=false;
-    if(moved>4) setTarget(target+vel*320);
-    setTimeout(function(){book.classList.remove('drag');},0);
-  });
-  book.addEventListener('click',function(e){ if(moved>4){ e.preventDefault(); e.stopPropagation(); moved=0; } },true);
-
-  /* keys: one spread at a time */
-  function spread(){ return pages[2] ? pages[2].offsetWidth*2+16 : book.clientWidth*.8; }
+  /* keys */
   addEventListener('keydown',function(e){
     if(ov.classList.contains('open')){ if(e.key==='Escape') closeMenu(); return; }
     if(!H()) return;
-    var k=e.key;
-    if(k==='ArrowRight'||k==='PageDown'||(k===' '&&!e.shiftKey)){ setTarget(target+spread()); e.preventDefault(); }
-    else if(k==='ArrowLeft'||k==='PageUp'||(k===' '&&e.shiftKey)){ setTarget(target-spread()); e.preventDefault(); }
-    else if(k==='Home'){ setTarget(0); e.preventDefault(); }
-    else if(k==='End'){ setTarget(max); e.preventDefault(); }
+    var k=e.key, t=e.target;
+    if(t && (t.tagName==='BUTTON'||t.tagName==='A') && (k===' '||k==='Enter')) return;
+    if(k==='ArrowRight'||k==='PageDown'||k===' '){ next(); e.preventDefault(); }
+    else if(k==='ArrowLeft'||k==='PageUp'){ prev(); e.preventDefault(); }
+    else if(k==='Home'){ goTo(0); e.preventDefault(); }
+    else if(k==='End'){ goTo(N); e.preventDefault(); }
   });
 
-  /* keep keyboard focus visible */
-  track.addEventListener('focusin',function(e){
-    if(!H()) return;
-    var p=e.target.closest('.page'); if(!p) return;
-    var l=p.offsetLeft, r=l+p.offsetWidth;
-    if(l<target+40||r>target+book.clientWidth-40) setTarget(l-48);
-    book.scrollLeft=0;
+  /* drag a page over the spine, or click it */
+  var drag=null;
+  stage.addEventListener('pointerdown',function(e){
+    if(!H()||e.button>0) return;
+    if(e.target.closest('a,button')) return;
+    var r=book.getBoundingClientRect(), mid=r.left+r.width/2, pw=r.width/2;
+    var side=e.clientX>=mid?'next':'prev';
+    var idx= side==='next'? cur : cur-1;
+    if(idx<0||idx>=N) return;
+    drag={side:side,idx:idx,x:e.clientX,pw:pw,p:0,moved:0,leaf:leaves[idx]};
+    stage.setPointerCapture&&stage.setPointerCapture(e.pointerId);
   });
-
-  /* progress + page number */
-  function report(x,m){
-    var p=m?x/m:0;
-    if(!H()){ var h=document.documentElement.scrollHeight-innerHeight; p=h>0?scrollY/h:0; }
-    pct.textContent=String(Math.round(p*100)).padStart(2,'0')+'%';
-    fill.style.transform='scaleX('+p.toFixed(4)+')';
-    var mid=H()? x+book.clientWidth*.45 : scrollY+innerHeight*.45, label='Cover';
-    pages.forEach(function(pg){ var pos=H()?pg.offsetLeft:pg.offsetTop; if(pos<=mid){ var f=pg.querySelector('.folio'); label=f?'Page '+f.textContent+' / 20':(pg.classList.contains('back')?'Back cover':'Cover'); } });
-    pageno.textContent=label;
+  stage.addEventListener('pointermove',function(e){
+    if(!drag) return;
+    var dx=e.clientX-drag.x; drag.moved=Math.max(drag.moved,Math.abs(dx));
+    if(drag.moved<6) return;
+    var p= drag.side==='next'? -dx/(drag.pw*1.6) : dx/(drag.pw*1.6);
+    p=Math.max(0,Math.min(1,p)); drag.p=p;
+    var lf=drag.leaf; lf.classList.add('drag'); lf.style.zIndex=300;
+    var deg= drag.side==='next'? -p*180 : -180+p*180;
+    lf.style.transform='rotateY('+deg+'deg)';
+  });
+  function endDrag(){
+    if(!drag) return;
+    var d=drag; drag=null;
+    var lf=d.leaf;
+    if(d.moved<6){ lf.classList.remove('drag'); if(Date.now()>=busy){ d.side==='next'?next():prev(); } return; }
+    lf.classList.remove('drag'); lf.style.transform='';
+    if(d.p>0.28){ d.side==='next'?goTo(cur+1):goTo(cur-1); }
+    else { lf.classList.add('moving'); setTimeout(function(){ lf.classList.remove('moving'); render(); },980); render(); lf.style.zIndex=300; }
   }
-  addEventListener('scroll',function(){ if(!H()) report(0,0); },{passive:true});
+  stage.addEventListener('pointerup',endDrag);
+  stage.addEventListener('pointercancel',endDrag);
 
   /* contents overlay */
   function openMenu(){ov.classList.add('open');openB.setAttribute('aria-expanded','true');setTimeout(function(){closeB.focus();},60);}
   function closeMenu(){ov.classList.remove('open');openB.setAttribute('aria-expanded','false');openB.focus();}
   openB.addEventListener('click',openMenu); closeB.addEventListener('click',closeMenu);
 
-  /* links */
-  function go(id,instant){
-    var el=document.getElementById(id); if(!el) return;
-    var pg=el.closest('.page')||el;
-    if(H()){ var x=pg.offsetLeft-48; if(pg.classList.contains('r')&&pg.previousElementSibling&&pg.previousElementSibling.classList.contains('l')) x=pg.previousElementSibling.offsetLeft-48;
-      if(instant){ target=cur=clamp(x); tick(); } else setTarget(x); }
-    else window.scrollTo({top:pg.offsetTop-70,behavior:instant||reduce.matches?'auto':'smooth'});
+  /* links jump to the right spread */
+  function spreadOf(id){
+    var el=document.getElementById(id); if(!el) return null;
+    var pg=el.closest('.page'); if(!pg) return null;
+    var i=leaves.indexOf(pg.closest('.leaf'));
+    return pg.classList.contains('f-back')? i+1 : i;
+  }
+  function go(id){
+    var n=spreadOf(id); if(n===null) return;
+    if(H()) goTo(n);
+    else { var el=document.getElementById(id); window.scrollTo({top:el.closest('.page').offsetTop-70,behavior:reduce.matches?'auto':'smooth'}); }
   }
   document.addEventListener('click',function(e){
     var a=e.target.closest('a[href^="#"]'); if(!a) return;
     var id=a.getAttribute('href').slice(1); if(!document.getElementById(id)) return;
-    e.preventDefault();
+    e.preventDefault(); e.stopPropagation();
     if(ov.classList.contains('open')){ ov.classList.remove('open'); openB.setAttribute('aria-expanded','false'); }
     try{history.replaceState(null,'','#'+id);}catch(err){}
-    go(id,false);
+    go(id);
   });
-  addEventListener('hashchange',function(){ go(location.hash.slice(1),false); });
+  addEventListener('hashchange',function(){ go(location.hash.slice(1)); });
 
   /* copy email */
   document.addEventListener('click',function(e){
@@ -572,13 +649,20 @@ dl.cred dd{margin:0;font-size:14.5px}
     try{navigator.clipboard.writeText(el.textContent).then(function(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy';},1600);},sel);}catch(err){sel();}
   });
 
-  function onResize(){ measure(); if(!H()){ track.style.transform=''; } kick(); report(cur,max); }
+  /* phones: progress follows the page scroll */
+  addEventListener('scroll',function(){
+    if(H()) return;
+    var h=document.documentElement.scrollHeight-innerHeight, p=h>0?scrollY/h:0;
+    pct.textContent=String(Math.round(p*100)).padStart(2,'0')+'%';
+    fill.style.transform='scaleX('+p.toFixed(4)+')';
+  },{passive:true});
+
+  function onResize(){ size(); render(); }
   addEventListener('resize',onResize);
   if(mq.addEventListener) mq.addEventListener('change',onResize);
-  document.fonts && document.fonts.ready.then(onResize);
-  measure();
-  if(location.hash) go(location.hash.slice(1),true);
-  report(cur,max);
+  size();
+  if(location.hash){ var n=spreadOf(location.hash.slice(1)); if(n!==null&&H()){ leaves.forEach(function(l){l.style.transition='none';}); book.style.transition='none'; cur=n; render(); requestAnimationFrame(function(){ requestAnimationFrame(function(){ leaves.forEach(function(l){l.style.transition='';}); book.style.transition=''; }); }); } else render(); }
+  else render();
 })();
 </script>
 </body>
