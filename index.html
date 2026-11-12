@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Hemangi Ganatra — graphic design portfolio, styled as a hand-written recipe book.">
 <title>Hemangi Ganatra Portfolio</title>
+<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400;700&display=swap">
@@ -152,6 +153,8 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
 
 /* bits */
 .ph{border:1.5px solid currentColor;display:grid;place-items:center;text-align:center;padding:10px;background:rgba(20,18,16,.06);min-height:0}
+.ph-photo{padding:0;overflow:hidden}
+.ph-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;filter:sepia(.18) saturate(.92) contrast(1.03)}
 .ph .note{display:block;opacity:.75}
 .grow{flex:1;min-height:0}
 .ring{width:var(--s,140px);aspect-ratio:1;border-radius:50%;position:relative;display:grid;place-items:center;flex:none;background:var(--yellow);color:var(--ink)}
@@ -166,10 +169,11 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
 .pocket-page{background-color:var(--ink)!important;color:var(--paper);align-items:center;justify-content:flex-end;
   background-image:radial-gradient(rgba(250,240,208,.08) 1px,transparent 1.6px)!important;background-size:6px 6px!important}
 .pocket-page .holes b{background:#000}
-.pocket-wrap{position:relative;width:76%;aspect-ratio:3/3.7;margin-bottom:calc(var(--u)*2);cursor:pointer}
+.pocket-wrap{position:relative;width:76%;aspect-ratio:3/3.7;margin-bottom:calc(var(--u)*2);cursor:grab}
 .photo-card{position:absolute;left:7%;right:7%;top:0;height:74%;background:var(--paper);padding:10px 10px 0;transform:rotate(-2.5deg) translateY(var(--pull,0%));transition:transform .55s cubic-bezier(.3,1.4,.5,1);box-shadow:0 4px 10px rgba(0,0,0,.45)}
 .photo-card .ph{height:calc(100% - 10px);color:var(--ink)}
 .pocket-wrap:hover .photo-card,.pocket-wrap:focus-visible .photo-card,.pocket-wrap.out .photo-card{--pull:-24%}
+.photo-card.dragging{transition:none;cursor:grabbing}
 .pocket{position:absolute;left:0;right:0;bottom:0;height:60%;background:var(--yellow);color:var(--ink);clip-path:polygon(0 22%,100% 0,100% 100%,0 100%);
   display:flex;align-items:flex-end;justify-content:space-between;padding:calc(var(--u)*2.6) calc(var(--u)*3);
   background-image:radial-gradient(rgba(20,18,16,.1) 1px,transparent 1.6px);background-size:5px 5px}
@@ -337,7 +341,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
         <span class="rh" style="color:var(--paper)">The chef</span>
         <h2 id="chef-h" class="mono" style="align-self:flex-start;margin-bottom:auto;color:var(--yellow)">Fig. 1 — The chef</h2>
         <div class="pocket-wrap" tabindex="0" role="button" aria-label="Pull the chef's photo out of the pocket" data-noflip>
-          <div class="photo-card"><div class="ph"><div><span class="mono">[ Drop image ]</span><span class="note">Your photo</span></div></div></div>
+          <div class="photo-card"><div class="ph ph-photo"><img src="chef.jpg" alt="Hemangi Ganatra on a footbridge in Mumbai" loading="lazy"></div></div>
           <div class="pocket"><span>Hemangi Ganatra</span><span>2026</span></div>
         </div>
         <p class="pocket-cap">Hemangi Ganatra. Mumbai, 2026. Graphic designer, packaging nerd, judge of menus. Pictured here probably holding coffee.</p>
@@ -650,11 +654,19 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     else if(k==='End'){ goTo(N); e.preventDefault(); }
   });
 
-  var drag=null;
+  var drag=null, photoDrag=null;
   stage.addEventListener('pointerdown',function(e){
     if(!H()||e.button>0) return;
     var nf=e.target.closest('[data-noflip]');
-    if(nf){ nf.classList.toggle('out'); return; }
+    if(nf){
+      var card=nf.querySelector('.photo-card');
+      if(!card) { nf.classList.toggle('out'); return; }
+      var cr=card.getBoundingClientRect();
+      photoDrag={wrap:nf,card:card,startY:e.clientY,h:cr.height||1,moved:0,lastPull:0,startedOut:nf.classList.contains('out')};
+      card.classList.add('dragging');
+      if(stage.setPointerCapture) stage.setPointerCapture(e.pointerId);
+      return;
+    }
     if(e.target.closest('a,button')) return;
     var r=binder.getBoundingClientRect(), mid=r.left+r.width/2, pw=r.width/2;
     var side=e.clientX>=mid?'next':'prev';
@@ -664,6 +676,15 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     if(stage.setPointerCapture) stage.setPointerCapture(e.pointerId);
   });
   stage.addEventListener('pointermove',function(e){
+    if(photoDrag){
+      var dy=e.clientY-photoDrag.startY; photoDrag.moved=Math.max(photoDrag.moved,Math.abs(dy));
+      var basePull= photoDrag.startedOut? -24:0;
+      var deltaPct=(dy/photoDrag.h)*100;
+      var pull=Math.max(-34,Math.min(4,basePull+deltaPct));
+      photoDrag.lastPull=pull;
+      photoDrag.card.style.setProperty('--pull',pull+'%');
+      return;
+    }
     if(!drag) return;
     var dx=e.clientX-drag.x; drag.moved=Math.max(drag.moved,Math.abs(dx));
     if(drag.moved<6) return;
@@ -672,6 +693,14 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     var lf=drag.leaf; lf.classList.add('drag'); lf.style.zIndex=300;
     lf.style.transform='rotateY('+(drag.side==='next'? -p*180 : -180+p*180)+'deg)';
   });
+  function endPhotoDrag(){
+    if(!photoDrag) return;
+    var pd=photoDrag; photoDrag=null;
+    pd.card.classList.remove('dragging');
+    pd.card.style.removeProperty('--pull');
+    if(pd.moved<6){ pd.wrap.classList.toggle('out'); return; }
+    pd.wrap.classList.toggle('out', pd.lastPull < -12);
+  }
   function endDrag(){
     if(!drag) return;
     var d=drag, lf=d.leaf; drag=null;
@@ -681,8 +710,8 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     if(d.p>0.28){ d.side==='next'?goTo(cur+1):goTo(cur-1); }
     else { lf.classList.add('moving'); lf.style.zIndex=300; setTimeout(function(){ lf.classList.remove('moving'); render(); },1000); }
   }
-  stage.addEventListener('pointerup',endDrag);
-  stage.addEventListener('pointercancel',endDrag);
+  stage.addEventListener('pointerup',function(e){ endPhotoDrag(); endDrag(); });
+  stage.addEventListener('pointercancel',function(e){ endPhotoDrag(); endDrag(); });
 
   function openMenu(){ov.classList.add('open');openB.setAttribute('aria-expanded','true');setTimeout(function(){closeB.focus();},60);}
   function closeMenu(){ov.classList.remove('open');openB.setAttribute('aria-expanded','false');openB.focus();}
