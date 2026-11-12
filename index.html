@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Hemangi Ganatra — graphic designer in Mumbai. A recipe book of work: packaging, brand identity, advertising and copywriting.">
+<meta name="description" content="Hemangi Ganatra — graphic design portfolio, styled as a hand-written recipe book.">
 <title>Hemangi Ganatra Portfolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -84,10 +84,8 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
 .board-r{left:calc(50% + 4px);width:calc(var(--pw) + 22px)}
 .board-r .fin{position:absolute;right:calc(var(--u)*7);bottom:calc(var(--u)*6);text-align:right;color:#2a1d0e;opacity:0;transition:opacity .6s .3s}
 .binder.at-end .board-r .fin{opacity:1}
-.spine{position:absolute;top:-14px;bottom:-14px;left:calc(50% - 4px);width:8px;background:var(--kraft-d);opacity:0;transition:opacity .4s .5s}
-.binder:not(.at-start) .spine{opacity:1}
-.rings{position:absolute;left:50%;top:0;bottom:0;width:0;z-index:900;pointer-events:none;opacity:0;transition:opacity .35s .55s}
-.binder:not(.at-start) .rings{opacity:1}
+.spine{position:absolute;top:-14px;bottom:-14px;left:calc(50% - 4px);width:8px;background:var(--kraft-d)}
+.rings{position:absolute;left:50%;top:0;bottom:0;width:0;z-index:900;pointer-events:none;opacity:1}
 .br{position:absolute;left:-36px;width:72px;height:26px;margin-top:-13px;border-radius:50%;border:5px solid #c9c9c9;border-color:#f1f1f1 #8d8d8d #7a7a7a #d8d8d8;
   box-shadow:0 3px 4px rgba(0,0,0,.55),inset 0 2px 2px rgba(0,0,0,.35)}
 .br:nth-child(1){top:16%} .br:nth-child(2){top:50%} .br:nth-child(3){top:84%}
@@ -115,14 +113,13 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
 .r .rh,.r .folio{right:calc(var(--u)*6.5)} .l .rh,.l .folio{left:calc(var(--u)*6.5)}
 .folio{font-family:var(--display);font-size:calc(var(--u)*2.6);letter-spacing:0;opacity:.8;font-weight:400}
 
-/* index tabs on the outer edge */
+/* index tabs: a fixed rail on the book's edge — not part of a flipping leaf, so turning a page never flips a tab */
 .page.kraft{background-color:var(--kraft);color:#2a1d0e}
-.tab{position:absolute;width:40px;padding-left:14px;height:calc(var(--ph) * .15);top:calc(var(--ph) * (.05 + var(--slot) * .18));display:flex;align-items:center;justify-content:center;
+.tabs{position:absolute;right:-34px;top:50%;transform:translateY(-50%);z-index:12;display:flex;flex-direction:column;gap:12px;pointer-events:auto}
+.tab{width:34px;height:calc(var(--ph) * .15);display:flex;align-items:center;justify-content:center;text-align:center;
   background:var(--paper);color:var(--ink);text-decoration:none;font-family:var(--mono);font-weight:700;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;writing-mode:vertical-rl;
-  border:1px solid rgba(20,18,16,.12);box-shadow:2px 1px 0 rgba(20,18,16,.08)}
-.r .tab{right:-40px;border-left:0;border-radius:0 7px 7px 0}
-.l .tab{left:-40px;border-right:0;border-radius:7px 0 0 7px;transform:rotate(180deg)}
-.tab:hover{background:var(--yellow)}
+  border:1px solid rgba(20,18,16,.12);border-left:0;border-radius:0 7px 7px 0;box-shadow:2px 1px 0 rgba(20,18,16,.08)}
+.tab:hover,.tab.cur{background:var(--yellow)}
 
 /* covers */
 .cover{border-radius:3px 8px 8px 3px;color:#2a1d0e;padding:calc(var(--u)*8) calc(var(--u)*7);justify-content:center;align-items:center;box-shadow:inset 6px 0 0 rgba(0,0,0,.14)}
@@ -216,7 +213,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
   :root{--u:min(1.35vw + 2px, 7px);--hdr:64px}
   .stage{position:static;display:block;perspective:none;touch-action:auto;user-select:auto;padding:calc(var(--hdr) + 16px) max(14px,env(safe-area-inset-left,0px)) calc(var(--ftr) + 28px) max(14px,env(safe-area-inset-right,0px))}
   .binder,.binder.at-start{width:auto;height:auto;transform:none;display:flex;flex-direction:column;gap:18px}
-  .board,.spine,.rings,.holes,.tab,.navbtn,.hint{display:none}
+  .board,.spine,.rings,.holes,.tabs,.navbtn,.hint{display:none}
   .leaf,.leaf.flipped,.leaf.cover-leaf{position:static;width:auto;height:auto;transform:none;display:flex;flex-direction:column;gap:18px;cursor:auto}
   .page,.f-back{position:relative;inset:auto;transform:none;backface-visibility:visible;-webkit-backface-visibility:visible;min-height:calc(var(--u)*82);padding:54px 20px 50px!important}
   .page::after{display:none}
@@ -303,7 +300,6 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
           <p class="it" style="font-size:calc(var(--u)*3)">Recipes from the kitchen of<br>Hemangi Ganatra</p>
           <p class="mono c-muted">Packaging · Identity · Advertising · Copy</p>
         </div>
-        <div class="ring" style="--s:calc(var(--u)*15);position:absolute;right:calc(var(--u)*5);bottom:calc(var(--u)*5)" aria-hidden="true"><svg viewBox="0 0 140 140"><text><textPath href="#circ">open me ★ open me ★ open me ★ </textPath></text></svg><span class="core">→</span></div>
       </section>
       <section class="page f-back l inside kraft" aria-label="Inside cover">
         <div class="label" style="width:78%">
@@ -317,13 +313,11 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     <!-- LEAF 1 · divider: the chef / pocket page -->
     <div class="leaf">
       <section class="page f-front r divider" aria-label="Section: The chef">
-        <a class="tab" href="#chef" style="--slot:0">The chef</a>
         <svg viewBox="0 0 200 170" aria-hidden="true"><use href="#ill-bowl"/></svg>
         <h2 class="dtitle">The<br>chef</h2>
         <span class="folio">1</span>
       </section>
       <section class="page f-back l pocket-page" id="chef" aria-labelledby="chef-h">
-        <a class="tab" href="#chef" style="--slot:0">The chef</a>
         <span class="rh" style="color:var(--paper)">The chef</span>
         <h2 id="chef-h" class="mono" style="align-self:flex-start;margin-bottom:auto;color:var(--yellow)">Fig. 1 — The chef</h2>
         <div class="pocket-wrap" tabindex="0" role="button" aria-label="Pull the chef's photo out of the pocket" data-noflip>
@@ -369,13 +363,11 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     <!-- LEAF 3 · divider: main dishes / SKB recipe card -->
     <div class="leaf">
       <section class="page f-front r divider" id="mains" aria-label="Section: Main dishes">
-        <a class="tab" href="#mains" style="--slot:1">Main dishes</a>
         <svg viewBox="0 0 200 170" aria-hidden="true"><use href="#ill-plate"/></svg>
         <h2 class="dtitle">Main<br>dishes</h2>
         <span class="folio">5</span>
       </section>
       <section class="page f-back l" id="shake-ko-bulao" aria-labelledby="skb-h">
-        <a class="tab" href="#mains" style="--slot:1">Main dishes</a>
         <span class="rh">Recipe 04</span>
         <p class="mono hl">Recipe 04 · Main dish</p>
         <h2 id="skb-h" class="big" style="font-size:calc(var(--u)*9)">Shake Ko <span class="it hl">Bulao</span></h2>
@@ -395,7 +387,6 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     <!-- LEAF 4 · SKB photo + note / SKB names -->
     <div class="leaf">
       <section class="page f-front r photo-page" aria-label="Shake Ko Bulao — method">
-        <a class="tab" href="#shake-ko-bulao" style="--slot:2">04 Shake</a>
         <div class="ph full"><div><span class="mono">[ Drop image — full page ]</span><span class="note">Bottles lined up</span></div></div>
         <div class="notecard">
           <p><span class="k">[01]</span> Start with words. The brief: build a milkshake brand with copywriting as the main design direction.</p>
@@ -404,7 +395,6 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
         <span class="folio">7</span>
       </section>
       <section class="page f-back l alt" aria-label="Shake Ko Bulao — the six names">
-        <a class="tab" href="#shake-ko-bulao" style="--slot:2">04 Shake</a>
         <span class="rh">Method</span>
         <div class="step"><b>3</b><p>Six flavours, six personalities.</p></div>
         <h3 class="split grow" style="display:flex;flex-direction:column;justify-content:center" aria-label="Gulabo, Paan Pataka, Aam Kahani, Rang Rasiya, Shaant Shahi, Shahi Swaad">
@@ -422,7 +412,6 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     <!-- LEAF 5 · SKB plating / O&A recipe card -->
     <div class="leaf">
       <section class="page f-front r" aria-label="Shake Ko Bulao — plating">
-        <a class="tab" href="#oak-and-awe" style="--slot:3">05 Oak</a>
         <span class="rh">Plating</span>
         <div class="ph grow"><span class="note">[ Drop image ] label close-up</span></div>
         <div class="step"><b>4</b><p>Let every label say who ordered it.</p></div>
@@ -431,7 +420,6 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
         <span class="folio">9</span>
       </section>
       <section class="page f-back l" id="oak-and-awe" aria-labelledby="oa-h">
-        <a class="tab" href="#oak-and-awe" style="--slot:3">05 Oak</a>
         <span class="rh">Recipe 05</span>
         <p class="mono hl">Recipe 05 · Main dish</p>
         <h2 id="oa-h" class="big" style="font-size:calc(var(--u)*9)">Oak <span class="it hl">&amp; Awe</span></h2>
@@ -495,13 +483,11 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     <!-- LEAF 8 · divider: other / say hi -->
     <div class="leaf">
       <section class="page f-front r divider" aria-label="Section: Other">
-        <a class="tab" href="#say-hi" style="--slot:4">Other</a>
         <svg viewBox="0 0 200 180" aria-hidden="true"><use href="#ill-cup"/></svg>
         <h2 class="dtitle">Other</h2>
         <span class="folio">15</span>
       </section>
       <section class="page f-back l" id="say-hi" aria-labelledby="hi-h">
-        <a class="tab" href="#say-hi" style="--slot:4">Other</a>
         <span class="rh">Say hi</span>
         <h2 id="hi-h" class="big" style="font-size:calc(var(--u)*11)">Say <span class="it hl">hi.</span></h2>
         <p class="it" style="font-size:calc(var(--u)*2.6)">The kitchen is open for orders.</p>
@@ -535,6 +521,13 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     </div>
 
     <div class="rings" aria-hidden="true"><i class="br"></i><i class="br"></i><i class="br"></i></div>
+    <nav class="tabs" id="tabs" aria-label="Jump to section">
+      <a class="tab" href="#chef">The chef</a>
+      <a class="tab" href="#mains">Main dishes</a>
+      <a class="tab" href="#shake-ko-bulao">04 Shake</a>
+      <a class="tab" href="#oak-and-awe">05 Oak</a>
+      <a class="tab" href="#say-hi">Other</a>
+    </nav>
   </div>
 </main>
 
