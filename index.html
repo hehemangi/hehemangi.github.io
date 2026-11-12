@@ -9,19 +9,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400;700&display=swap">
 <style>
-/* Layout: a landscape filmstrip. Full-height panels scroll sideways (wheel, drag, keys), with a fixed
-   header (brand · The bill · menu), a full-screen course menu, a progress % and vertical
-   "Scroll / Drag" rails. Dark base; green, yellow and pink panels. Stacks vertically on phones. */
+/* Layout: landscape filmstrip of full-height panels (wheel / drag / keys), fixed header with a
+   full-screen menu, progress %, vertical rails. Panels are built from giant words, images set
+   between words, numbered image steps and big + cards. Dark base; green, yellow, pink. Stacks on phones. */
 :root{
-  --ink:#141210;     /* base */
-  --ink-2:#221f1b;   /* placeholder on dark */
-  --cream:#FAF0D0;   /* text on dark */
-  --green:#2E9E5B;
-  --yellow:#FFC93C;
-  --pink:#F26BA3;
-  --display:"Libre Caslon Display", "Libre Caslon Text", Georgia, serif;
-  --text:"Libre Caslon Text", Georgia, serif;
-  --mono:"Space Mono", ui-monospace, "Courier New", monospace;
+  --ink:#141210; --cream:#FAF0D0; --green:#2E9E5B; --yellow:#FFC93C; --pink:#F26BA3;
+  --display:"Libre Caslon Display","Libre Caslon Text",Georgia,serif;
+  --text:"Libre Caslon Text",Georgia,serif;
+  --mono:"Space Mono",ui-monospace,"Courier New",monospace;
   --top:92px; --bot:44px;
   color-scheme:dark;
 }
@@ -31,26 +26,24 @@ html,body{height:100%}
 body{background:var(--ink);color:var(--cream);font-family:var(--text);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit}
 a:focus-visible,button:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}
-p{margin:0} h1,h2,h3{margin:0;font-weight:400;text-wrap:balance}
-.mono{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;line-height:1.4}
+p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance}
+ul{list-style:none;margin:0;padding:0}
+.mono{font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;line-height:1.45}
 .note{font-family:var(--mono);font-size:11.5px;line-height:1.55}
-.big{font-family:var(--display);font-weight:400;line-height:.86;letter-spacing:-.02em}
+.big{font-family:var(--display);line-height:.86;letter-spacing:-.02em}
 .it{font-family:var(--text);font-style:italic;letter-spacing:-.03em}
 .lead{font-style:italic;font-size:clamp(17px,2.4vh,21px);line-height:1.45}
+.c-green{color:var(--green)} .c-yellow{color:var(--yellow)} .c-pink{color:var(--pink)} .c-cream{color:var(--cream)} .c-ink{color:var(--ink)}
 
-/* ---------- Header ---------- */
+/* ---------- Header + menu ---------- */
 .hdr{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:12px;
   padding:calc(18px + env(safe-area-inset-top,0px)) max(22px,env(safe-area-inset-right,0px)) 18px max(22px,env(safe-area-inset-left,0px));pointer-events:none;color:var(--cream);mix-blend-mode:difference}
 .hdr > *{pointer-events:auto}
 .hdr-r{display:flex;gap:10px;align-items:center}
 .btn{display:inline-flex;align-items:center;justify-content:center;height:34px;padding:0 12px;border:1.5px solid currentColor;background:transparent;color:inherit;text-decoration:none;cursor:pointer}
-.sq{width:34px;padding:0}
-.sq::after{content:"";width:12px;height:12px;background:currentColor}
-.burger{width:40px;padding:0;border:0;flex-direction:column;gap:6px}
-.burger i{display:block;width:30px;height:2px;background:currentColor}
+.sq{width:34px;padding:0} .sq::after{content:"";width:12px;height:12px;background:currentColor}
+.burger{width:40px;padding:0;border:0;flex-direction:column;gap:6px} .burger i{display:block;width:30px;height:2px;background:currentColor}
 .pct{position:fixed;right:max(22px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:30;font-family:var(--display);font-size:40px;line-height:1;color:var(--cream);mix-blend-mode:difference;font-variant-numeric:tabular-nums;pointer-events:none}
-
-/* ---------- Full-screen menu ---------- */
 .menu-ov{position:fixed;inset:0;z-index:40;background:var(--pink);color:var(--ink);display:grid;grid-template-rows:auto 1fr auto;
   padding:calc(18px + env(safe-area-inset-top,0px)) max(22px,env(safe-area-inset-right,0px)) calc(22px + env(safe-area-inset-bottom,0px)) max(22px,env(safe-area-inset-left,0px));
   clip-path:circle(0 at calc(100% - 42px) 36px);transition:clip-path .55s cubic-bezier(.7,0,.2,1);visibility:hidden}
@@ -58,136 +51,120 @@ p{margin:0} h1,h2,h3{margin:0;font-weight:400;text-wrap:balance}
 .menu-top{display:flex;justify-content:space-between;align-items:center}
 .menu-ov ol{list-style:none;margin:0;padding:0;align-self:center;display:flex;flex-direction:column;gap:2px}
 .menu-ov li a{display:flex;align-items:baseline;gap:18px;text-decoration:none;font-family:var(--display);font-size:clamp(44px,10vh,104px);line-height:1}
-.menu-ov li a b{font-family:var(--mono);font-size:13px;letter-spacing:.1em;font-weight:700}
+.menu-ov li a b{font-family:var(--mono);font-size:13px;letter-spacing:.1em}
+.menu-ov li a small{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;opacity:.7}
 .menu-ov li a:hover em,.menu-ov li a:focus-visible em{font-family:var(--text);font-style:italic;color:var(--cream)}
 .menu-ov li a em{font-style:normal}
-.menu-ov li a small{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;opacity:.7}
 .menu-foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .x{width:40px;height:40px;border:0;background:none;position:relative;cursor:pointer;color:inherit}
-.x::before,.x::after{content:"";position:absolute;left:5px;right:5px;top:50%;height:2px;background:currentColor;transform:rotate(45deg)}
-.x::after{transform:rotate(-45deg)}
+.x::before,.x::after{content:"";position:absolute;left:5px;right:5px;top:50%;height:2px;background:currentColor;transform:rotate(45deg)} .x::after{transform:rotate(-45deg)}
 
-/* ---------- Strip & panels ---------- */
+/* ---------- Strip ---------- */
 .strip{display:flex;flex-direction:column}
 .panel{position:relative;display:flex;gap:clamp(28px,3vw,56px);padding:calc(var(--top) + 6px) 22px var(--bot)}
 .col{flex:none;display:flex;flex-direction:column;gap:18px;min-width:0}
 .rail{flex:none;width:56px;align-self:stretch;border-left:1.5px solid currentColor;border-right:1.5px solid currentColor;display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding-block:4px 10px;text-decoration:none;margin-block:calc(-1 * (var(--top) + 6px)) calc(-1 * var(--bot))}
 .rail span{writing-mode:vertical-rl;transform:rotate(180deg)}
 .rail .arw{writing-mode:horizontal-tb;transform:none;font-family:var(--mono);font-size:20px;margin-top:calc(var(--top) - 14px)}
-.p-ink{background:var(--ink);color:var(--cream)}
-.p-green{background:var(--green);color:var(--cream)}
-.p-yellow{background:var(--yellow);color:var(--ink)}
-.p-pink{background:var(--pink);color:var(--ink)}
-.c-green{color:var(--green)} .c-yellow{color:var(--yellow)} .c-pink{color:var(--pink)} .c-cream{color:var(--cream)} .c-ink{color:var(--ink)}
+.divider{flex:none;width:0;align-self:stretch;border-left:1.5px solid currentColor;margin-block:calc(-1 * (var(--top) + 6px)) calc(-1 * var(--bot))}
+.p-ink{background:var(--ink);color:var(--cream)} .p-green{background:var(--green);color:var(--cream)}
+.p-yellow{background:var(--yellow);color:var(--ink)} .p-pink{background:var(--pink);color:var(--ink)}
 
-/* image slots */
 .ph{border:1.5px solid currentColor;display:grid;place-items:center;text-align:center;padding:12px;max-width:100%;background:rgba(20,18,16,.08)}
 .p-ink .ph,.p-green .ph{background:rgba(250,240,208,.06)}
 .ph .note{display:block;opacity:.8}
 
-/* split headline with images between the words */
+/* giant words with images between them */
 .split{font-family:var(--display);line-height:.92;letter-spacing:-.02em;font-size:clamp(60px,16vh,176px)}
 .split .ln{display:flex;align-items:center;gap:.16em;white-space:nowrap}
 .slot{display:inline-grid;place-items:center;height:.8em;border:1.5px solid currentColor;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.1em;line-height:1.25;text-align:center;padding:4px;flex:none}
 .w1{width:1.5em} .w2{width:2.3em} .w3{width:1.05em}
 
-/* rotating badge */
 .ring{width:var(--s,150px);aspect-ratio:1;border-radius:50%;position:relative;display:grid;place-items:center;flex:none}
 .ring svg{position:absolute;inset:0;width:100%;height:100%;animation:spin 24s linear infinite}
 .ring text{font-family:var(--mono);font-weight:700;font-size:10px;letter-spacing:2.6px;text-transform:uppercase;fill:currentColor}
 .ring .core{font-family:var(--display);font-size:calc(var(--s,150px)*.3);line-height:1}
 @keyframes spin{to{transform:rotate(360deg)}}
 
-.tag{font-family:var(--mono);font-weight:700;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:5px 10px;border:1.5px solid currentColor;white-space:nowrap}
-.tags{display:flex;gap:8px;flex-wrap:wrap}
-.go{display:inline-flex;align-self:flex-start;gap:10px;align-items:center;font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;border:1.5px solid currentColor;padding:9px 14px}
-.go:hover{background:currentColor}
-.go:hover span{color:var(--ink)}
-.p-ink .go:hover span,.p-green .go:hover span{color:var(--ink)}
-.p-yellow .go:hover span,.p-pink .go:hover span{color:var(--cream)}
+.go{display:inline-flex;align-self:flex-start;font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;border:1.5px solid currentColor;padding:9px 14px;background:none;color:inherit;cursor:pointer}
+.go:hover{background:var(--ink);color:var(--cream);border-color:var(--ink)}
+.p-ink .go:hover{background:var(--cream);color:var(--ink);border-color:var(--cream)}
 
-/* ---------- 01 Home ---------- */
+/* ---------- Home ---------- */
 .hero-title{font-family:var(--display);font-size:clamp(90px,25vh,270px);line-height:.82;letter-spacing:-.03em}
 .hero-title span{display:block}
-.hero-a{justify-content:space-between;width:min(66vw,1040px)}
+.hero-a{justify-content:space-between;width:min(64vw,1000px)}
 .hero-foot{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
-.hero-foot .lead{max-width:320px}
 
-/* ---------- 02 About ---------- */
-.about-a{width:min(34vw,460px);justify-content:space-between}
+/* ---------- About ---------- */
+.about-a{width:min(30vw,400px);justify-content:space-between}
 .about-photo .ph{height:100%;aspect-ratio:3/4}
-.about-b{width:min(30vw,400px);justify-content:center;gap:22px}
-.facts{display:grid;grid-template-columns:1fr 1fr;gap:18px 24px}
-.facts ul{list-style:none;margin:6px 0 0;padding:0;font-size:14px;line-height:1.55}
-.facts li::before{content:"· ";}
+.punch{justify-content:center}
+.punch .split{font-size:clamp(54px,13vh,140px)}
+.about-b{width:min(26vw,340px);justify-content:flex-end;gap:22px}
+.inline-list{display:flex;flex-direction:column;gap:14px}
+.inline-list p{border-top:1.5px solid currentColor;padding-top:10px}
 
-/* ---------- 03 Menu ---------- */
-.numeral{font-family:var(--display);line-height:.78;font-size:clamp(240px,74vh,760px);letter-spacing:-.04em;align-self:flex-end;margin-bottom:-.05em}
-.menu-a{width:min(40vw,560px);justify-content:space-between}
-.menu-b{width:min(46vw,640px);justify-content:center;gap:22px}
-.course > .mono{margin-bottom:4px;opacity:.75}
-.dish{display:grid;grid-template-columns:auto minmax(20px,1fr) auto;align-items:baseline;gap:12px;padding-block:5px;text-decoration:none}
-.dish .name{font-family:var(--display);font-size:clamp(24px,4.2vh,40px);line-height:1.05}
-.dish .leader{border-bottom:2px dotted currentColor;opacity:.5;transform:translateY(-6px)}
-.dish .what{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;text-align:right}
-.dish .plated{background:var(--ink);color:var(--yellow);padding:3px 8px}
-a.dish:hover .name{font-family:var(--text);font-style:italic}
-.menu-c{justify-content:space-between;width:min(26vw,320px)}
+/* ---------- The menu (How-it-works layout) ---------- */
+.numeral{font-family:var(--display);line-height:.78;font-size:clamp(260px,82vh,820px);letter-spacing:-.04em;align-self:center;margin-left:-.12em}
+.hiw{width:min(58vw,860px);justify-content:space-between}
+.hiw-title{font-size:clamp(100px,27vh,280px)}
+.hiw-foot{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.hiw-foot h3{font-family:var(--text);font-weight:700;font-size:clamp(20px,2.8vh,26px);line-height:1.2;grid-column:1/-1}
+.course{display:flex;flex-direction:column;gap:2px}
+.course + .course{margin-top:14px}
+.course .mono{opacity:.7}
+.dish{font-family:var(--display);font-size:clamp(22px,3.6vh,34px);line-height:1.1;text-decoration:none;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.dish small{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.dish .soon{opacity:.6}
+a.dish small{background:var(--ink);color:var(--yellow);padding:2px 7px}
+a.dish:hover span{font-family:var(--text);font-style:italic}
 
-/* plated cards ("what to film" equivalent) */
-.plate{position:relative;width:min(38vw,520px);height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:18px;text-decoration:none;border:1.5px solid currentColor;overflow:hidden}
+/* ---------- Plated (What-to-film layout) ---------- */
+.wtf{width:min(30vw,400px);justify-content:space-between}
+.wtf-title{font-size:clamp(90px,24vh,250px)}
+.plate{position:relative;width:min(36vw,520px);height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:18px;text-decoration:none;border:1.5px solid currentColor;overflow:hidden}
 .plate .ph{position:absolute;inset:0;border:0}
 .plate .ph .note{position:absolute;left:14px;bottom:12px}
-.plate h3{position:relative;font-family:var(--display);font-size:clamp(46px,9vh,92px);line-height:.95}
-.plate .plus{position:relative;width:52px;height:52px;border:1.5px solid currentColor;display:grid;place-items:center;font-family:var(--mono);font-size:26px;line-height:1}
+.plate h3{position:relative;font-family:var(--display);font-size:clamp(48px,10vh,100px);line-height:.95}
+.plus{position:relative;width:54px;height:54px;border:1.5px solid currentColor;display:grid;place-items:center;font-family:var(--mono);font-size:28px;line-height:1}
 .plate:hover .plus{background:currentColor}
-.plate-skb{background:var(--pink);color:var(--ink)}
-.plate-oa{background:var(--ink);color:var(--yellow)}
 .plate:hover h3{font-family:var(--text);font-style:italic}
+.plate-skb{background:var(--pink);color:var(--ink)} .plate-oa{background:#211d19;color:var(--yellow)}
+.plate-oa:hover .plus{color:var(--yellow)}
 
-/* ---------- Case studies ---------- */
-.case-title{font-size:clamp(76px,19vh,210px)}
-.case-a{width:min(36vw,500px);justify-content:space-between}
+/* ---------- Case studies: image-led ---------- */
+.case-a{width:min(34vw,470px);justify-content:space-between}
+.case-title{font-size:clamp(80px,20vh,220px)}
 .hero-ph{height:100%;aspect-ratio:4/3}
 .hero-ph .ph{height:100%}
-.steps{width:min(28vw,380px);justify-content:center;gap:26px}
-.step{display:flex;flex-direction:column;gap:6px;border-top:1.5px solid currentColor;padding-top:12px}
-.step h3{font-family:var(--display);font-size:clamp(28px,4.4vh,40px);line-height:1}
-.flavours{display:grid;grid-template-columns:repeat(3,200px);grid-template-rows:1fr 1fr;gap:12px;height:100%}
-.flavour{display:flex;flex-direction:column;gap:6px;border:1.5px solid currentColor;padding:10px;min-height:0}
-.flavour .ph{flex:1;min-height:0;background:rgba(20,18,16,.1)}
-.flavour h4{margin:0;font-family:var(--display);font-weight:400;font-size:24px;line-height:1}
-.flavour .note{display:flex;justify-content:space-between}
-.gal{display:flex;flex-direction:row;gap:14px}
-.gal .ph{height:100%;aspect-ratio:3/4}
-.quote{width:min(36vw,500px);justify-content:space-between}
-.quote blockquote{margin:0;font-family:var(--text);font-style:italic;font-size:clamp(26px,4.4vh,40px);line-height:1.2;letter-spacing:-.01em}
+.shot{width:min(28vw,380px);justify-content:flex-end;gap:14px}
+.shot .ph{flex:1}
+.shot.tall{width:min(22vw,300px)}
+.shot.wide{width:min(40vw,560px)}
+.cap{display:flex;gap:14px;align-items:baseline;border-top:1.5px solid currentColor;padding-top:10px}
+.cap b{font-family:var(--display);font-weight:400;font-size:44px;line-height:.8}
+.cap p{font-size:15px;line-height:1.35}
+.names{justify-content:center}
+.names .split{font-size:clamp(52px,12.5vh,130px)}
+.bigquote{width:min(46vw,660px);justify-content:center;gap:22px}
+.bigquote blockquote{margin:0;font-family:var(--text);font-style:italic;font-size:clamp(36px,7vh,68px);line-height:1.08;letter-spacing:-.02em}
 .next{width:min(28vw,360px);justify-content:center;text-decoration:none}
 .next .big{font-size:clamp(56px,11vh,120px)}
 .next:hover .big{font-family:var(--text);font-style:italic}
 
-/* ---------- Bill ---------- */
-.bill-a{width:min(56vw,820px);justify-content:space-between}
-.bill-a .big{font-size:clamp(70px,17vh,190px)}
-.bill-steps{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:560px}
-.bill-steps > div{border:1.5px solid currentColor;padding:16px;display:flex;flex-direction:column;gap:8px}
-.bill-steps h3{font-family:var(--display);font-size:30px;line-height:1}
+/* ---------- Bill (Participate layout) ---------- */
+.part{width:min(76vw,1180px);justify-content:space-between}
+.part-title{font-size:clamp(96px,24vh,260px)}
+.part-row{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:16px;align-items:stretch}
+.part-row .ph{min-height:180px}
+.stepbox{border:1.5px solid currentColor;padding:18px;display:flex;flex-direction:column;gap:8px}
+.stepbox h3{font-family:var(--display);font-size:clamp(30px,4.8vh,44px);line-height:1}
 .email{font-family:var(--mono);font-size:13px;user-select:all;word-break:break-all}
-.copy{font-family:var(--mono);font-weight:700;font-size:10px;letter-spacing:.12em;text-transform:uppercase;background:var(--ink);color:var(--yellow);border:0;padding:7px 12px;cursor:pointer;align-self:flex-start}
-.receipt{width:330px;align-self:center;background:#FFFCF0;color:var(--ink);padding:26px 24px 22px;font-family:var(--mono);font-size:11.5px;position:relative;transform:rotate(2deg)}
-.receipt::after{content:"";position:absolute;left:0;right:0;bottom:-10px;height:10px;background:linear-gradient(-45deg,transparent 7px,#FFFCF0 0) 0 0/14px 10px,linear-gradient(45deg,transparent 7px,#FFFCF0 0) 0 0/14px 10px}
-.receipt .c{text-align:center}
-.dash{border-top:1px dashed var(--ink);margin:11px 0}
-.item{display:flex;align-items:baseline;gap:6px;padding-block:3px}
-.item i{flex:1;border-bottom:1px dotted currentColor;transform:translateY(-3px);min-width:10px;opacity:.5}
-.total{display:flex;justify-content:space-between;font-weight:700}
-.total span:last-child{color:var(--pink)}
-.thanks{font-family:var(--text);font-style:italic;font-size:15px;text-align:center;line-height:1.5;margin-top:14px}
-.barcode{height:32px;margin:12px auto 0;width:150px;background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 4px,var(--ink) 4px 5px,transparent 5px 8px,var(--ink) 8px 11px,transparent 11px 12px,var(--ink) 12px 13px,transparent 13px 16px)}
-.credits{width:min(40vw,520px);justify-content:space-between}
-.credits dl{display:grid;grid-template-columns:auto 1fr;gap:10px 20px;margin:0}
-.credits dt{opacity:.75}
-.credits dd{margin:0;font-size:14px}
+.part-foot{font-size:clamp(48px,9.5vh,104px)}
+.credits{width:min(44vw,600px);justify-content:space-between}
+.credits dl{display:grid;grid-template-columns:auto 1fr;gap:10px 22px;margin:0}
+.credits dt{opacity:.75} .credits dd{margin:0;font-family:var(--text);font-size:15px;text-transform:none;letter-spacing:0;font-weight:400}
 
 /* ---------- Landscape mode ---------- */
 @media (min-width:900px) and (min-height:560px){
@@ -199,29 +176,27 @@ a.dish:hover .name{font-family:var(--text);font-style:italic}
   .panel:first-child{padding-left:max(48px,env(safe-area-inset-left,0px))}
   .col{height:100%}
 }
-/* ---------- Phones / short screens: stack ---------- */
+/* ---------- Phones: stack ---------- */
 @media not all and (min-width:900px) and (min-height:560px){
   :root{--top:80px;--bot:36px}
   .panel{flex-direction:column;padding:calc(var(--top) + 6px) max(16px,env(safe-area-inset-left,0px)) var(--bot) max(16px,env(safe-area-inset-right,0px))}
   .panel > *{width:100%!important;max-width:100%}
-  .rail{height:50px;flex-direction:row;border:0;border-top:1.5px solid currentColor;border-bottom:1.5px solid currentColor;margin:8px calc(-1 * max(16px,env(safe-area-inset-left,0px))) 0;padding-inline:16px;width:auto!important}
+  .rail{height:50px;flex-direction:row;border:0;border-top:1.5px solid currentColor;border-bottom:1.5px solid currentColor;margin:8px calc(-1 * max(16px,env(safe-area-inset-left,0px))) 0;padding-inline:16px}
   .rail span{writing-mode:horizontal-tb;transform:none}
   .rail .arw{margin:0;transform:rotate(90deg)}
+  .divider{display:none}
   .hero-title{font-size:clamp(68px,22vw,150px)}
-  .split{font-size:clamp(42px,12vw,80px)}
+  .split,.punch .split,.names .split{font-size:clamp(40px,11.5vw,78px)}
   .split .ln{white-space:normal;flex-wrap:wrap}
-  .case-title{font-size:clamp(60px,18vw,120px)}
-  .numeral{font-size:clamp(150px,50vw,280px);align-self:flex-start}
-  .about-photo .ph,.hero-ph .ph,.gal .ph{height:auto;width:100%;aspect-ratio:4/3}
+  .case-title,.hiw-title,.wtf-title,.part-title{font-size:clamp(60px,18vw,130px)}
+  .numeral{font-size:clamp(150px,50vw,280px);align-self:flex-start;margin:0}
+  .about-photo .ph,.hero-ph .ph{height:auto;width:100%;aspect-ratio:4/3}
   .hero-ph{height:auto;aspect-ratio:auto}
-  .gal{flex-direction:column}
+  .shot .ph{flex:none;aspect-ratio:4/3}
   .plate{height:auto;min-height:340px}
-  .flavours{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:none;height:auto}
-  .flavour .ph{min-height:150px}
-  .facts,.bill-steps{grid-template-columns:1fr}
-  .dish{grid-template-columns:minmax(0,1fr) auto}
-  .dish .leader{display:none}
-  .receipt{width:100%!important;max-width:340px}
+  .hiw-foot,.part-row{grid-template-columns:1fr}
+  .part-foot{font-size:clamp(36px,10vw,64px)}
+  .bigquote blockquote{font-size:clamp(28px,8vw,44px)}
   .pct{font-size:28px}
   .hdr .btn:not(.burger){display:none}
 }
@@ -235,7 +210,7 @@ a.dish:hover .name{font-family:var(--text);font-style:italic}
   <a class="mono" href="#home" style="text-decoration:none">Hemangi Ganatra</a>
   <div class="hdr-r">
     <a class="btn sq" href="#home" aria-label="Back to start"></a>
-    <a class="btn mono" href="#bill">The bill</a>
+    <a class="btn mono" href="#bill">Say hi</a>
     <button class="btn burger" type="button" id="open-menu" aria-label="Open menu" aria-expanded="false" aria-controls="menu-ov"><i></i><i></i><i></i></button>
   </div>
 </header>
@@ -245,11 +220,11 @@ a.dish:hover .name{font-family:var(--text);font-style:italic}
   <div class="menu-top"><span class="mono">Hemangi Ganatra — tonight's menu</span><button class="x" type="button" id="close-menu" aria-label="Close menu"></button></div>
   <ol>
     <li><a href="#home"><b>01</b><em>Home</em> <small>Portfolio</small></a></li>
-    <li><a href="#about"><b>02</b><em>About</em> <small>Chef's note</small></a></li>
+    <li><a href="#about"><b>02</b><em>About</em> <small>The chef</small></a></li>
     <li><a href="#menu"><b>03</b><em>The menu</em> <small>7 dishes</small></a></li>
     <li><a href="#shake-ko-bulao"><b>04</b><em>Shake Ko Bulao</em> <small>Main</small></a></li>
     <li><a href="#oak-and-awe"><b>05</b><em>Oak &amp; Awe</em> <small>Main</small></a></li>
-    <li><a href="#bill"><b>—</b><em>The bill</em> <small>Say hi</small></a></li>
+    <li><a href="#bill"><b>06</b><em>Say hi</em> <small>The bill</small></a></li>
   </ol>
   <div class="menu-foot"><span class="mono">Packaging · Brand identity · Advertising · Copywriting</span><span class="note">ganatrahemangi93@gmail.com</span></div>
 </div>
@@ -265,20 +240,20 @@ a.dish:hover .name{font-family:var(--text);font-style:italic}
         <span class="c-green">2026</span>
       </h1>
       <div class="hero-foot">
-        <p class="lead">A tasting menu of work, served loud.</p>
-        <p class="mono" style="opacity:.75">Ecole Intuit Lab · Mumbai<br>Project 03</p>
+        <p class="lead" style="max-width:300px">A tasting menu of work, served loud.</p>
+        <p class="mono" style="opacity:.75">Packaging · Identity<br>Advertising · Copy</p>
       </div>
     </div>
-    <a class="rail mono" href="#home-2" aria-label="Next panel"><span class="arw">→</span><span>Scroll / Drag</span></a>
+    <a class="rail mono" href="#intro" aria-label="Next panel"><span class="arw">→</span><span>Scroll / Drag</span></a>
   </section>
 
-  <section class="panel p-ink" id="home-2" aria-label="Introduction">
+  <section class="panel p-ink" id="intro" aria-label="Introduction">
     <div class="col" style="justify-content:center">
-      <h2 class="split" aria-label="A tasting menu of feelings, packaging and copy, served loud.">
-        <span class="ln">a tasting <span class="slot w1 c-pink" aria-hidden="true">IMG</span></span>
-        <span class="ln"><span class="slot w2 c-yellow" aria-hidden="true">IMG</span> menu of</span>
-        <span class="ln"><span class="it c-green">feelings,</span> <span class="slot w3 c-green" aria-hidden="true">IMG</span> packaging</span>
-        <span class="ln">&amp; copy <span class="slot w2 c-pink" aria-hidden="true">IMG</span> <span class="it c-yellow">served loud.</span></span>
+      <h2 class="split" aria-label="Feelings all over the work. Copy first, always.">
+        <span class="ln">feelings <span class="slot w1 c-pink" aria-hidden="true">IMG</span></span>
+        <span class="ln"><span class="slot w2 c-yellow" aria-hidden="true">IMG</span> all over</span>
+        <span class="ln"><span class="it c-green">the work.</span> <span class="slot w3 c-green" aria-hidden="true">IMG</span></span>
+        <span class="ln">copy first, <span class="slot w2 c-pink" aria-hidden="true">IMG</span> <span class="it c-yellow">always.</span></span>
       </h2>
     </div>
     <a class="rail mono" href="#about"><span class="arw">→</span><span>02 · About</span></a>
@@ -287,105 +262,99 @@ a.dish:hover .name{font-family:var(--text);font-style:italic}
   <!-- ===== 02 ABOUT ===== -->
   <section class="panel p-green" id="about" aria-labelledby="about-h">
     <div class="col about-a">
-      <p class="mono">02 · Chef's note</p>
-      <h2 id="about-h" class="big" style="font-size:clamp(84px,22vh,230px)">About <span class="it c-yellow">me</span></h2>
-      <p style="font-size:clamp(18px,2.6vh,22px);line-height:1.4">Hi. I'm Hemangi Ganatra. I'm a graphic designer who somehow ended up with feelings all over her work, and honestly? Not complaining.</p>
+      <p class="mono">02 · The chef</p>
+      <h2 id="about-h" class="big" style="font-size:clamp(84px,22vh,230px)">Hi, I'm <span class="it c-yellow">Hemangi.</span></h2>
+      <div class="ring c-ink" style="--s:150px;background:var(--yellow)" aria-hidden="true"><svg viewBox="0 0 140 140"><text><textPath href="#circ">made in mumbai ★ made in mumbai ★ </textPath></text></svg><span class="core">HG</span></div>
     </div>
-    <div class="col about-photo">
-      <div class="ph"><div><span class="mono">[ Drop image ]</span><span class="note">Your photo — portrait</span></div></div>
-    </div>
-    <div class="col" style="justify-content:center">
-      <div class="ring c-ink" style="--s:170px;background:var(--yellow)" aria-hidden="true"><svg viewBox="0 0 140 140"><text><textPath href="#circ">packaging ★ identity ★ advertising ★ copy ★ </textPath></text></svg><span class="core">HG</span></div>
+    <div class="col about-photo"><div class="ph"><div><span class="mono">[ Drop image ]</span><span class="note">Your photo — portrait</span></div></div></div>
+    <div class="col punch">
+      <h3 class="split" aria-label="I design the box, the bottle and the words on it. Feelings included.">
+        <span class="ln">I design</span>
+        <span class="ln">the box, <span class="slot w1 c-yellow" aria-hidden="true">IMG</span></span>
+        <span class="ln"><span class="it c-yellow">the bottle</span></span>
+        <span class="ln">&amp; the words <span class="slot w3 c-pink" aria-hidden="true">IMG</span></span>
+        <span class="ln">on it.</span>
+      </h3>
     </div>
     <div class="col about-b">
-      <p>Most of my projects start with something I've lived, felt, or found deeply annoying. I figured out I was serious about packaging during an internship: something about holding a thing you made with your hands and thinking, yeah, that's it.</p>
-      <p>Since then I've been obsessed with the space where design meets writing, where a box or a bottle or a label gets to say something that actually means something.</p>
-      <div class="facts">
-        <div><p class="mono c-yellow">Experience</p><ul><li>Junior Graphic Designer, SMDB</li><li>Branding &amp; identity, concept to delivery</li></ul></div>
-        <div><p class="mono c-yellow">What I do</p><ul><li>Packaging</li><li>Brand identity</li><li>Advertising</li><li>Copywriting</li><li>Art direction</li></ul></div>
-        <div><p class="mono c-yellow">How I do it</p><ul><li>Illustrator · Photoshop</li><li>InDesign · After Effects</li><li>Figma · Blender</li></ul></div>
-        <div><p class="mono c-yellow">Interests</p><ul><li>Coffee, as a ritual</li><li>Cats</li><li>Sketching</li><li>Judging menus silently</li></ul></div>
+      <p class="lead">Feelings included. Packaging nerd. Judges menus silently.</p>
+      <div class="inline-list">
+        <p><span class="mono c-yellow">Now</span><br>Junior Graphic Designer at SMDB</p>
+        <p><span class="mono c-yellow">Studying</span><br>Visual Communication, Ecole Intuit Lab, Mumbai</p>
+        <p><span class="mono c-yellow">Tools</span><br>Illustrator, Photoshop, InDesign, After Effects, Figma, Blender</p>
+        <p><span class="mono c-yellow">Off duty</span><br>Coffee as a ritual, cats, sketching, reading</p>
       </div>
     </div>
     <a class="rail mono" href="#menu"><span class="arw">→</span><span>03 · The menu</span></a>
   </section>
 
-  <!-- ===== 03 THE MENU (portfolio landing) ===== -->
+  <!-- ===== 03 THE MENU ===== -->
   <section class="panel p-yellow" id="menu" aria-labelledby="menu-h">
     <div class="numeral" aria-hidden="true">3</div>
-    <div class="col menu-a">
-      <p class="mono">03 · Table of contents</p>
-      <h2 id="menu-h" class="big" style="font-size:clamp(90px,24vh,250px)">The <span class="it c-pink" style="-webkit-text-stroke:1px var(--ink)">menu</span></h2>
-      <div style="display:flex;flex-direction:column;gap:10px;max-width:420px">
-        <p class="lead">Seven dishes. Two are plated in full, the rest are still in the kitchen.</p>
-        <p class="note">ALLERGENS — may contain strong opinions about packaging.</p>
+    <div class="divider" aria-hidden="true"></div>
+    <div class="col hiw">
+      <div>
+        <p class="mono" style="margin-bottom:10px">03 · The menu</p>
+        <h2 id="menu-h" class="big hiw-title">Seven <span class="it c-pink" style="-webkit-text-stroke:1px var(--ink)">dishes</span></h2>
       </div>
-    </div>
-    <div class="col menu-b">
-      <div class="course"><p class="mono">Starter</p>
-        <div class="dish"><span class="name">Zine</span><span class="leader"></span><span class="what">Editorial · Copy</span></div></div>
-      <div class="course"><p class="mono">Mains</p>
-        <div class="dish"><span class="name">Wear Your Race</span><span class="leader"></span><span class="what">Advertising</span></div>
-        <div class="dish"><span class="name">Drop the Label</span><span class="leader"></span><span class="what">Strategy · Copy</span></div>
-        <a class="dish" href="#shake-ko-bulao"><span class="name">Shake Ko Bulao</span><span class="leader"></span><span class="what plated">04 · Plated →</span></a>
-        <a class="dish" href="#oak-and-awe"><span class="name">Oak &amp; Awe</span><span class="leader"></span><span class="what plated">05 · Plated →</span></a></div>
-      <div class="course"><p class="mono">Side</p>
-        <div class="dish"><span class="name">Kiss Her, You Fool</span><span class="leader"></span><span class="what">Typography</span></div></div>
-      <div class="course"><p class="mono">Dessert</p>
-        <div class="dish"><span class="name">Ganatra Foods</span><span class="leader"></span><span class="what">Photobook</span></div></div>
+      <div class="hiw-foot">
+        <h3>Two plated in full. Five still in the kitchen.</h3>
+        <div>
+          <div class="course"><p class="mono">Starter</p><p class="dish"><span>Zine</span> <small class="soon">Soon</small></p></div>
+          <div class="course"><p class="mono">Mains</p>
+            <p class="dish"><span>Wear Your Race</span> <small class="soon">Soon</small></p>
+            <p class="dish"><span>Drop the Label</span> <small class="soon">Soon</small></p>
+            <a class="dish" href="#shake-ko-bulao"><span>Shake Ko Bulao</span> <small>04 →</small></a>
+            <a class="dish" href="#oak-and-awe"><span>Oak &amp; Awe</span> <small>05 →</small></a>
+          </div>
+        </div>
+        <div>
+          <div class="course"><p class="mono">Side</p><p class="dish"><span>Kiss Her, You Fool</span> <small class="soon">Soon</small></p></div>
+          <div class="course"><p class="mono">Dessert</p><p class="dish"><span>Ganatra Foods</span> <small class="soon">Soon</small></p></div>
+          <p class="note" style="margin-top:18px">May contain strong opinions about packaging.</p>
+        </div>
+      </div>
     </div>
     <a class="rail mono" href="#plated"><span class="arw">→</span><span>Plated in full</span></a>
   </section>
 
   <section class="panel p-ink" id="plated" aria-label="Plated in full">
-    <div class="col" style="justify-content:space-between;width:min(26vw,340px)">
-      <p class="mono c-yellow">Plated in full</p>
-      <h2 class="big" style="font-size:clamp(70px,17vh,180px)">Two <span class="it c-pink">mains</span></h2>
-      <p>Pick a dish. Each one is served course by course: the brief, the thinking, the result.</p>
+    <div class="col wtf">
+      <div style="display:flex;flex-direction:column;gap:12px;max-width:320px">
+        <p class="mono c-yellow">Plated in full</p>
+        <p>Pick a dish. Each one is served as pictures first, words second.</p>
+      </div>
+      <h2 class="big wtf-title">Two <span class="it c-pink">mains</span></h2>
     </div>
-    <div class="col"><a class="plate plate-skb" href="#shake-ko-bulao"><div class="ph" aria-hidden="true"><span class="note">[ Drop image ] Shake Ko Bulao bottles</span></div><span class="mono">04 · Identity · Packaging · Copy</span><h3>Shake Ko<br>Bulao</h3><span class="plus" aria-hidden="true">+</span></a></div>
-    <div class="col"><a class="plate plate-oa" href="#oak-and-awe"><div class="ph" aria-hidden="true"><span class="note">[ Drop image ] Oak &amp; Awe box</span></div><span class="mono">05 · Packaging · Brand identity</span><h3>Oak &amp;<br>Awe</h3><span class="plus" aria-hidden="true">+</span></a></div>
+    <div class="col"><a class="plate plate-skb" href="#shake-ko-bulao"><div class="ph" aria-hidden="true"><span class="note">[ Drop image ] the six bottles</span></div><span class="mono">04 · Identity · Packaging · Copy</span><h3>Shake Ko<br>Bulao</h3><span class="plus" aria-hidden="true">+</span></a></div>
+    <div class="col"><a class="plate plate-oa" href="#oak-and-awe"><div class="ph" aria-hidden="true"><span class="note">[ Drop image ] the box</span></div><span class="mono">05 · Packaging · Brand identity</span><h3>Oak &amp;<br>Awe</h3><span class="plus" aria-hidden="true">+</span></a></div>
     <a class="rail mono" href="#shake-ko-bulao"><span class="arw">→</span><span>04 · Shake Ko Bulao</span></a>
   </section>
 
   <!-- ===== 04 SHAKE KO BULAO ===== -->
   <section class="panel p-pink" id="shake-ko-bulao" aria-labelledby="skb-h">
     <div class="col case-a">
-      <p class="mono">04 · Main · Case study</p>
-      <h2 id="skb-h" class="big case-title">Shake<br><span class="it" style="color:var(--cream);-webkit-text-stroke:1.5px var(--ink)">Ko</span> Bulao</h2>
-      <div style="display:flex;flex-direction:column;gap:14px">
-        <p class="lead">A milkshake brand where the names do the work.</p>
-        <div class="tags"><span class="tag">Brand identity</span><span class="tag">Packaging</span><span class="tag">Copywriting</span></div>
-      </div>
+      <p class="mono">04 · Main</p>
+      <h2 id="skb-h" class="big case-title">Shake <span class="it" style="color:var(--cream);-webkit-text-stroke:1.5px var(--ink)">Ko</span><br>Bulao</h2>
+      <p class="lead" style="max-width:340px">A milkshake brand where the names do the work.</p>
     </div>
     <div class="col hero-ph"><div class="ph"><div><span class="mono">[ Drop image ]</span><span class="note">Hero — all six bottles lined up</span></div></div></div>
-    <div class="col steps">
-      <div class="step"><p class="mono">The brief</p><h3>Copy comes first</h3><p>Create a milkshake brand using copywriting as the primary design direction.</p></div>
-      <div class="step"><p class="mono">The direction</p><h3>People, not products</h3><p>Names that feel like people, not products.</p></div>
-      <div class="step"><p class="mono">The menu</p><h3>Six flavours</h3><p>Six flavours. Six personalities. Each name does the work before the design even starts.</p></div>
+    <div class="col shot"><div class="ph"><span class="note">[ Drop image ] early name sketches</span></div><div class="cap"><b>1</b><p>The brief: build a brand with copy as the design direction.</p></div></div>
+    <div class="col names">
+      <p class="mono">2 · Names that feel like people</p>
+      <h3 class="split" aria-label="Gulabo, Paan Pataka, Aam Kahani, Rang Rasiya, Shaant Shahi, Shahi Swaad">
+        <span class="ln">Gulabo <span class="slot w3" aria-hidden="true">01</span> <span class="it" style="color:var(--cream)">Paan Pataka</span></span>
+        <span class="ln"><span class="slot w3" aria-hidden="true">03</span> Aam Kahani</span>
+        <span class="ln"><span class="it" style="color:var(--cream)">Rang Rasiya</span> <span class="slot w3" aria-hidden="true">05</span></span>
+        <span class="ln">Shaant Shahi <span class="slot w3" aria-hidden="true">06</span></span>
+        <span class="ln"><span class="it" style="color:var(--cream)">Shahi Swaad</span></span>
+      </h3>
     </div>
-    <div class="col">
-      <div class="flavours">
-        <div class="flavour"><div class="ph"><span class="note">[ Bottle ]</span></div><h4>Gulabo</h4><p class="note"><span>01</span><span>Rose</span></p></div>
-        <div class="flavour"><div class="ph"><span class="note">[ Bottle ]</span></div><h4>Paan Pataka</h4><p class="note"><span>02</span><span>Paan</span></p></div>
-        <div class="flavour"><div class="ph"><span class="note">[ Bottle ]</span></div><h4>Aam Kahani</h4><p class="note"><span>03</span><span>Mango</span></p></div>
-        <div class="flavour"><div class="ph"><span class="note">[ Bottle ]</span></div><h4>Rang Rasiya</h4><p class="note"><span>04</span><span>Thandai</span></p></div>
-        <div class="flavour"><div class="ph"><span class="note">[ Bottle ]</span></div><h4>Shaant Shahi</h4><p class="note"><span>05</span><span>Pista elaichi</span></p></div>
-        <div class="flavour"><div class="ph"><span class="note">[ Bottle ]</span></div><h4>Shahi Swaad</h4><p class="note"><span>06</span><span>Kesar badam</span></p></div>
-      </div>
-    </div>
-    <div class="col gal">
-      <div class="ph"><div><span class="mono">[ Drop image ]</span><span class="note">Label close-up</span></div></div>
-      <div class="ph"><div><span class="mono">[ Drop image ]</span><span class="note">Bottles on a table</span></div></div>
-      <div class="ph"><div><span class="mono">[ Drop image ]</span><span class="note">Packaging detail</span></div></div>
-    </div>
-    <div class="col quote">
-      <p class="mono">Chef's note</p>
-      <blockquote>Each name does the work before the design even starts. You already know exactly who ordered that shake.</blockquote>
-      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px">
-        <p style="max-width:260px"><span class="mono" style="display:block;margin-bottom:6px">The result</span>Six flavours, six personalities.</p>
-        <div class="ring" style="--s:130px;background:var(--ink);color:var(--pink)" aria-hidden="true"><svg viewBox="0 0 140 140"><text><textPath href="#circ">shake ko bulao ★ shake ko bulao ★ </textPath></text></svg><span class="core">6</span></div>
-      </div>
+    <div class="col shot tall"><div class="ph"><span class="note">[ Drop image ] label close-up</span></div><div class="cap"><b>3</b><p>Every label says who ordered it.</p></div></div>
+    <div class="col shot wide"><div class="ph"><span class="note">[ Drop image ] bottles on a table</span></div><div class="cap"><b>4</b><p>Six flavours, six personalities.</p></div></div>
+    <div class="col bigquote">
+      <blockquote>“You already know exactly who ordered that shake.”</blockquote>
+      <div class="ring" style="--s:130px;background:var(--ink);color:var(--pink)" aria-hidden="true"><svg viewBox="0 0 140 140"><text><textPath href="#circ">shake ko bulao ★ shake ko bulao ★ </textPath></text></svg><span class="core">6</span></div>
     </div>
     <a class="col next" href="#oak-and-awe"><span class="mono">Next course →</span><span class="big">Oak &amp; Awe</span></a>
     <a class="rail mono" href="#oak-and-awe"><span class="arw">→</span><span>05 · Oak &amp; Awe</span></a>
@@ -394,56 +363,35 @@ a.dish:hover .name{font-family:var(--text);font-style:italic}
   <!-- ===== 05 OAK & AWE ===== -->
   <section class="panel p-ink" id="oak-and-awe" aria-labelledby="oa-h">
     <div class="col case-a">
-      <p class="mono c-yellow">05 · Main · Case study</p>
+      <p class="mono c-yellow">05 · Main</p>
       <h2 id="oa-h" class="big case-title c-yellow">Oak <span class="it c-cream">&amp;</span><br>Awe</h2>
-      <div style="display:flex;flex-direction:column;gap:14px">
-        <p class="lead">An Armenian brandy for the generation that wasn't supposed to drink it.</p>
-        <div class="tags c-yellow"><span class="tag">Packaging</span><span class="tag">Brand identity</span><span class="tag">Prototype</span></div>
-      </div>
+      <p class="lead" style="max-width:360px">An Armenian brandy for the generation that wasn't supposed to drink it.</p>
     </div>
     <div class="col hero-ph c-yellow"><div class="ph"><div><span class="mono">[ Drop image ]</span><span class="note">Hero — the box, hand-assembled</span></div></div></div>
-    <div class="col steps">
-      <div class="step"><p class="mono c-yellow">The brief</p><h3>A bottle for Armenia</h3><p>We were assigned a country and had to design an alcohol bottle for it. I got Armenia.</p></div>
-      <div class="step"><p class="mono c-yellow">The problem</p><h3>Brandy has an image problem</h3><p>Nobody under 30 thinks brandy is for them. It sits on your dad's shelf and comes out at funerals.</p></div>
-      <div class="step"><p class="mono c-yellow">The pattern</p><h3>Folk patterns</h3><p>Armenian geometric folk patterns from carpets and church walls became the brand's visual language: deep burgundy, gold, bold symmetry.</p></div>
+    <div class="col bigquote">
+      <p class="mono c-yellow">1 · The problem</p>
+      <blockquote>Brandy sits on your dad's shelf and comes out at <span class="c-yellow">funerals.</span></blockquote>
     </div>
-    <div class="col gal c-yellow">
-      <div class="ph"><div><span class="mono">[ Drop image ]</span><span class="note">Pattern swatch</span></div></div>
-      <div class="ph"><div><span class="mono">[ Drop image ]</span><span class="note">Flask in the gift set</span></div></div>
-      <div class="ph"><div><span class="mono">[ Drop image ]</span><span class="note">Label detail</span></div></div>
-    </div>
-    <div class="col quote">
+    <div class="col shot tall c-yellow"><div class="ph"><span class="note">[ Drop image ] carpet &amp; church-wall patterns</span></div><div class="cap"><b>2</b><p class="c-cream">Armenian folk patterns became the brand.</p></div></div>
+    <div class="col shot c-yellow"><div class="ph"><span class="note">[ Drop image ] pattern swatch</span></div><div class="cap"><b>3</b><p class="c-cream">Burgundy, gold, bold symmetry.</p></div></div>
+    <div class="col shot wide c-yellow"><div class="ph"><span class="note">[ Drop image ] flask in the gift set</span></div><div class="cap"><b>4</b><p class="c-cream">Hand-assembled into a real prototype.</p></div></div>
+    <div class="col bigquote">
       <p class="mono c-yellow">Chef's note</p>
-      <blockquote class="c-yellow">The goal wasn't to make brandy look young. It was to make it look worth keeping.</blockquote>
-      <p style="max-width:380px"><span class="mono c-yellow" style="display:block;margin-bottom:6px">The result</span>Oak &amp; Awe, hand-assembled into a physical prototype. Bold but approachable, the kind of thing you'd want on your shelf just for how it looks.</p>
+      <blockquote class="c-yellow">“Not brandy that looks young. Brandy that looks worth keeping.”</blockquote>
     </div>
-    <a class="rail mono" href="#bill"><span class="arw">→</span><span>The bill</span></a>
+    <a class="rail mono" href="#bill"><span class="arw">→</span><span>06 · Say hi</span></a>
   </section>
 
-  <!-- ===== THE BILL ===== -->
+  <!-- ===== 06 SAY HI ===== -->
   <section class="panel p-yellow" id="bill" aria-labelledby="bill-h">
-    <div class="col bill-a">
-      <p class="mono">The bill</p>
-      <h2 id="bill-h" class="big">Thanks for making it to the <span class="it c-pink" style="-webkit-text-stroke:1px var(--ink)">end.</span></h2>
-      <div class="bill-steps">
-        <div><p class="mono">Step 1</p><h3>Copy my email</h3><span class="email" id="email">ganatrahemangi93@gmail.com</span><button class="copy" type="button">Copy</button></div>
-        <div><p class="mono">Step 2</p><h3>Say hi</h3><p>Briefs, internships, or a strong opinion about a label. All welcome.</p></div>
+    <div class="col part">
+      <h2 id="bill-h" class="big part-title">Say <span class="it c-pink" style="-webkit-text-stroke:1px var(--ink)">hi</span></h2>
+      <div class="part-row">
+        <div class="ph"><span class="note">[ Drop image ] you at your desk</span></div>
+        <div class="stepbox"><p class="mono">Step 1</p><h3>Copy my email</h3><span class="email" id="email">ganatrahemangi93@gmail.com</span><button class="go copy" type="button">Copy</button></div>
+        <div class="stepbox"><p class="mono">Step 2</p><h3>Send the brief</h3><p>Packaging, a brand, an ad, or a strong opinion about a label.</p></div>
       </div>
-    </div>
-    <div class="col" style="justify-content:center">
-      <div class="receipt">
-        <p class="c" style="font-weight:700;letter-spacing:.12em">HEMANGI GANATRA</p>
-        <p class="c" style="opacity:.6;margin-top:6px">TABLE 01 · 2026 · SERVER: HEMANGI</p>
-        <div class="dash"></div>
-        <div class="item"><span>Feelings, all over the work</span><i></i><span>included</span></div>
-        <div class="item"><span>Packaging, judged silently</span><i></i><span>free</span></div>
-        <div class="item"><span>Coffee, as a ritual</span><i></i><span>daily</span></div>
-        <div class="item"><span>Copy that does the work</span><i></i><span>always</span></div>
-        <div class="dash"></div>
-        <div class="total"><span>TOTAL</span><span>One chat?</span></div>
-        <p class="thanks">Still going for the wow, same. Always.</p>
-        <div class="barcode" aria-hidden="true"></div>
-      </div>
+      <p class="big part-foot">Thanks for making it<br>to the <span class="it c-pink" style="-webkit-text-stroke:1px var(--ink)">end.</span></p>
     </div>
     <a class="rail mono" href="#credits"><span class="arw">→</span><span>Credits</span></a>
   </section>
@@ -451,7 +399,7 @@ a.dish:hover .name{font-family:var(--text);font-style:italic}
   <section class="panel p-green" id="credits" aria-label="Credits">
     <div class="col credits">
       <p class="mono">Credits</p>
-      <h2 class="big" style="font-size:clamp(64px,15vh,160px)">Made by <span class="it c-yellow">hand.</span></h2>
+      <h2 class="big" style="font-size:clamp(70px,16vh,170px)">Made by <span class="it c-yellow">hand.</span></h2>
       <dl class="mono">
         <dt>Design &amp; words</dt><dd>Hemangi Ganatra</dd>
         <dt>School</dt><dd>Ecole Intuit Lab, Mumbai</dd>
@@ -461,7 +409,7 @@ a.dish:hover .name{font-family:var(--text);font-style:italic}
     </div>
     <div class="col" style="justify-content:space-between;width:260px">
       <div class="ring" style="--s:170px;background:var(--pink);color:var(--ink)" aria-hidden="true"><svg viewBox="0 0 140 140"><text><textPath href="#circ">thank you ★ come again ★ thank you ★ </textPath></text></svg><span class="core">Bye</span></div>
-      <a class="go" href="#home"><span>← Back to 01</span></a>
+      <a class="go" href="#home">← Back to 01</a>
     </div>
   </section>
 </main>
