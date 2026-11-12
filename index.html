@@ -139,6 +139,8 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
   box-shadow:0 2px 0 rgba(0,0,0,.12),0 10px 18px -8px rgba(0,0,0,.4);outline:1.5px solid var(--ink);outline-offset:-10px}
 .label .big{font-size:calc(var(--u)*11)}
 .label .mono.hl{align-self:center}
+.exlibris{position:relative;padding:calc(var(--u)*3) calc(var(--u)*4);transform:rotate(-1.6deg);gap:calc(var(--u)*1.6)}
+.exlibris-stamp{position:absolute;top:calc(var(--u)*-2.2);left:calc(var(--u)*-3);background:var(--ink);color:var(--paper);padding:5px 11px;transform:rotate(5deg);box-shadow:2px 2px 0 rgba(0,0,0,.25)}
 
 /* divider pages */
 .divider{justify-content:space-between}
@@ -313,8 +315,8 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
         </div>
       </section>
       <section class="page f-back l inside kraft" aria-label="Inside cover">
-        <div class="label" style="width:78%">
-          <p class="mono">Ex libris</p>
+        <div class="label exlibris" style="width:68%">
+          <span class="mono exlibris-stamp">Ex libris</span>
           <p class="big" style="font-size:calc(var(--u)*5.6)">This book belongs to <span class="hl">Hemangi Ganatra</span></p>
           <p class="note">If found, please return to the chef.<br>Reward: one iced coffee.</p>
         </div>
@@ -345,7 +347,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
       <section class="page f-front r letter" id="foreword" aria-labelledby="fw-h">
         <span class="rh">Foreword</span>
         <p class="mono hl">A note from the chef</p>
-        <h2 id="fw-h" class="big" style="font-size:calc(var(--u)*7.4)">Hi. I'm <span class="hl">Hemangi.</span></h2>
+        <h2 id="fw-h" class="big" style="font-size:calc(var(--u)*7.4)">Hi. I'm <span class="hl" style="display:inline-block;transform:rotate(2deg)">Hemangi.</span></h2>
         <p>I'm a graphic designer who somehow ended up with feelings all over her work, and honestly? Not complaining.</p>
         <p>This is my recipe book. Most of what's in it started with something I've lived, felt, or found deeply annoying. I figured out I was serious about packaging during an internship: something about holding a thing you made with your hands and thinking, yeah, that's it.</p>
         <p>I cook where design meets writing: packaging, brand identity, advertising and copy. Sometimes all four in one dish, which is chaotic and also my favourite.</p>
@@ -355,7 +357,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
       </section>
       <section class="page f-back l" id="contents" aria-labelledby="toc-h">
         <span class="rh">Contents</span>
-        <h2 id="toc-h" class="big" style="font-size:calc(var(--u)*9)"><span class="hl">Con&shy;tents</span></h2>
+        <h2 id="toc-h" class="big" style="font-size:calc(var(--u)*9)"><span class="hl" style="display:inline-block;transform:rotate(-1.5deg)">Con&shy;tents</span></h2>
         <ol class="toc">
           <li class="sec mono">The chef</li>
           <li><a href="#chef" style="display:contents"><span class="t">Fig. 1, in the pocket</span><span class="pg">p.2</span></a></li>
@@ -381,7 +383,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
       <section class="page f-back l" id="shake-ko-bulao" aria-labelledby="skb-h">
         <span class="rh">Recipe 04</span>
         <p class="mono hl">Recipe 04 · Main dish</p>
-        <h2 id="skb-h" class="big" style="font-size:calc(var(--u)*9)">Shake Ko <span class="hl">Bulao</span></h2>
+        <h2 id="skb-h" class="big" style="font-size:calc(var(--u)*9)">Shake Ko <span class="hl" style="display:inline-block;transform:rotate(2.5deg)">Bulao</span></h2>
         <p style="font-size:calc(var(--u)*2.6)">A milkshake brand where the names do the work.</p>
         <div class="facts-row">
           <div><p class="mono c-muted">Serves</p><p>Six personalities</p></div>
@@ -433,7 +435,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
       <section class="page f-back l" id="oak-and-awe" aria-labelledby="oa-h">
         <span class="rh">Recipe 05</span>
         <p class="mono hl">Recipe 05 · Main dish</p>
-        <h2 id="oa-h" class="big" style="font-size:calc(var(--u)*9)">Oak <span class="hl">&amp; Awe</span></h2>
+        <h2 id="oa-h" class="big" style="font-size:calc(var(--u)*9)">Oak <span class="hl" style="display:inline-block;transform:rotate(-2deg)">&amp; Awe</span></h2>
         <p style="font-size:calc(var(--u)*2.6)">An Armenian brandy for the generation that wasn't supposed to drink it.</p>
         <div class="facts-row">
           <div><p class="mono c-muted">Serves</p><p>Under-30s</p></div>
@@ -478,7 +480,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
       </section>
       <section class="page f-back l lines" id="kitchen" aria-labelledby="kit-h">
         <span class="rh">Notes</span>
-        <h2 id="kit-h" class="big" style="font-size:calc(var(--u)*6.4)">Still in the <span class="hl">kitchen</span></h2>
+        <h2 id="kit-h" class="big" style="font-size:calc(var(--u)*6.4)">Still in the <span class="hl" style="display:inline-block;transform:rotate(1.5deg)">kitchen</span></h2>
         <ul class="lined-list">
           <li>Zine <small>Starter</small></li>
           <li>Wear Your Race <small>Main</small></li>
@@ -500,7 +502,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
       </section>
       <section class="page f-back l" id="say-hi" aria-labelledby="hi-h">
         <span class="rh">Say hi</span>
-        <h2 id="hi-h" class="big" style="font-size:calc(var(--u)*11)">Say <span class="hl">hi.</span></h2>
+        <h2 id="hi-h" class="big" style="font-size:calc(var(--u)*11)">Say <span class="hl" style="display:inline-block;transform:rotate(-3deg)">hi.</span></h2>
         <p style="font-size:calc(var(--u)*2.6)">The kitchen is open for orders.</p>
         <div class="stepbox"><p class="mono c-muted">Step 1</p><h3>Copy my email</h3><span class="email" id="email">ganatrahemangi93@gmail.com</span><button class="go copy" type="button">Copy</button></div>
         <div class="stepbox"><p class="mono c-muted">Step 2</p><h3>Send the brief</h3><p>Packaging, a brand, an ad, or a strong opinion about a label.</p></div>
@@ -512,7 +514,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     <div class="leaf">
       <section class="page f-front r" aria-label="Colophon" style="justify-content:space-between">
         <span class="rh">Colophon</span>
-        <p class="big" style="font-size:calc(var(--u)*8)">Written &amp; cooked <span class="hl">by hand.</span></p>
+        <p class="big" style="font-size:calc(var(--u)*8)">Written &amp; cooked <span class="hl" style="display:inline-block;transform:rotate(2deg)">by hand.</span></p>
         <dl class="cred">
           <dt>Chef</dt><dd>Hemangi Ganatra</dd>
           <dt>Kitchen</dt><dd>Ecole Intuit Lab, Mumbai</dd>
