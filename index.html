@@ -649,11 +649,14 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     // adopts the new spread's value once those leaves have actually settled.
     if(rings){
       // strictly less than BOTH active leaves' z-index (cur, for the flipped-top leaf, and N-cur,
-      // for the unflipped-top leaf) — min(...)-1 guarantees that with no floor, since a floor here
-      // previously caused an exact z-index tie with the active leaf at cur===2 (and its mirror
-      // near the end), which a tie resolves by DOM order — in the ring's favor, rendering it
-      // uncut right on top of that page instead of correctly tucked behind it.
-      var ringZ = H() ? (Math.min(cur, N-cur) - 1) : 900;
+      // for the unflipped-top leaf) — min(...)-1 guarantees no tie with either (a floor of 2 here
+      // used to force an exact tie with the active leaf at cur===2 and its mirror, which a tie
+      // resolves by DOM order in the ring's favor, rendering it uncut right on top of that page).
+      // Floored at 0, not removed outright: at the very ends (cur 0 and N) the formula goes
+      // negative, which sinks the ring below the CSS stacking tier that .board/.spine sit in
+      // (negative z-index always paints under the zero/auto tier, regardless of DOM order), so
+      // the ring's back half vanished behind the cover's kraft texture instead of just the page.
+      var ringZ = H() ? Math.max(0, Math.min(cur, N-cur) - 1) : 900;
       if(changed && changed.length){
         var ringMany = changed.length>1 && !reduce.matches;
         var ringDelay = reduce.matches? 0 : (ringMany? (changed.length-1)*90+1000 : 1000);
@@ -843,7 +846,4 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
   var start=location.hash?spreadOf(location.hash.slice(1)):null;
   if(start!==null&&H()){ leaves.forEach(function(l){l.style.transition='none';}); binder.style.transition='none'; cur=start; render();
     requestAnimationFrame(function(){ requestAnimationFrame(function(){ leaves.forEach(function(l){l.style.transition='';}); binder.style.transition=''; }); }); }
-  else render();
-})();
-</script>
 </body></html>
