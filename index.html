@@ -100,14 +100,14 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
   box-shadow:0 3px 4px rgba(0,0,0,.55),inset 0 2px 2px rgba(0,0,0,.35),inset 0 0 0 1px rgba(0,0,0,.15)}
 .br::before{content:"";position:absolute;inset:3px;border-radius:50%;border:1px solid rgba(0,0,0,.2);box-shadow:inset 0 1px 1px rgba(255,255,255,.5)}
 .br::after{content:"";position:absolute;left:28px;top:50%;width:11px;height:7px;margin-top:-3.5px;border-radius:2px;background:linear-gradient(#7d7d7d,#4a4a4a);box-shadow:inset 0 1px 1px rgba(255,255,255,.3),0 1px 1px rgba(0,0,0,.5)}
-/* back half: the far side of the loop, dipping under the page — clipped to the top arc AND
-   narrowed in to roughly where this ring's two punched holes sit, so in the open gutter gap it
-   reads as diving into those specific holes rather than spanning the ring's full width. Sits just
-   behind whichever two leaves are the current open spread (set from JS as --ring-back-z). */
-.br-back{clip-path:polygon(11% 0%,89% 0%,89% 46%,11% 46%);z-index:var(--ring-back-z,2)}
+/* back half: the far side of the loop, dipping under the page. Full width, so wherever nothing
+   covers it (the open gutter, or the far side of a closed cover) it reads as one complete loop,
+   not a visibly truncated arc — only the page's own edge should ever cut it off. Sits just behind
+   whichever two leaves are the current open spread (set from JS as --ring-back-z). */
+.br-back{clip-path:inset(0 0 54% 0);z-index:var(--ring-back-z,2)}
 .br-back::before,.br-back::after{content:none}
 /* front half: the near side of the loop, always resting on top of the page surface */
-.br-front{clip-path:polygon(0% 46%,100% 46%,100% 100%,0% 100%);z-index:901}
+.br-front{clip-path:inset(46% 0 0 0);z-index:901}
 
 .leaf{position:absolute;top:0;left:calc(50% + var(--gap) / 2);width:var(--pw);height:100%;transform-origin:calc(var(--gap) / -2) 50%;transform-style:preserve-3d;
   transition:transform .95s cubic-bezier(.645,.045,.355,1);cursor:pointer}
@@ -377,9 +377,9 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
         </div>
         <p class="pocket-cap">Hemangi Ganatra. Mumbai, 2026. Graphic designer, packaging nerd, judge of menus. Pictured here probably holding coffee.</p>
         <span class="folio" style="color:var(--paper)">2</span>
-        <i class="tab-back" data-sec="chef" style="--t:10%;--h:18%" aria-hidden="true"></i>
+        <i class="tab-back" data-sec="chef" style="--t:10%;--h:16%" aria-hidden="true"></i>
       </section>
-      <a class="tab" href="#chef" data-sec="chef" style="--t:10%;--h:18%">The chef</a>
+      <a class="tab" href="#chef" data-sec="chef" style="--t:10%;--h:16%">The chef</a>
     </div>
 
     <!-- LEAF 2 · foreword / contents -->
@@ -434,11 +434,11 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
         <div><p class="mono c-muted" style="margin-bottom:4px">Ingredients</p>
           <ul class="ingredients"><li>Brand identity</li><li>Packaging</li><li>Copywriting, as the main flavour</li></ul></div>
         <span class="folio">6</span>
-        <i class="tab-back" data-sec="mains" style="--t:28%;--h:9%" aria-hidden="true"></i>
-        <i class="tab-back" data-sec="shake-ko-bulao" style="--t:37%;--h:18%" aria-hidden="true"></i>
+        <i class="tab-back" data-sec="mains" style="--t:28%;--h:7%" aria-hidden="true"></i>
+        <i class="tab-back" data-sec="shake-ko-bulao" style="--t:37%;--h:16%" aria-hidden="true"></i>
       </section>
-      <a class="tab tab-thin" href="#mains" data-sec="mains" style="--t:28%;--h:9%">Mains</a>
-      <a class="tab" href="#shake-ko-bulao" data-sec="shake-ko-bulao" style="--t:37%;--h:18%">04 Shake</a>
+      <a class="tab tab-thin" href="#mains" data-sec="mains" style="--t:28%;--h:7%">Mains</a>
+      <a class="tab" href="#shake-ko-bulao" data-sec="shake-ko-bulao" style="--t:37%;--h:16%">04 Shake</a>
     </div>
 
     <!-- LEAF 4 · SKB photo + note / SKB names -->
@@ -490,9 +490,9 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
         <div><p class="mono c-muted" style="margin-bottom:4px">Ingredients</p>
           <ul class="ingredients"><li>Armenian folk patterns</li><li>Deep burgundy &amp; gold</li><li>Bold symmetry, one hand-assembled box</li></ul></div>
         <span class="folio">10</span>
-        <i class="tab-back" data-sec="oak-and-awe" style="--t:55%;--h:30%" aria-hidden="true"></i>
+        <i class="tab-back" data-sec="oak-and-awe" style="--t:55%;--h:28%" aria-hidden="true"></i>
       </section>
-      <a class="tab" href="#oak-and-awe" data-sec="oak-and-awe" style="--t:55%;--h:30%">05 Oak</a>
+      <a class="tab" href="#oak-and-awe" data-sec="oak-and-awe" style="--t:55%;--h:28%">05 Oak</a>
     </div>
 
     <!-- LEAF 6 · O&A photo + note / O&A problem -->
@@ -646,7 +646,18 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     // spread, so that side of the loop disappears under the paper like it's genuinely behind
     // it — at every cur, closed cover and closed back board included. The front (near) half is
     // pinned above everything via a fixed z-index in CSS, so it always rests on top of the page.
-    if(rings) rings.style.setProperty('--ring-back-z', H() ? Math.max(2, Math.min(cur, N-cur) - 1) : 900);
+    // While leaves are actively turning (temporarily boosted to z 200+), leave the back ring
+    // showing whatever it already was instead of snapping to the new target mid-flight — it only
+    // adopts the new spread's value once those leaves have actually settled.
+    if(rings){
+      var ringZ = H() ? Math.max(2, Math.min(cur, N-cur) - 1) : 900;
+      if(changed && changed.length){
+        var ringMany = changed.length>1 && !reduce.matches;
+        var ringDelay = reduce.matches? 0 : (ringMany? (changed.length-1)*90+1000 : 1000);
+        if(ringDelay) setTimeout(function(){ rings.style.setProperty('--ring-back-z', ringZ); }, ringDelay);
+        else rings.style.setProperty('--ring-back-z', ringZ);
+      } else rings.style.setProperty('--ring-back-z', ringZ);
+    }
     var activeSec=null;
     tabSections.forEach(function(s){ if(s.start!==null && cur>=s.start) activeSec=s; });
     tabSections.forEach(function(s){
