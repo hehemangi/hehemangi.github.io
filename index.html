@@ -122,19 +122,20 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
 
 /* index tabs: a fixed rail on the book's edge — not part of a flipping leaf, so turning a page never flips a tab */
 .page.kraft{background-color:var(--kraft);color:#2a1d0e;background-image:var(--kraft-tex);background-size:160px 160px,7px 7px,11px 11px,100% 100%;background-position:0 0,0 0,3px 5px,0 0}
-/* a continuous thumb-index: each tab spans exactly the pages of its own section, so "The chef"
-   runs alongside the chef pages only, stopping where "Main dishes" begins, and so on. Hidden
-   while the closed cover (front or back) is showing, like a real binder's tabs. */
-.tabs{position:absolute;right:-34px;top:0;bottom:0;z-index:12;opacity:0;pointer-events:none;transition:opacity .3s}
-.binder:not(.at-start):not(.at-end) .tabs{opacity:1;pointer-events:auto}
-.tab{position:absolute;left:0;width:34px;top:var(--t);height:var(--h);display:flex;align-items:center;justify-content:center;text-align:center;
-  background:var(--paper);color:var(--ink);text-decoration:none;font-family:var(--mono);font-weight:700;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;writing-mode:vertical-rl;
-  border:1px solid rgba(20,18,16,.12);border-left:0;border-top-width:.5px;border-bottom-width:.5px;border-radius:0 5px 5px 0}
-.tab:hover,.tab.cur{background:var(--yellow)}
+/* a thumb-index physically attached to each leaf (one sheet, two faces): the labeled flap
+   sits on the sheet's front, cut into the right edge, exactly like the sheet's own f-front
+   page — same preserve-3d box, same backface-visibility hiding. Flip that sheet and the label
+   rotates away with it; what rotates into view on the back is the same flap's blank reverse,
+   a plain paper tab with no writing, on the left edge where the sheet now sits. Hidden on the
+   closed cover. */
+.tab,.tab-back{position:absolute;width:34px;top:var(--t);height:var(--h);display:flex;align-items:center;justify-content:center;text-align:center;
+  background:var(--paper);font-family:var(--mono);font-weight:700;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;writing-mode:vertical-rl;
+  border:1px solid rgba(20,18,16,.12);border-top-width:.5px;border-bottom-width:.5px;backface-visibility:hidden;-webkit-backface-visibility:hidden;transition:opacity .3s}
+.tab{right:-34px;z-index:6;color:var(--ink);text-decoration:none;border-left:0;border-radius:0 5px 5px 0}
+.tab:hover{background:var(--yellow)}
 .tab-thin{font-size:7.5px;letter-spacing:.08em}
-/* once you've turned past a tab's own section, it's flipped over with the pages behind you */
-.tab{transition:opacity .4s,transform .4s}
-.tab.passed{opacity:0;transform:translateX(10px);pointer-events:none}
+.tab-back{left:-34px;z-index:5;opacity:.8;pointer-events:none;border-right:0;border-radius:5px 0 0 5px;transform:rotateY(180deg)}
+.binder.at-start .tab,.binder.at-end .tab,.binder.at-start .tab-back,.binder.at-end .tab-back{opacity:0;pointer-events:none}
 
 /* covers */
 .cover{border-radius:3px 8px 8px 3px;color:#2a1d0e;padding:calc(var(--u)*8) calc(var(--u)*7);justify-content:center;align-items:center;box-shadow:inset 6px 0 0 rgba(0,0,0,.14)}
@@ -237,7 +238,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
   :root{--u:min(1.35vw + 2px, 7px);--hdr:64px}
   .stage{position:static;display:block;perspective:none;touch-action:auto;user-select:auto;padding:calc(var(--hdr) + 16px) max(14px,env(safe-area-inset-left,0px)) calc(var(--ftr) + 28px) max(14px,env(safe-area-inset-right,0px))}
   .binder,.binder.at-start{width:auto;height:auto;transform:none;display:flex;flex-direction:column;gap:18px}
-  .board,.spine,.rings,.holes,.tabs,.navbtn,.hint{display:none}
+  .board,.spine,.rings,.holes,.tab,.tab-back,.navbtn,.hint{display:none}
   .leaf,.leaf.flipped,.leaf.cover-leaf{position:static;width:auto;height:auto;transform:none;display:flex;flex-direction:column;gap:18px;cursor:auto}
   .page,.f-back{position:relative;inset:auto;transform:none;backface-visibility:visible;-webkit-backface-visibility:visible;min-height:calc(var(--u)*82);padding:54px 20px 50px!important}
   .page::after{display:none}
@@ -351,6 +352,8 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
         <p class="pocket-cap">Hemangi Ganatra. Mumbai, 2026. Graphic designer, packaging nerd, judge of menus. Pictured here probably holding coffee.</p>
         <span class="folio" style="color:var(--paper)">2</span>
       </section>
+      <a class="tab" href="#chef" style="--t:10%;--h:18%">The chef</a>
+      <i class="tab-back" style="--t:10%;--h:18%" aria-hidden="true"></i>
     </div>
 
     <!-- LEAF 2 · foreword / contents -->
@@ -406,6 +409,10 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
           <ul class="ingredients"><li>Brand identity</li><li>Packaging</li><li>Copywriting, as the main flavour</li></ul></div>
         <span class="folio">6</span>
       </section>
+      <a class="tab tab-thin" href="#mains" style="--t:28%;--h:9%">Mains</a>
+      <a class="tab" href="#shake-ko-bulao" style="--t:37%;--h:18%">04 Shake</a>
+      <i class="tab-back" style="--t:28%;--h:9%" aria-hidden="true"></i>
+      <i class="tab-back" style="--t:37%;--h:18%" aria-hidden="true"></i>
     </div>
 
     <!-- LEAF 4 · SKB photo + note / SKB names -->
@@ -458,6 +465,8 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
           <ul class="ingredients"><li>Armenian folk patterns</li><li>Deep burgundy &amp; gold</li><li>Bold symmetry, one hand-assembled box</li></ul></div>
         <span class="folio">10</span>
       </section>
+      <a class="tab" href="#oak-and-awe" style="--t:55%;--h:30%">05 Oak</a>
+      <i class="tab-back" style="--t:55%;--h:30%" aria-hidden="true"></i>
     </div>
 
     <!-- LEAF 6 · O&A photo + note / O&A problem -->
@@ -519,6 +528,8 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
         <div class="stepbox"><p class="mono c-muted">Step 2</p><h3>Send the brief</h3><p>Packaging, a brand, an ad, or a strong opinion about a label.</p></div>
         <span class="folio">16</span>
       </section>
+      <a class="tab" href="#say-hi" style="--t:85%;--h:15%">Other</a>
+      <i class="tab-back" style="--t:85%;--h:15%" aria-hidden="true"></i>
     </div>
 
     <!-- LEAF 9 · colophon / the end -->
@@ -545,13 +556,6 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     </div>
 
     <div class="rings" aria-hidden="true"><i class="br"></i><i class="br"></i><i class="br"></i></div>
-    <nav class="tabs" id="tabs" aria-label="Jump to section">
-      <a class="tab" href="#chef" style="--t:10%;--h:18%">The chef</a>
-      <a class="tab tab-thin" href="#mains" style="--t:28%;--h:9%">Mains</a>
-      <a class="tab" href="#shake-ko-bulao" style="--t:37%;--h:18%">04 Shake</a>
-      <a class="tab" href="#oak-and-awe" style="--t:55%;--h:30%">05 Oak</a>
-      <a class="tab" href="#say-hi" style="--t:85%;--h:15%">Other</a>
-    </nav>
   </div>
 </main>
 
@@ -575,16 +579,6 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 
   binder.querySelectorAll('.page').forEach(function(p){ p.insertAdjacentHTML('beforeend','<i class="holes" aria-hidden="true"><b></b><b></b><b></b></i>'); });
 
-  // Each index tab sticks out only until you arrive at the page it's pinned to — like a real
-  // divider tab, it disappears into the flipped-over stack the moment that section is reached.
-  var tabEls=[].slice.call(document.querySelectorAll('.tabs .tab')), tabEnds=null;
-  function tabEndsOf(){
-    return tabEls.map(function(t){
-      var n=spreadOf(t.getAttribute('href').slice(1));
-      return n===null? N+1 : n;
-    });
-  }
-
   function size(){
     if(!H()){ root.style.removeProperty('--ph'); return; }
     var availH=innerHeight-72-44-70, availW=innerWidth-140-80-60-52;
@@ -607,8 +601,6 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     });
     binder.classList.toggle('at-start',cur===0);
     binder.classList.toggle('at-end',cur===N);
-    if(!tabEnds) tabEnds=tabEndsOf();
-    tabEls.forEach(function(t,i){ t.classList.toggle('passed',cur>=tabEnds[i]); });
     prevB.disabled=cur===0; nextB.disabled=cur===N;
     var p=cur/N;
     pct.textContent=String(Math.round(p*100)).padStart(2,'0')+'%';
