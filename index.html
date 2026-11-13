@@ -131,15 +131,13 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
 .tab,.tab-back{position:absolute;width:34px;top:var(--t);height:var(--h);display:flex;align-items:center;justify-content:center;text-align:center;
   background:var(--paper);font-family:var(--mono);font-weight:700;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;writing-mode:vertical-rl;
   border:1px solid rgba(20,18,16,.12);border-top-width:.5px;border-bottom-width:.5px;backface-visibility:hidden;-webkit-backface-visibility:hidden;
-  opacity:1;transition:opacity .25s .7s,background .2s}
-.tab{right:-34px;z-index:6;color:var(--ink);text-decoration:none;border-left:0;border-radius:0 5px 5px 0}
+  box-shadow:-2px 2px 5px rgba(0,0,0,.22);opacity:1;transition:opacity .2s,background .2s}
+.tab{right:-34px;z-index:4;color:var(--ink);text-decoration:none;border-left:0;border-radius:0 5px 5px 0}
 .tab:hover{background:var(--yellow)}
 .tab-thin{font-size:7.5px;letter-spacing:.08em}
-.tab-back{left:-34px;z-index:5;opacity:.8;pointer-events:none;border-right:0;border-radius:5px 0 0 5px}
+.tab-back{left:-34px;z-index:4;opacity:.8;pointer-events:none;border-right:0;border-radius:5px 0 0 5px}
 .tab.cur,.tab-back.cur{background:var(--yellow)}
 .tab-back.cur{opacity:1}
-/* closed cover: hide instantly (no reveal-delay) so nothing peeks out from under the board */
-.binder.at-start .tab,.binder.at-end .tab,.binder.at-start .tab-back,.binder.at-end .tab-back{opacity:0;pointer-events:none;transition:opacity .15s}
 
 /* covers */
 .cover{border-radius:3px 8px 8px 3px;color:#2a1d0e;padding:calc(var(--u)*8) calc(var(--u)*7);justify-content:center;align-items:center;box-shadow:inset 6px 0 0 rgba(0,0,0,.14)}
@@ -219,12 +217,17 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
 .photo-page > .ph.full{position:absolute;inset:0;border:0;background:rgba(20,18,16,.16);align-content:start;padding-top:calc(var(--u)*12)}
 .notecard{position:absolute;right:calc(var(--u)*5);bottom:calc(var(--u)*7);width:66%;background-color:var(--note);color:var(--ink);
   background-image:linear-gradient(to right,transparent 30px,rgba(20,18,16,.35) 30px 31px,transparent 31px),repeating-linear-gradient(to bottom,transparent 0 17px,rgba(20,18,16,.16) 17px 18px);
-  padding:18px 16px 16px 42px;font-family:var(--mono);font-size:calc(var(--u)*1.55);line-height:18px;box-shadow:0 8px 18px -6px rgba(0,0,0,.45);transform:rotate(-1.2deg)}
+  padding:18px 16px 16px 42px;font-family:var(--mono);font-size:calc(var(--u)*1.55);line-height:18px;box-shadow:0 8px 18px -6px rgba(0,0,0,.45);transform:rotate(-1.2deg);
+  clip-path:polygon(0 0,6px 3%,1px 6%,8px 10%,2px 14%,7px 17%,0 20%,6px 24%,1px 28%,8px 31%,
+    2px 35%,7px 38%,0 42%,6px 46%,1px 49%,8px 53%,2px 57%,7px 60%,0 64%,6px 68%,
+    1px 71%,8px 75%,2px 79%,7px 82%,0 86%,6px 89%,1px 93%,8px 97%,0 100%,
+    100% 100%,100% 0)}
 .notecard p + p{margin-top:18px}
 .notecard .k{font-weight:700}
 
-/* lined notes */
-.lines{background-image:repeating-linear-gradient(to bottom,transparent 0 calc(var(--u)*4.4 - 1px),rgba(20,18,16,.2) calc(var(--u)*4.4 - 1px) calc(var(--u)*4.4))!important}
+/* lined notes — the rule-line grid is scoped to the text block itself (not the whole page), so its
+   own top edge is always row zero: aligning under the first baseline regardless of what sits above it */
+.ruled{background-image:repeating-linear-gradient(to bottom,transparent 0 calc(var(--u)*4.4 - 1px),rgba(20,18,16,.2) calc(var(--u)*4.4 - 1px) calc(var(--u)*4.4))}
 .lined-list li{font-family:var(--text);font-size:calc(var(--u)*3);line-height:calc(var(--u)*4.4);display:flex;justify-content:space-between;gap:12px}
 .lined-list li small{font-family:var(--mono);font-style:normal;font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .stepbox{border:1.5px solid var(--ink);padding:14px;display:flex;flex-direction:column;gap:6px}
@@ -247,7 +250,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
   .page,.f-back{position:relative;inset:auto;transform:none;backface-visibility:visible;-webkit-backface-visibility:visible;min-height:calc(var(--u)*82);padding:54px 20px 50px!important}
   .page::after{display:none}
   .photo-page{min-height:calc(var(--u)*110)}
-  .lines{background-image:repeating-linear-gradient(to bottom,transparent 0 31px,rgba(20,18,16,.2) 31px 32px)!important}
+  .ruled{background-image:repeating-linear-gradient(to bottom,transparent 0 31px,rgba(20,18,16,.2) 31px 32px)}
   .r .rh,.r .folio{right:20px} .l .rh,.l .folio{left:20px}
   .rh{top:20px} .folio{bottom:16px;font-size:18px}
   .ph.grow{flex:none;aspect-ratio:4/3}
@@ -502,10 +505,10 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
         <blockquote class="quote" style="font-size:calc(var(--u)*4.2)">“The goal wasn't to make brandy look young. It was to make it look worth keeping.”</blockquote>
         <span class="folio">13</span>
       </section>
-      <section class="page f-back l lines" id="kitchen" aria-labelledby="kit-h">
+      <section class="page f-back l" id="kitchen" aria-labelledby="kit-h">
         <span class="rh">Notes</span>
         <h2 id="kit-h" class="big" style="font-size:calc(var(--u)*6.4)">Still in the <span class="hl" style="display:inline-block;transform:rotate(1.5deg)">kitchen</span></h2>
-        <ul class="lined-list">
+        <ul class="lined-list ruled">
           <li>Zine <small>Starter</small></li>
           <li>Wear Your Race <small>Main</small></li>
           <li>Drop the Label <small>Main</small></li>
@@ -550,10 +553,10 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
         <a class="go" href="#cover">← Close the book</a>
         <span class="folio">17</span>
       </section>
-      <section class="page f-back l lines alt" aria-label="The end">
+      <section class="page f-back l alt" aria-label="The end">
         <span class="rh">Notes</span>
         <p class="big" style="font-size:calc(var(--u)*6.4)">Notes</p>
-        <p style="font-size:calc(var(--u)*3);line-height:calc(var(--u)*4.4)">Thanks for making it to the end.<br>Still going for the wow, same.<br>Always.</p>
+        <p class="ruled" style="font-size:calc(var(--u)*3);line-height:calc(var(--u)*4.4)">Thanks for making it to the end.<br>Still going for the wow, same.<br>Always.</p>
         <p class="sign" style="margin-top:calc(var(--u)*2)">— H.</p>
         <span class="folio">18</span>
       </section>
@@ -573,6 +576,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 (function(){
   var root=document.documentElement, stage=document.getElementById('stage'), binder=document.getElementById('binder');
   var leaves=[].slice.call(binder.querySelectorAll('.leaf')), N=leaves.length;
+  var rings=binder.querySelector('.rings');
   var pct=document.getElementById('pct'), fill=document.getElementById('barfill'), pageno=document.getElementById('pageno');
   var prevB=document.getElementById('prev'), nextB=document.getElementById('next'), hint=document.getElementById('hint');
   var ov=document.getElementById('menu-ov'), openB=document.getElementById('open-menu'), closeB=document.getElementById('close-menu');
@@ -615,6 +619,11 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     });
     binder.classList.toggle('at-start',cur===0);
     binder.classList.toggle('at-end',cur===N);
+    // rings sit behind whichever two pages are the current open spread (so the paper covers the
+    // loops at the gutter, like a real page threaded onto them) but stay in front of every other
+    // page in the stack, which is hidden underneath its own stack's top sheet anyway.
+    if(rings && H()) rings.style.zIndex = (cur===0||cur===N) ? 900 : Math.max(2, Math.min(cur, N-cur) - 1);
+    else if(rings) rings.style.zIndex = 900;
     var activeSec=null;
     tabSections.forEach(function(s){ if(s.start!==null && cur>=s.start) activeSec=s; });
     tabSections.forEach(function(s){
@@ -634,12 +643,34 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     if(cur>0) hint.style.opacity='0';
   }
 
-  function goTo(n){
+  // A plain rotateY transition reads as a flat card swinging on a hinge. Three keyframes give the
+  // sheet a touch of real paper physics instead: it lifts and narrows slightly as it passes edge-on,
+  // like it's arcing up off the stack rather than rotating in a single rigid plane.
+  function flipFlourish(lf,becomingFlipped,delayMs){
+    if(reduce.matches || !lf.animate) return;
+    var kf = becomingFlipped ? [
+      {transform:'rotateY(0deg) translateZ(0px) scaleX(1)'},
+      {transform:'rotateY(-92deg) translateZ(46px) scaleX(.91)',offset:.5},
+      {transform:'rotateY(-180deg) translateZ(0px) scaleX(1)'}
+    ] : [
+      {transform:'rotateY(-180deg) translateZ(0px) scaleX(1)'},
+      {transform:'rotateY(-88deg) translateZ(46px) scaleX(.91)',offset:.5},
+      {transform:'rotateY(0deg) translateZ(0px) scaleX(1)'}
+    ];
+    try{ lf.animate(kf,{duration:950,delay:delayMs||0,easing:'cubic-bezier(.645,.045,.355,1)',fill:'none'}); }catch(err){}
+  }
+  function goTo(n,flourish){
+    if(flourish===undefined) flourish=true;
     n=Math.max(0,Math.min(N,n)); if(n===cur) return;
+    var forward=n>cur;
     var changed=[], i;
-    if(n>cur){ for(i=cur;i<n;i++) changed.push(i); } else { for(i=cur-1;i>=n;i--) changed.push(i); }
+    if(forward){ for(i=cur;i<n;i++) changed.push(i); } else { for(i=cur-1;i>=n;i--) changed.push(i); }
     var many=changed.length>1 && !reduce.matches;
-    if(many) changed.forEach(function(idx,j){ leaves[idx].style.transitionDelay=(j*90)+'ms'; setTimeout(function(){ leaves[idx].style.transitionDelay=''; }, j*90+1050); });
+    changed.forEach(function(idx,j){
+      var delayMs = many? j*90 : 0;
+      if(many){ leaves[idx].style.transitionDelay=delayMs+'ms'; setTimeout(function(){ leaves[idx].style.transitionDelay=''; }, delayMs+1050); }
+      if(flourish) flipFlourish(leaves[idx], forward, delayMs);
+    });
     cur=n; render(changed);
     busy=Date.now()+(reduce.matches?0:many?520:660);
   }
@@ -722,7 +753,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     lf.classList.remove('drag');
     if(d.moved<6){ if(Date.now()>=busy){ d.side==='next'?next():prev(); } return; }
     lf.style.transform='';
-    if(d.p>0.28){ d.side==='next'?goTo(cur+1):goTo(cur-1); }
+    if(d.p>0.28){ d.side==='next'?goTo(cur+1,false):goTo(cur-1,false); }
     else { lf.classList.add('moving'); lf.style.zIndex=300; setTimeout(function(){ lf.classList.remove('moving'); render(); },1000); }
   }
   stage.addEventListener('pointerup',function(e){ endPhotoDrag(); endDrag(); });
