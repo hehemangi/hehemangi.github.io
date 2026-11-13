@@ -261,6 +261,12 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
   .letter p,.step p,.ingredients li,.pocket-cap{font-size:15px}
 }
 @media (prefers-reduced-motion:reduce){.ring svg{animation:none}.menu-ov{transition:none}}
+
+/* UI chrome removed — just the book, filling the viewport. Click/drag the page or use the
+   keyboard (arrow keys, Home/End) to turn pages; the header, footer, nav buttons and hint text
+   are all hidden rather than deleted, so this is easy to bring back later if wanted. */
+.hdr,.ftr,.navbtn,.hint{display:none}
+.stage{top:0;bottom:0}
 </style>
 </head>
 <body>
@@ -599,7 +605,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 
   function size(){
     if(!H()){ root.style.removeProperty('--ph'); return; }
-    var availH=innerHeight-72-44-70, availW=innerWidth-140-80-60-52;
+    var availH=innerHeight-40, availW=innerWidth-60;
     var ph=Math.min(availH, availW/2/0.72);
     root.style.setProperty('--ph', Math.max(320,Math.floor(ph))+'px');
   }
