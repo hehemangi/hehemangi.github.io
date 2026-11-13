@@ -575,14 +575,12 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 
   binder.querySelectorAll('.page').forEach(function(p){ p.insertAdjacentHTML('beforeend','<i class="holes" aria-hidden="true"><b></b><b></b><b></b></i>'); });
 
-  // Each index tab sticks out only until the page it's pinned to gets turned — like a real
-  // divider tab, it disappears into the flipped-over stack once you've paged past its section.
+  // Each index tab sticks out only until you arrive at the page it's pinned to — like a real
+  // divider tab, it disappears into the flipped-over stack the moment that section is reached.
   var tabEls=[].slice.call(document.querySelectorAll('.tabs .tab')), tabEnds=null;
   function tabEndsOf(){
-    return tabEls.map(function(t,i){
-      var next=tabEls[i+1];
-      if(!next) return N+1;
-      var n=spreadOf(next.getAttribute('href').slice(1));
+    return tabEls.map(function(t){
+      var n=spreadOf(t.getAttribute('href').slice(1));
       return n===null? N+1 : n;
     });
   }
