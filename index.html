@@ -148,9 +148,8 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
 .tab{right:-34px;z-index:4;color:var(--ink);text-decoration:none;border-left:0;border-radius:0 5px 5px 0}
 .tab:hover{background:var(--yellow)}
 .tab-thin{font-size:7.5px;letter-spacing:.08em}
-.tab-back{left:-34px;z-index:4;opacity:.8;pointer-events:none;border-right:0;border-radius:5px 0 0 5px}
+.tab-back{left:-34px;z-index:4;pointer-events:none;border-right:0;border-radius:5px 0 0 5px}
 .tab.cur,.tab-back.cur{background:var(--yellow)}
-.tab-back.cur{opacity:1}
 
 /* covers */
 .cover{border-radius:3px 8px 8px 3px;color:#2a1d0e;padding:calc(var(--u)*8) calc(var(--u)*7);justify-content:center;align-items:center;box-shadow:inset 6px 0 0 rgba(0,0,0,.14)}
@@ -281,8 +280,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 .hdr,.ftr,.navbtn,.hint{display:none}
 .stage{top:0;bottom:0}
 </style>
-</head>
-<body>
+</head><body>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
@@ -650,7 +648,12 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     // showing whatever it already was instead of snapping to the new target mid-flight — it only
     // adopts the new spread's value once those leaves have actually settled.
     if(rings){
-      var ringZ = H() ? Math.max(2, Math.min(cur, N-cur) - 1) : 900;
+      // strictly less than BOTH active leaves' z-index (cur, for the flipped-top leaf, and N-cur,
+      // for the unflipped-top leaf) — min(...)-1 guarantees that with no floor, since a floor here
+      // previously caused an exact z-index tie with the active leaf at cur===2 (and its mirror
+      // near the end), which a tie resolves by DOM order — in the ring's favor, rendering it
+      // uncut right on top of that page instead of correctly tucked behind it.
+      var ringZ = H() ? (Math.min(cur, N-cur) - 1) : 900;
       if(changed && changed.length){
         var ringMany = changed.length>1 && !reduce.matches;
         var ringDelay = reduce.matches? 0 : (ringMany? (changed.length-1)*90+1000 : 1000);
@@ -843,5 +846,4 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
   else render();
 })();
 </script>
-</body>
-</html>
+</body></html>
