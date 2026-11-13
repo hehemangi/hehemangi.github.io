@@ -89,12 +89,25 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
 .board-r .fin{position:absolute;right:calc(var(--u)*7);bottom:calc(var(--u)*6);text-align:right;color:#2a1d0e;opacity:0;transition:opacity .6s .3s}
 .binder.at-end .board-r .fin{opacity:1}
 .spine{position:absolute;top:-14px;bottom:-14px;left:calc(50% - 4px);width:8px;background:var(--kraft-d)}
-.rings{position:absolute;left:50%;top:0;bottom:0;width:0;z-index:900;pointer-events:none;opacity:1}
-.br{position:absolute;left:-36px;width:72px;height:26px;margin-top:-13px;border-radius:50%;border:5px solid #c9c9c9;border-color:#f1f1f1 #8d8d8d #7a7a7a #d8d8d8;
+/* .rings itself must NOT get a z-index — that would trap its children in their own stacking
+   context, where they could only move as one block relative to the leaves. Leaving it a plain
+   position:absolute wrapper lets each ring-half's own z-index interleave directly with the pages
+   (both share .binder's stacking context), which is what makes the front/back split work. */
+.rings{position:absolute;left:50%;top:0;bottom:0;width:0;pointer-events:none;opacity:1}
+.ring-wrap{position:absolute;left:-36px;width:72px;height:26px;margin-top:-13px}
+.ring-wrap:nth-child(1){top:16%} .ring-wrap:nth-child(2){top:50%} .ring-wrap:nth-child(3){top:84%}
+.br{position:absolute;inset:0;border-radius:50%;border:5px solid #c9c9c9;border-color:#f1f1f1 #8d8d8d #7a7a7a #d8d8d8;
   box-shadow:0 3px 4px rgba(0,0,0,.55),inset 0 2px 2px rgba(0,0,0,.35),inset 0 0 0 1px rgba(0,0,0,.15)}
 .br::before{content:"";position:absolute;inset:3px;border-radius:50%;border:1px solid rgba(0,0,0,.2);box-shadow:inset 0 1px 1px rgba(255,255,255,.5)}
 .br::after{content:"";position:absolute;left:28px;top:50%;width:11px;height:7px;margin-top:-3.5px;border-radius:2px;background:linear-gradient(#7d7d7d,#4a4a4a);box-shadow:inset 0 1px 1px rgba(255,255,255,.3),0 1px 1px rgba(0,0,0,.5)}
-.br:nth-child(1){top:16%} .br:nth-child(2){top:50%} .br:nth-child(3){top:84%}
+/* back half: the far side of the loop, dipping under the page — clipped to the top arc AND
+   narrowed in to roughly where this ring's two punched holes sit, so in the open gutter gap it
+   reads as diving into those specific holes rather than spanning the ring's full width. Sits just
+   behind whichever two leaves are the current open spread (set from JS as --ring-back-z). */
+.br-back{clip-path:polygon(11% 0%,89% 0%,89% 46%,11% 46%);z-index:var(--ring-back-z,2)}
+.br-back::before,.br-back::after{content:none}
+/* front half: the near side of the loop, always resting on top of the page surface */
+.br-front{clip-path:polygon(0% 46%,100% 46%,100% 100%,0% 100%);z-index:901}
 
 .leaf{position:absolute;top:0;left:calc(50% + var(--gap) / 2);width:var(--pw);height:100%;transform-origin:calc(var(--gap) / -2) 50%;transform-style:preserve-3d;
   transition:transform .95s cubic-bezier(.645,.045,.355,1);cursor:pointer}
@@ -568,7 +581,11 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
       </section>
     </div>
 
-    <div class="rings" aria-hidden="true"><i class="br"></i><i class="br"></i><i class="br"></i></div>
+    <div class="rings" aria-hidden="true">
+      <i class="ring-wrap"><i class="br br-back"></i><i class="br br-front"></i></i>
+      <i class="ring-wrap"><i class="br br-back"></i><i class="br br-front"></i></i>
+      <i class="ring-wrap"><i class="br br-back"></i><i class="br br-front"></i></i>
+    </div>
   </div>
 </main>
 
@@ -625,11 +642,11 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     });
     binder.classList.toggle('at-start',cur===0);
     binder.classList.toggle('at-end',cur===N);
-    // rings sit behind whichever two pages are the current open spread (so the paper covers the
-    // loops at the gutter, like a real page threaded onto them) but stay in front of every other
-    // page in the stack, which is hidden underneath its own stack's top sheet anyway.
-    if(rings && H()) rings.style.zIndex = (cur===0||cur===N) ? 900 : Math.max(2, Math.min(cur, N-cur) - 1);
-    else if(rings) rings.style.zIndex = 900;
+    // each ring's back (far) half sits just behind whichever two pages are the current open
+    // spread, so that side of the loop disappears under the paper like it's genuinely behind
+    // it — at every cur, closed cover and closed back board included. The front (near) half is
+    // pinned above everything via a fixed z-index in CSS, so it always rests on top of the page.
+    if(rings) rings.style.setProperty('--ring-back-z', H() ? Math.max(2, Math.min(cur, N-cur) - 1) : 900);
     var activeSec=null;
     tabSections.forEach(function(s){ if(s.start!==null && cur>=s.start) activeSec=s; });
     tabSections.forEach(function(s){
