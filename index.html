@@ -130,12 +130,16 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
    closed cover. */
 .tab,.tab-back{position:absolute;width:34px;top:var(--t);height:var(--h);display:flex;align-items:center;justify-content:center;text-align:center;
   background:var(--paper);font-family:var(--mono);font-weight:700;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;writing-mode:vertical-rl;
-  border:1px solid rgba(20,18,16,.12);border-top-width:.5px;border-bottom-width:.5px;backface-visibility:hidden;-webkit-backface-visibility:hidden;transition:opacity .3s}
+  border:1px solid rgba(20,18,16,.12);border-top-width:.5px;border-bottom-width:.5px;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  opacity:1;transition:opacity .25s .7s,background .2s}
 .tab{right:-34px;z-index:6;color:var(--ink);text-decoration:none;border-left:0;border-radius:0 5px 5px 0}
 .tab:hover{background:var(--yellow)}
 .tab-thin{font-size:7.5px;letter-spacing:.08em}
-.tab-back{left:-34px;z-index:5;opacity:.8;pointer-events:none;border-right:0;border-radius:5px 0 0 5px;transform:rotateY(180deg)}
-.binder.at-start .tab,.binder.at-end .tab,.binder.at-start .tab-back,.binder.at-end .tab-back{opacity:0;pointer-events:none}
+.tab-back{left:-34px;z-index:5;opacity:.8;pointer-events:none;border-right:0;border-radius:5px 0 0 5px}
+.tab.cur,.tab-back.cur{background:var(--yellow)}
+.tab-back.cur{opacity:1}
+/* closed cover: hide instantly (no reveal-delay) so nothing peeks out from under the board */
+.binder.at-start .tab,.binder.at-end .tab,.binder.at-start .tab-back,.binder.at-end .tab-back{opacity:0;pointer-events:none;transition:opacity .15s}
 
 /* covers */
 .cover{border-radius:3px 8px 8px 3px;color:#2a1d0e;padding:calc(var(--u)*8) calc(var(--u)*7);justify-content:center;align-items:center;box-shadow:inset 6px 0 0 rgba(0,0,0,.14)}
@@ -351,9 +355,9 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
         </div>
         <p class="pocket-cap">Hemangi Ganatra. Mumbai, 2026. Graphic designer, packaging nerd, judge of menus. Pictured here probably holding coffee.</p>
         <span class="folio" style="color:var(--paper)">2</span>
+        <i class="tab-back" data-sec="chef" style="--t:10%;--h:18%" aria-hidden="true"></i>
       </section>
-      <a class="tab" href="#chef" style="--t:10%;--h:18%">The chef</a>
-      <i class="tab-back" style="--t:10%;--h:18%" aria-hidden="true"></i>
+      <a class="tab" href="#chef" data-sec="chef" style="--t:10%;--h:18%">The chef</a>
     </div>
 
     <!-- LEAF 2 · foreword / contents -->
@@ -408,11 +412,11 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
         <div><p class="mono c-muted" style="margin-bottom:4px">Ingredients</p>
           <ul class="ingredients"><li>Brand identity</li><li>Packaging</li><li>Copywriting, as the main flavour</li></ul></div>
         <span class="folio">6</span>
+        <i class="tab-back" data-sec="mains" style="--t:28%;--h:9%" aria-hidden="true"></i>
+        <i class="tab-back" data-sec="shake-ko-bulao" style="--t:37%;--h:18%" aria-hidden="true"></i>
       </section>
-      <a class="tab tab-thin" href="#mains" style="--t:28%;--h:9%">Mains</a>
-      <a class="tab" href="#shake-ko-bulao" style="--t:37%;--h:18%">04 Shake</a>
-      <i class="tab-back" style="--t:28%;--h:9%" aria-hidden="true"></i>
-      <i class="tab-back" style="--t:37%;--h:18%" aria-hidden="true"></i>
+      <a class="tab tab-thin" href="#mains" data-sec="mains" style="--t:28%;--h:9%">Mains</a>
+      <a class="tab" href="#shake-ko-bulao" data-sec="shake-ko-bulao" style="--t:37%;--h:18%">04 Shake</a>
     </div>
 
     <!-- LEAF 4 · SKB photo + note / SKB names -->
@@ -464,9 +468,9 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
         <div><p class="mono c-muted" style="margin-bottom:4px">Ingredients</p>
           <ul class="ingredients"><li>Armenian folk patterns</li><li>Deep burgundy &amp; gold</li><li>Bold symmetry, one hand-assembled box</li></ul></div>
         <span class="folio">10</span>
+        <i class="tab-back" data-sec="oak-and-awe" style="--t:55%;--h:30%" aria-hidden="true"></i>
       </section>
-      <a class="tab" href="#oak-and-awe" style="--t:55%;--h:30%">05 Oak</a>
-      <i class="tab-back" style="--t:55%;--h:30%" aria-hidden="true"></i>
+      <a class="tab" href="#oak-and-awe" data-sec="oak-and-awe" style="--t:55%;--h:30%">05 Oak</a>
     </div>
 
     <!-- LEAF 6 · O&A photo + note / O&A problem -->
@@ -527,9 +531,9 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
         <div class="stepbox"><p class="mono c-muted">Step 1</p><h3>Copy my email</h3><span class="email" id="email">ganatrahemangi93@gmail.com</span><button class="go copy" type="button">Copy</button></div>
         <div class="stepbox"><p class="mono c-muted">Step 2</p><h3>Send the brief</h3><p>Packaging, a brand, an ad, or a strong opinion about a label.</p></div>
         <span class="folio">16</span>
+        <i class="tab-back" data-sec="say-hi" style="--t:85%;--h:15%" aria-hidden="true"></i>
       </section>
-      <a class="tab" href="#say-hi" style="--t:85%;--h:15%">Other</a>
-      <i class="tab-back" style="--t:85%;--h:15%" aria-hidden="true"></i>
+      <a class="tab" href="#say-hi" data-sec="say-hi" style="--t:85%;--h:15%">Other</a>
     </div>
 
     <!-- LEAF 9 · colophon / the end -->
@@ -579,6 +583,16 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 
   binder.querySelectorAll('.page').forEach(function(p){ p.insertAdjacentHTML('beforeend','<i class="holes" aria-hidden="true"><b></b><b></b><b></b></i>'); });
 
+  // Which index tab is "current": the section you've most recently arrived at. Usually that's
+  // its blank, flipped-over tab-back (the labeled tab itself has already rotated out of view by
+  // then) — except a section whose label shares a page with its own content (no separate divider
+  // in front of it), where the label is still showing at the exact moment you arrive.
+  var tabSections=[].slice.call(document.querySelectorAll('.tab[data-sec]')).map(function(t){
+    var id=t.getAttribute('data-sec'), start=spreadOf(id);
+    var onFront=document.getElementById(id).closest('.page').classList.contains('r');
+    return {start:start, labelEl:t, backEls:[].slice.call(document.querySelectorAll('.tab-back[data-sec="'+id+'"]')), onFront:onFront};
+  }).sort(function(a,b){ return a.start-b.start; });
+
   function size(){
     if(!H()){ root.style.removeProperty('--ph'); return; }
     var availH=innerHeight-72-44-70, availW=innerWidth-140-80-60-52;
@@ -601,6 +615,13 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     });
     binder.classList.toggle('at-start',cur===0);
     binder.classList.toggle('at-end',cur===N);
+    var activeSec=null;
+    tabSections.forEach(function(s){ if(s.start!==null && cur>=s.start) activeSec=s; });
+    tabSections.forEach(function(s){
+      var isCur=(s===activeSec);
+      s.labelEl.classList.toggle('cur', isCur && s.onFront);
+      s.backEls.forEach(function(b){ b.classList.toggle('cur', isCur && !s.onFront); });
+    });
     prevB.disabled=cur===0; nextB.disabled=cur===N;
     var p=cur/N;
     pct.textContent=String(Math.round(p*100)).padStart(2,'0')+'%';
