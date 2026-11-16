@@ -299,33 +299,18 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 .desk-scene{position:fixed;inset:0;z-index:950;pointer-events:none;overflow:hidden;transition:opacity .5s}
 .desk-scene[hidden]{display:none}
 .desk-scene.hiding{opacity:0}
-.desk-scene{background-color:#EEE3CC;
-  background-image:var(--grain),
-    repeating-linear-gradient(0deg, rgba(155,80,58,.16) 0 13px, transparent 13px 30px),
-    repeating-linear-gradient(90deg, rgba(155,80,58,.16) 0 13px, transparent 13px 30px);
-  background-size:180px 180px,30px 30px,30px 30px}
-.desk-hint{position:absolute;top:max(18px,env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);
-  font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--paper);
-  background:rgba(20,18,16,.55);padding:7px 14px;white-space:nowrap;z-index:2;pointer-events:none}
+.desk-scene{background:#F6E7C8 url(desk/tablecloth.webp) center/cover no-repeat}
+.desk-hint{position:absolute;top:max(18px,env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%) rotate(-1.5deg);
+  font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
+  background:var(--yellow);border:2.5px solid var(--ink);border-radius:999px;box-shadow:4px 5px 0 var(--ink);
+  padding:8px 16px;white-space:nowrap;z-index:30;pointer-events:none}
 .desk-fixed{position:absolute;pointer-events:none}
-.desk-fixed.mat{aspect-ratio:1.42;border-radius:4px;background:var(--mat);
-  box-shadow:0 22px 40px -14px rgba(0,0,0,.65),inset 0 0 0 1px rgba(0,0,0,.25);
-  background-image:
-    repeating-linear-gradient(to right,var(--mat-grid) 0 1px,transparent 1px calc(var(--w) / 16)),
-    repeating-linear-gradient(to bottom,var(--mat-grid) 0 1px,transparent 1px calc(var(--w) / 16)),
-    var(--grain);
-  background-size:auto,auto,160px 160px;filter:drop-shadow(0 18px 30px rgba(0,0,0,.6));
-  width:var(--w);transform:rotate(var(--r,0deg))}
-.desk-fixed.mat .mat-tag{position:absolute;right:6%;bottom:6%;font-family:var(--mono);font-size:clamp(8px,.9vw,11px);
-  letter-spacing:.1em;color:var(--paper);background:rgba(20,18,16,.55);padding:3px 7px;text-transform:uppercase}
+.desk-fixed.mat{width:var(--w);transform:rotate(var(--r,0deg));filter:drop-shadow(8px 10px 0 rgba(70,12,12,.3))}
+.desk-fixed img,.desk-item img{display:block;width:100%;height:auto;pointer-events:none;user-select:none;-webkit-user-drag:none}
 .desk-item{position:absolute;width:var(--w);transform:translate(var(--dx,0px),var(--dy,0px)) rotate(var(--r,0deg));
-  cursor:grab;pointer-events:auto;touch-action:none;filter:drop-shadow(0 10px 16px rgba(0,0,0,.45));
+  cursor:grab;pointer-events:auto;touch-action:none;filter:drop-shadow(6px 8px 0 rgba(70,12,12,.3));
   transition:filter .2s}
-.desk-item svg{display:block;width:100%;height:auto;overflow:visible}
-.desk-scene svg *{stroke-linejoin:round;stroke-linecap:round}
-.desk-fixed.mat svg *{stroke-linejoin:miter;stroke-linecap:butt}
-.desk-item.dragging{cursor:grabbing;filter:drop-shadow(0 20px 26px rgba(0,0,0,.55))}
-.desk-item[data-book]{filter:drop-shadow(0 14px 20px rgba(0,0,0,.5))}
+.desk-item.dragging{cursor:grabbing;filter:drop-shadow(12px 18px 0 rgba(70,12,12,.25))}
 @media not all and (min-width:900px) and (min-height:560px){
   .desk-hint{font-size:9.5px;padding:6px 12px;white-space:normal;text-align:center;width:80vw}
 }
@@ -638,271 +623,22 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 </main>
 
 <div class="desk-scene" id="deskScene">
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <defs>
-      <pattern id="halftoneDot" width="7" height="7" patternUnits="userSpaceOnUse">
-        <circle cx="2" cy="2" r="1.4" fill="var(--pop)"/>
-      </pattern>
-    </defs>
-  </svg>
   <p class="desk-hint">My desk, mid-recipe &mdash; move things aside, then open the book</p>
-
-  <!-- cutting mat: fixed surface, not draggable -->
-  <div class="desk-fixed mat" style="left:24%;top:30%;--w:clamp(360px,46vw,600px);--r:-2deg" aria-hidden="true">
-    <svg viewBox="0 0 600 420" style="position:absolute;inset:0;width:100%;height:100%" preserveAspectRatio="none">
-      <g stroke="var(--mat-grid)" stroke-width="1" opacity=".9">
-        <line x1="40" y1="410" x2="190" y2="60"/><line x1="40" y1="410" x2="280" y2="40"/>
-        <line x1="40" y1="410" x2="380" y2="40"/><line x1="40" y1="410" x2="470" y2="70"/>
-        <line x1="40" y1="410" x2="40" y2="20"/>
-      </g>
-      <g font-family="var(--mono)" font-size="11" fill="var(--paper)" opacity=".85">
-        <text x="150" y="80">150&deg;</text><text x="255" y="48">120&deg;</text>
-        <text x="345" y="40">60&deg;</text><text x="430" y="78">30&deg;</text><text x="30" y="40">90&deg;</text>
-      </g>
-      <g stroke="var(--mat-grid)" stroke-width="1.4">
-        <line x1="20" y1="20" x2="580" y2="20"/><line x1="20" y1="20" x2="20" y2="400"/>
-      </g>
-      <g font-family="var(--mono)" font-size="9" fill="var(--paper)" opacity=".65">
-        <text x="55" y="16">1</text><text x="115" y="16">3</text><text x="175" y="16">5</text><text x="235" y="16">7</text>
-        <text x="295" y="16">9</text><text x="355" y="16">11</text><text x="415" y="16">13</text><text x="475" y="16">15</text>
-        <text x="8" y="60">1</text><text x="8" y="120">3</text><text x="8" y="180">5</text><text x="8" y="240">7</text>
-        <text x="8" y="300">9</text><text x="8" y="360">11</text>
-      </g>
-    </svg>
-    <span class="mat-tag">A3 &middot; CUTTING MAT</span>
-  </div>
-
-  <!-- the recipe book, closed, sitting on the desk -->
-  <div class="desk-item" data-book="1" style="left:36%;top:46%;--w:clamp(150px,18vw,230px);--r:4deg;z-index:6" role="button" tabindex="0" aria-label="Open the recipe book">
-    <svg viewBox="0 0 100 130">
-      <rect x="10" y="4" width="84" height="122" rx="3" fill="url(#halftoneDot)" transform="translate(6,7)"/>
-      <rect x="10" y="4" width="84" height="122" rx="3" fill="var(--kraft)" stroke="var(--ink)" stroke-width="3"/>
-      <rect x="10" y="4" width="84" height="122" rx="3" fill="none" stroke="var(--kraft-d)" stroke-width="1" opacity=".5"/>
-      <g fill="none" stroke="var(--steel)" stroke-width="2">
-        <ellipse cx="10" cy="26" rx="5" ry="7"/><ellipse cx="10" cy="65" rx="5" ry="7"/><ellipse cx="10" cy="104" rx="5" ry="7"/>
-      </g>
-      <g fill="var(--ink)"><circle cx="10" cy="26" r="1.6"/><circle cx="10" cy="65" r="1.6"/><circle cx="10" cy="104" r="1.6"/></g>
-      <rect x="22" y="46" width="60" height="40" fill="var(--paper)" stroke="var(--ink)" stroke-width="2"/>
-      <rect x="26" y="50" width="26" height="8" fill="var(--yellow)"/>
-      <text x="52" y="76" font-family="var(--display)" font-size="18" fill="var(--ink)" text-anchor="middle">Portfolio</text>
-    </svg>
-  </div>
-
-  <!-- loose paper -->
-  <div class="desk-item" style="left:12%;top:20%;--w:clamp(90px,11vw,150px);--r:-11deg;z-index:2" aria-hidden="true">
-    <svg viewBox="0 0 100 130">
-      <rect x="6" y="10" width="80" height="112" fill="url(#halftoneDot)" transform="translate(5,6)"/>
-      <rect x="10" y="6" width="80" height="112" fill="var(--paper-2)" stroke="var(--ink)" stroke-width="2.6" transform="rotate(-6 50 62)"/>
-      <rect x="6" y="10" width="80" height="112" fill="var(--paper)" stroke="var(--ink)" stroke-width="2.6"/>
-      <path d="M6 10 L26 10 L6 30 Z" fill="var(--paper-2)" stroke="var(--ink)" stroke-width="1.5"/>
-      <g stroke="var(--charcoal)" stroke-width="1.6" opacity=".4">
-        <line x1="18" y1="40" x2="72" y2="40"/><line x1="18" y1="50" x2="72" y2="50"/><line x1="18" y1="60" x2="54" y2="60"/>
-      </g>
-    </svg>
-  </div>
-
-  <!-- A5 notebook, "Thoughts Notes & Ideas" -->
-  <div class="desk-item" style="left:4%;top:46%;--w:clamp(90px,11vw,150px);--r:-9deg;z-index:3" aria-hidden="true">
-    <svg viewBox="0 0 90 120">
-      <rect x="6" y="4" width="80" height="112" rx="3" fill="url(#halftoneDot)" transform="translate(5,6)"/>
-      <rect x="6" y="4" width="80" height="112" rx="3" fill="var(--notebook-blue)" stroke="var(--ink)" stroke-width="3"/>
-      <rect x="6" y="4" width="80" height="112" rx="3" fill="none" stroke="var(--notebook-blue-d)" stroke-width="1" opacity=".6"/>
-      <g font-family="var(--display)" font-style="italic" font-size="14" fill="var(--paper-2)">
-        <text x="14" y="34">Thoughts</text>
-        <text x="14" y="52">Notes</text>
-        <text x="14" y="70">&amp; Ideas</text>
-      </g>
-      <rect x="38" y="112" width="8" height="16" fill="var(--sage)"/>
-    </svg>
-  </div>
-
-  <!-- A4 drawing pad -->
-  <div class="desk-item" style="left:58%;top:62%;--w:clamp(130px,16vw,210px);--r:5deg;z-index:4" aria-hidden="true">
-    <svg viewBox="0 0 110 140">
-      <rect x="6" y="14" width="98" height="120" rx="3" fill="url(#halftoneDot)" transform="translate(6,7)"/>
-      <rect x="6" y="14" width="98" height="120" rx="3" fill="var(--paper)" stroke="var(--ink)" stroke-width="3"/>
-      <g stroke="var(--charcoal)" stroke-width="1.6" fill="none">
-        <circle cx="16" cy="10" r="3"/><circle cx="34" cy="10" r="3"/><circle cx="52" cy="10" r="3"/>
-        <circle cx="70" cy="10" r="3"/><circle cx="88" cy="10" r="3"/>
-      </g>
-      <path d="M24 50 q20 -18 44 0 q18 14 34 -2" fill="none" stroke="var(--ink)" stroke-width="2" opacity=".55"/>
-      <path d="M22 78 l50 0 M22 90 l36 0" stroke="var(--ink)" stroke-width="2" opacity=".35"/>
-      <text x="55" y="118" font-family="var(--mono)" font-size="11" fill="var(--muted)" text-anchor="middle">A4</text>
-    </svg>
-  </div>
-
-  <!-- ruler / scale: clear plastic -->
-  <div class="desk-item" style="left:4%;top:68%;--w:clamp(160px,20vw,280px);--r:28deg;z-index:5" aria-hidden="true">
-    <svg viewBox="0 0 220 30">
-      <rect x="2" y="4" width="216" height="22" rx="2" fill="url(#halftoneDot)" transform="translate(4,4)"/>
-      <rect x="2" y="4" width="216" height="22" rx="2" fill="var(--clear)" stroke="var(--ink)" stroke-width="2.2"/>
-      <rect x="2" y="4" width="216" height="6" fill="#fff" opacity=".35"/>
-      <g stroke="var(--ink)" stroke-width="1" opacity=".8">
-        <line x1="10" y1="22" x2="10" y2="12"/><line x1="20" y1="22" x2="20" y2="16"/><line x1="30" y1="22" x2="30" y2="12"/>
-        <line x1="40" y1="22" x2="40" y2="16"/><line x1="50" y1="22" x2="50" y2="12"/><line x1="60" y1="22" x2="60" y2="16"/>
-        <line x1="70" y1="22" x2="70" y2="12"/><line x1="80" y1="22" x2="80" y2="16"/><line x1="90" y1="22" x2="90" y2="12"/>
-        <line x1="100" y1="22" x2="100" y2="16"/><line x1="110" y1="22" x2="110" y2="12"/><line x1="120" y1="22" x2="120" y2="16"/>
-        <line x1="130" y1="22" x2="130" y2="12"/><line x1="140" y1="22" x2="140" y2="16"/><line x1="150" y1="22" x2="150" y2="12"/>
-        <line x1="160" y1="22" x2="160" y2="16"/><line x1="170" y1="22" x2="170" y2="12"/><line x1="180" y1="22" x2="180" y2="16"/>
-        <line x1="190" y1="22" x2="190" y2="12"/><line x1="200" y1="22" x2="200" y2="16"/>
-      </g>
-      <text x="166" y="14" font-family="var(--mono)" font-weight="700" font-size="7" fill="var(--ink)" opacity=".75" letter-spacing="1">ARTLINE</text>
-    </svg>
-  </div>
-
-  <!-- red, green & black watercolour pencils -->
-  <div class="desk-item" style="left:70%;top:56%;--w:clamp(130px,17vw,230px);--r:7deg;z-index:7" aria-hidden="true">
-    <svg viewBox="0 0 170 46">
-      <rect x="0" y="0" width="150" height="34" rx="5" fill="url(#halftoneDot)" transform="translate(4,8)"/>
-      <polygon points="152,14 157,20 164,17 159,24 165,30 157,28 155,36 150,29 143,32 146,25 139,20 147,21" fill="var(--pop)"/>
-      <g transform="translate(0,10) rotate(-3)">
-        <rect x="0" y="0" width="134" height="7" rx="3.5" fill="#C6382E" stroke="var(--ink)" stroke-width="1.6"/>
-        <polygon points="134,0 150,3.5 134,7" fill="#E7C9A6" stroke="var(--ink)" stroke-width="1.2"/>
-        <polygon points="146,2.2 150,3.5 146,4.8" fill="#4A2E1E"/>
-      </g>
-      <g transform="translate(6,14) rotate(2)">
-        <rect x="0" y="0" width="134" height="7" rx="3.5" fill="#3F7D4A" stroke="var(--ink)" stroke-width="1.6"/>
-        <polygon points="134,0 150,3.5 134,7" fill="#E7C9A6" stroke="var(--ink)" stroke-width="1.2"/>
-        <polygon points="146,2.2 150,3.5 146,4.8" fill="#4A2E1E"/>
-      </g>
-      <g transform="translate(2,26) rotate(-1)">
-        <rect x="0" y="0" width="134" height="7" rx="3.5" fill="var(--charcoal)" stroke="var(--ink)" stroke-width="1.6"/>
-        <polygon points="134,0 150,3.5 134,7" fill="#E7C9A6" stroke="var(--ink)" stroke-width="1.2"/>
-        <polygon points="146,2.2 150,3.5 146,4.8" fill="#161514"/>
-      </g>
-    </svg>
-  </div>
-
-  <!-- yellow utility knife, capped -->
-  <div class="desk-item" style="left:44%;top:70%;--w:clamp(110px,14vw,190px);--r:20deg;z-index:8" aria-hidden="true">
-    <svg viewBox="0 0 150 26">
-      <rect x="0" y="4" width="112" height="18" rx="6" fill="url(#halftoneDot)" transform="translate(5,5)"/>
-      <rect x="0" y="6" width="88" height="14" rx="4" fill="var(--knife-y)" stroke="var(--ink)" stroke-width="1.8"/>
-      <rect x="0" y="6" width="88" height="4" fill="#fff" opacity=".3"/>
-      <rect x="30" y="4" width="20" height="18" rx="2" fill="var(--ink)"/>
-      <rect x="33" y="8" width="14" height="4" rx="1" fill="#555"/>
-      <polygon points="88,8 112,13 88,18" fill="var(--steel)" stroke="var(--ink)" stroke-width="1.3"/>
-      <line x1="92" y1="11" x2="106" y2="13" stroke="var(--ink)" stroke-width=".8" opacity=".5"/>
-      <line x1="92" y1="15" x2="104" y2="13.5" stroke="var(--ink)" stroke-width=".8" opacity=".5"/>
-      <g transform="translate(118,3) rotate(8)">
-        <path d="M0 4 Q0 0 6 0 L22 0 Q28 0 28 7 Q28 14 22 14 L6 14 Q0 14 0 10 Z" fill="var(--ink)" stroke="var(--ink)" stroke-width="1"/>
-      </g>
-    </svg>
-  </div>
-
-  <!-- glass of water -->
-  <div class="desk-item" style="left:2%;top:4%;--w:clamp(58px,6.5vw,85px);--r:3deg;z-index:9" aria-hidden="true">
-    <svg viewBox="0 0 70 90">
-      <path d="M8 8 L62 8 L55 82 Q35 90 15 82 Z" fill="url(#halftoneDot)" transform="translate(4,5)"/>
-      <path d="M8 8 L62 8 L55 82 Q35 90 15 82 Z" fill="var(--clear)" stroke="var(--ink)" stroke-width="2.5"/>
-      <path d="M12 38 L58 38 L55 82 Q35 90 15 82 Z" fill="#BFE0E6" opacity=".55"/>
-      <ellipse cx="35" cy="8" rx="27" ry="5" fill="none" stroke="var(--ink)" stroke-width="2"/>
-      <line x1="17" y1="16" x2="14" y2="66" stroke="#fff" stroke-width="2.5" opacity=".5"/>
-    </svg>
-  </div>
-
-  <!-- iced coffee: top-down glass, ice & milk swirl -->
-  <div class="desk-item" style="left:84%;top:40%;--w:clamp(70px,9vw,110px);--r:-6deg;z-index:10" aria-hidden="true">
-    <svg viewBox="0 0 120 120">
-      <circle cx="60" cy="60" r="56" fill="url(#halftoneDot)" transform="translate(5,6)"/>
-      <circle cx="60" cy="60" r="56" fill="none" stroke="var(--ink)" stroke-width="3"/>
-      <circle cx="60" cy="60" r="52" fill="#D9B98C"/>
-      <path d="M20 42 Q60 28 100 46 Q84 70 60 58 Q36 72 20 42 Z" fill="#E6CBA0" opacity=".75"/>
-      <path d="M30 86 Q60 96 94 78 Q70 100 44 98 Q32 94 30 86 Z" fill="#C7A574" opacity=".6"/>
-      <g stroke="var(--ink)" stroke-width="1.4" fill="#EFE6D4" opacity=".92">
-        <polygon points="40,36 56,30 64,42 52,52 36,48"/>
-        <polygon points="68,34 86,38 88,54 72,58 62,46"/>
-        <polygon points="46,58 62,54 68,70 54,80 40,72"/>
-        <polygon points="76,62 92,64 90,80 76,84 68,74"/>
-        <polygon points="36,78 50,76 54,92 40,98 28,90"/>
-      </g>
-      <circle cx="60" cy="60" r="56" fill="none" stroke="var(--ink)" stroke-width="3"/>
-    </svg>
-  </div>
-
-  <!-- chocolate cereal bowl with milk & spoon -->
-  <div class="desk-item" style="left:74%;top:4%;--w:clamp(110px,13vw,170px);--r:0deg;z-index:11" aria-hidden="true">
-    <svg viewBox="0 0 120 130">
-      <circle cx="60" cy="60" r="56" fill="url(#halftoneDot)" transform="translate(5,6)"/>
-      <circle cx="60" cy="60" r="56" fill="#fff" stroke="var(--ink)" stroke-width="2.5"/>
-      <circle cx="60" cy="60" r="46" fill="var(--milk)" stroke="var(--ink)" stroke-width="1.5" opacity=".9"/>
-      <g fill="#6B4430" stroke="var(--ink)" stroke-width="1" opacity=".95">
-        <ellipse cx="42" cy="46" rx="7" ry="5" transform="rotate(20 42 46)"/>
-        <ellipse cx="60" cy="40" rx="7" ry="5" transform="rotate(-10 60 40)"/>
-        <ellipse cx="78" cy="50" rx="7" ry="5" transform="rotate(30 78 50)"/>
-        <ellipse cx="48" cy="62" rx="7" ry="5" transform="rotate(-25 48 62)"/>
-        <ellipse cx="68" cy="64" rx="7" ry="5" transform="rotate(12 68 64)"/>
-        <ellipse cx="86" cy="68" rx="6" ry="4.5" transform="rotate(-15 86 68)"/>
-        <ellipse cx="55" cy="80" rx="7" ry="5" transform="rotate(8 55 80)"/>
-        <ellipse cx="74" cy="84" rx="6.5" ry="4.5" transform="rotate(-20 74 84)"/>
-        <ellipse cx="38" cy="76" rx="6" ry="4.5" transform="rotate(18 38 76)"/>
-      </g>
-      <g transform="translate(70,70) rotate(35)">
-        <line x1="0" y1="0" x2="34" y2="0" stroke="var(--steel-d)" stroke-width="4" stroke-linecap="round"/>
-        <ellipse cx="-11" cy="0" rx="12" ry="7" fill="var(--steel)" stroke="var(--ink)" stroke-width="1.6"/>
-      </g>
-      <circle cx="60" cy="60" r="56" fill="none" stroke="var(--ink)" stroke-width="2.5"/>
-    </svg>
-  </div>
-
-  <!-- EarPods -->
-  <div class="desk-item" style="left:50%;top:14%;--w:clamp(90px,10vw,140px);--r:-16deg;z-index:12" aria-hidden="true">
-    <svg viewBox="0 0 100 60">
-      <rect x="0" y="6" width="92" height="46" rx="12" fill="url(#halftoneDot)" transform="translate(4,4)"/>
-      <path d="M8 40 C 20 10, 45 10, 50 30 C 55 50, 75 50, 85 25" fill="none" stroke="#E9E7E0" stroke-width="3" stroke-linecap="round"/>
-      <ellipse cx="8" cy="40" rx="7" ry="10" fill="#F2F0E8" stroke="var(--ink)" stroke-width="2"/>
-      <rect x="3" y="44" width="5" height="12" rx="2" fill="#E9E7E0" stroke="var(--ink)" stroke-width="1.5"/>
-      <ellipse cx="88" cy="20" rx="7" ry="10" fill="#F2F0E8" stroke="var(--ink)" stroke-width="2"/>
-      <rect x="86" y="8" width="5" height="12" rx="2" fill="#E9E7E0" stroke="var(--ink)" stroke-width="1.5"/>
-    </svg>
-  </div>
-
-  <!-- iPad, back view in yellow case -->
-  <div class="desk-item" style="left:4%;top:4%;--w:clamp(140px,17vw,230px);--r:-7deg;z-index:13" aria-hidden="true">
-    <svg viewBox="0 0 100 130">
-      <rect x="3" y="3" width="94" height="124" rx="12" fill="url(#halftoneDot)" transform="translate(5,6)"/>
-      <rect x="3" y="3" width="94" height="124" rx="12" fill="var(--yellow)" stroke="var(--ink)" stroke-width="2.5"/>
-      <rect x="11" y="11" width="78" height="108" rx="6" fill="#D8C94A" opacity=".55" stroke="var(--ink)" stroke-width="1.4"/>
-      <rect x="74" y="10" width="16" height="110" rx="6" fill="var(--yellow)" stroke="var(--ink)" stroke-width="1.6"/>
-      <circle cx="22" cy="22" r="8" fill="none" stroke="var(--ink)" stroke-width="2"/>
-      <circle cx="22" cy="22" r="4" fill="var(--ink)"/>
-      <text x="50" y="100" font-family="var(--text)" font-size="9" fill="var(--ink)" opacity=".55" text-anchor="middle">iPad</text>
-    </svg>
-  </div>
-
-  <!-- Fujifilm digicam -->
-  <div class="desk-item" style="left:64%;top:16%;--w:clamp(110px,13vw,170px);--r:9deg;z-index:14" aria-hidden="true">
-    <svg viewBox="0 0 120 90">
-      <rect x="4" y="10" width="112" height="72" rx="10" fill="url(#halftoneDot)" transform="translate(5,6)"/>
-      <rect x="4" y="10" width="112" height="72" rx="10" fill="var(--charcoal)" stroke="var(--ink)" stroke-width="2"/>
-      <rect x="4" y="10" width="112" height="6" rx="3" fill="var(--steel)" opacity=".5"/>
-      <circle cx="78" cy="48" r="28" fill="var(--steel)" stroke="var(--ink)" stroke-width="2.5"/>
-      <circle cx="78" cy="48" r="23" fill="var(--steel-d)" stroke="var(--ink)" stroke-width="1.4"/>
-      <circle cx="78" cy="48" r="14" fill="#201F1D" stroke="var(--steel)" stroke-width="2"/>
-      <circle cx="78" cy="48" r="7" fill="#050505"/>
-      <circle cx="75" cy="45" r="2" fill="#555" opacity=".7"/>
-      <rect x="10" y="16" width="22" height="16" rx="2" fill="#F1EFE8" stroke="var(--ink)" stroke-width="1.6"/>
-      <text x="21" y="24" font-family="var(--mono)" font-weight="700" font-size="6" fill="var(--ink)" text-anchor="middle">10x</text>
-      <text x="21" y="30" font-family="var(--mono)" font-size="5" fill="var(--ink)" text-anchor="middle">WIDE</text>
-      <circle cx="40" cy="20" r="3" fill="var(--gold)" stroke="var(--ink)" stroke-width="1"/>
-      <text x="12" y="68" font-family="var(--display)" font-size="11" fill="#F1EFE8" letter-spacing="-.5">FUJIFILM</text>
-      <rect x="10" y="72" width="22" height="9" rx="1.5" fill="var(--gold)" stroke="var(--ink)" stroke-width="1"/>
-      <text x="21" y="79" font-family="var(--mono)" font-weight="700" font-size="6" fill="var(--ink)" text-anchor="middle">EXR</text>
-    </svg>
-  </div>
-
-  <!-- iPhone 17 Pro -->
-  <div class="desk-item" style="left:30%;top:14%;--w:clamp(70px,9vw,110px);--r:13deg;z-index:15" aria-hidden="true">
-    <svg viewBox="0 0 70 140">
-      <rect x="3" y="3" width="64" height="134" rx="14" fill="url(#halftoneDot)" transform="translate(4,5)"/>
-      <rect x="3" y="3" width="64" height="134" rx="14" fill="#CBCDC8" stroke="var(--ink)" stroke-width="2.5"/>
-      <rect x="8" y="8" width="26" height="30" rx="8" fill="#B7B9B3" stroke="var(--ink)" stroke-width="2"/>
-      <circle cx="18" cy="18" r="7" fill="var(--charcoal)" stroke="var(--steel-d)" stroke-width="2"/><circle cx="18" cy="18" r="3" fill="#111"/>
-      <circle cx="29" cy="29" r="7" fill="var(--charcoal)" stroke="var(--steel-d)" stroke-width="2"/><circle cx="29" cy="29" r="3" fill="#111"/>
-      <circle cx="18" cy="29" r="4.5" fill="#1b1a19"/>
-      <rect x="27" y="6" width="10" height="4" rx="2" fill="#9a9c97"/>
-    </svg>
-  </div>
+  <div class="desk-fixed mat" style="left:22%;top:24%;--w:clamp(380px,50vw,700px);--r:-2deg" aria-hidden="true"><img src="desk/mat.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="left:10%;top:14%;--w:clamp(110px,12vw,170px);--r:-11deg;z-index:2" aria-hidden="true"><img src="desk/paper.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="left:4%;top:44%;--w:clamp(110px,12vw,170px);--r:-9deg;z-index:3" aria-hidden="true"><img src="desk/sketchbook.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="left:60%;top:56%;--w:clamp(130px,15vw,200px);--r:5deg;z-index:4" aria-hidden="true"><img src="desk/pad.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="left:20%;top:54%;--w:clamp(80px,8.5vw,120px);--r:62deg;z-index:5" aria-hidden="true"><img src="desk/ruler.webp" alt="" draggable="false"></div>
+  <div class="desk-item" data-book="1" style="left:40%;top:33%;--w:clamp(170px,19vw,250px);--r:4deg;z-index:6" role="button" tabindex="0" aria-label="Open the recipe book"><img src="desk/book.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="left:80%;top:48%;--w:clamp(55px,6vw,85px);--r:75deg;z-index:7" aria-hidden="true"><img src="desk/pencils.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="left:48%;top:50%;--w:clamp(32px,3.6vw,50px);--r:58deg;z-index:8" aria-hidden="true"><img src="desk/knife.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="left:88%;top:70%;--w:clamp(80px,8vw,115px);--r:0deg;z-index:9" aria-hidden="true"><img src="desk/glass.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="left:86%;top:34%;--w:clamp(90px,9vw,125px);--r:-6deg;z-index:10" aria-hidden="true"><img src="desk/coffee.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="left:76%;top:3%;--w:clamp(130px,13vw,180px);--r:0deg;z-index:11" aria-hidden="true"><img src="desk/cereal.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="left:52%;top:5%;--w:clamp(60px,6vw,85px);--r:-30deg;z-index:12" aria-hidden="true"><img src="desk/earphones.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="left:3%;top:4%;--w:clamp(130px,14vw,190px);--r:-7deg;z-index:13" aria-hidden="true"><img src="desk/ipad.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="left:62%;top:18%;--w:clamp(120px,12vw,170px);--r:9deg;z-index:14" aria-hidden="true"><img src="desk/camera.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="left:31%;top:9%;--w:clamp(65px,6.5vw,95px);--r:13deg;z-index:15" aria-hidden="true"><img src="desk/phone.webp" alt="" draggable="false"></div>
 </div>
 
 <footer class="ftr" aria-hidden="true">
