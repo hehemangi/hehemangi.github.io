@@ -307,11 +307,13 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 .desk-fixed{position:absolute;pointer-events:none}
 .desk-fixed.mat{width:var(--w);transform:translate(-50%,-50%) rotate(var(--r,0deg));filter:drop-shadow(8px 10px 0 rgba(30,14,6,.35))}
 .desk-fixed img,.desk-item img{display:block;width:100%;height:auto;pointer-events:none;user-select:none;-webkit-user-drag:none}
-.desk-item{position:absolute;width:var(--w);transform:translate(var(--dx,0px),var(--dy,0px)) rotate(var(--r,0deg));
+.desk-item{position:absolute;left:var(--x);top:var(--y);width:var(--w);transform:translate(var(--dx,0px),var(--dy,0px)) rotate(var(--r,0deg));
   cursor:grab;pointer-events:auto;touch-action:none;filter:drop-shadow(6px 8px 0 rgba(30,14,6,.32));
   transition:filter .2s}
 .desk-item.dragging{cursor:grabbing;filter:drop-shadow(12px 18px 0 rgba(30,14,6,.28))}
 @media not all and (min-width:900px) and (min-height:560px){
+  .desk-item{left:var(--mx,var(--x));top:var(--my,var(--y));width:calc(var(--w) * .78)}
+  .desk-fixed.mat{width:min(88vh,136vw);transform:translate(-50%,-50%) rotate(90deg)}
   .desk-hint{font-size:9.5px;padding:6px 12px;white-space:normal;text-align:center;width:80vw}
 }
 </style>
@@ -624,21 +626,21 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 
 <div class="desk-scene" id="deskScene">
   <p class="desk-hint">My desk, mid-recipe &mdash; move things aside, then open the book</p>
-  <div class="desk-fixed mat" style="left:50%;top:52%;--w:clamp(340px,min(60vw,112vh),1150px);--r:-2deg" aria-hidden="true"><img src="desk/mat.webp" alt="" draggable="false"></div>
-  <div class="desk-item" style="left:10%;top:14%;--w:clamp(110px,12vw,170px);--r:-11deg;z-index:2" aria-hidden="true"><img src="desk/paper.webp" alt="" draggable="false"></div>
-  <div class="desk-item" style="left:4%;top:44%;--w:clamp(110px,12vw,170px);--r:-9deg;z-index:3" aria-hidden="true"><img src="desk/sketchbook.webp" alt="" draggable="false"></div>
-  <div class="desk-item" style="left:60%;top:56%;--w:clamp(130px,15vw,200px);--r:5deg;z-index:4" aria-hidden="true"><img src="desk/pad.webp" alt="" draggable="false"></div>
-  <div class="desk-item" style="left:13%;top:58%;--w:clamp(140px,16vw,220px);--r:0deg;z-index:5" aria-hidden="true"><img src="desk/ruler.webp" alt="" draggable="false"></div>
-  <div class="desk-item" data-book="1" style="left:41%;top:32%;--w:clamp(170px,19vw,250px);--r:4deg;z-index:6" role="button" tabindex="0" aria-label="Open the recipe book"><img src="desk/book.webp" alt="" draggable="false"></div>
-  <div class="desk-item" style="left:79%;top:46%;--w:clamp(70px,7vw,100px);--r:70deg;z-index:7" aria-hidden="true"><img src="desk/pencils.webp" alt="" draggable="false"></div>
-  <div class="desk-item" style="left:46%;top:47%;--w:clamp(90px,10vw,140px);--r:8deg;z-index:8" aria-hidden="true"><img src="desk/knife.webp" alt="" draggable="false"></div>
-  <div class="desk-item" style="left:88%;top:70%;--w:clamp(80px,8vw,115px);--r:0deg;z-index:9" aria-hidden="true"><img src="desk/glass.webp" alt="" draggable="false"></div>
-  <div class="desk-item" style="left:86%;top:34%;--w:clamp(90px,9vw,125px);--r:-6deg;z-index:10" aria-hidden="true"><img src="desk/coffee.webp" alt="" draggable="false"></div>
-  <div class="desk-item" style="left:76%;top:3%;--w:clamp(130px,13vw,180px);--r:0deg;z-index:11" aria-hidden="true"><img src="desk/cereal.webp" alt="" draggable="false"></div>
-  <div class="desk-item" style="left:51%;top:4%;--w:clamp(80px,8vw,115px);--r:-20deg;z-index:12" aria-hidden="true"><img src="desk/earphones.webp" alt="" draggable="false"></div>
-  <div class="desk-item" style="left:3%;top:4%;--w:clamp(130px,14vw,190px);--r:-7deg;z-index:13" aria-hidden="true"><img src="desk/ipad.webp" alt="" draggable="false"></div>
-  <div class="desk-item" style="left:62%;top:18%;--w:clamp(120px,12vw,170px);--r:9deg;z-index:14" aria-hidden="true"><img src="desk/camera.webp" alt="" draggable="false"></div>
-  <div class="desk-item" style="left:31%;top:9%;--w:clamp(65px,6.5vw,95px);--r:13deg;z-index:15" aria-hidden="true"><img src="desk/phone.webp" alt="" draggable="false"></div>
+  <div class="desk-fixed mat" style="left:50%;top:50%;--w:min(94vw,137vh);--r:-1deg" aria-hidden="true"><img src="desk/mat.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="--x:18%;--y:22%;--mx:8%;--my:33%;--w:clamp(110px,12vw,170px);--r:-11deg;z-index:2" aria-hidden="true"><img src="desk/paper.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="--x:8%;--y:42%;--mx:5%;--my:52%;--w:clamp(110px,12vw,170px);--r:-9deg;z-index:3" aria-hidden="true"><img src="desk/sketchbook.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="--x:60%;--y:55%;--mx:45%;--my:62%;--w:clamp(130px,15vw,200px);--r:5deg;z-index:4" aria-hidden="true"><img src="desk/pad.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="--x:17%;--y:60%;--mx:8%;--my:66%;--w:clamp(140px,16vw,220px);--r:0deg;z-index:5" aria-hidden="true"><img src="desk/ruler.webp" alt="" draggable="false"></div>
+  <div class="desk-item" data-book="1" style="--x:41%;--y:30%;--mx:30%;--my:40%;--w:clamp(170px,19vw,250px);--r:4deg;z-index:6" role="button" tabindex="0" aria-label="Open the recipe book"><img src="desk/book.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="--x:75%;--y:48%;--mx:70%;--my:56%;--w:clamp(70px,7vw,100px);--r:70deg;z-index:7" aria-hidden="true"><img src="desk/pencils.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="--x:46%;--y:45%;--mx:46%;--my:50%;--w:clamp(90px,10vw,140px);--r:8deg;z-index:8" aria-hidden="true"><img src="desk/knife.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="--x:82%;--y:66%;--mx:74%;--my:70%;--w:clamp(80px,8vw,115px);--r:0deg;z-index:9" aria-hidden="true"><img src="desk/glass.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="--x:81%;--y:33%;--mx:72%;--my:43%;--w:clamp(90px,9vw,125px);--r:-6deg;z-index:10" aria-hidden="true"><img src="desk/coffee.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="--x:74%;--y:8%;--mx:68%;--my:19%;--w:clamp(130px,13vw,180px);--r:0deg;z-index:11" aria-hidden="true"><img src="desk/cereal.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="--x:52%;--y:8%;--mx:50%;--my:19%;--w:clamp(80px,8vw,115px);--r:-20deg;z-index:12" aria-hidden="true"><img src="desk/earphones.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="--x:8%;--y:8%;--mx:5%;--my:19%;--w:clamp(130px,14vw,190px);--r:-7deg;z-index:13" aria-hidden="true"><img src="desk/ipad.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="--x:61%;--y:15%;--mx:56%;--my:30%;--w:clamp(120px,12vw,170px);--r:9deg;z-index:14" aria-hidden="true"><img src="desk/camera.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="--x:29%;--y:10%;--mx:33%;--my:20%;--w:clamp(65px,6.5vw,95px);--r:13deg;z-index:15" aria-hidden="true"><img src="desk/phone.webp" alt="" draggable="false"></div>
 </div>
 
 <footer class="ftr" aria-hidden="true">
