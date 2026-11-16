@@ -299,18 +299,18 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 .desk-scene{position:fixed;inset:0;z-index:950;pointer-events:none;overflow:hidden;transition:opacity .5s}
 .desk-scene[hidden]{display:none}
 .desk-scene.hiding{opacity:0}
-.desk-scene{background:#F6E7C8 url(desk/tablecloth.webp) center/cover no-repeat}
+.desk-scene{background:#7A4A2A url(desk/table.webp) center/cover no-repeat}
 .desk-hint{position:absolute;top:max(18px,env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%) rotate(-1.5deg);
   font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
   background:var(--yellow);border-radius:999px;
   padding:8px 16px;white-space:nowrap;z-index:30;pointer-events:none}
 .desk-fixed{position:absolute;pointer-events:none}
-.desk-fixed.mat{width:var(--w);transform:rotate(var(--r,0deg));filter:drop-shadow(8px 10px 0 rgba(70,12,12,.3))}
+.desk-fixed.mat{width:var(--w);transform:translate(-50%,-50%) rotate(var(--r,0deg));filter:drop-shadow(8px 10px 0 rgba(30,14,6,.35))}
 .desk-fixed img,.desk-item img{display:block;width:100%;height:auto;pointer-events:none;user-select:none;-webkit-user-drag:none}
 .desk-item{position:absolute;width:var(--w);transform:translate(var(--dx,0px),var(--dy,0px)) rotate(var(--r,0deg));
-  cursor:grab;pointer-events:auto;touch-action:none;filter:drop-shadow(6px 8px 0 rgba(70,12,12,.3));
+  cursor:grab;pointer-events:auto;touch-action:none;filter:drop-shadow(6px 8px 0 rgba(30,14,6,.32));
   transition:filter .2s}
-.desk-item.dragging{cursor:grabbing;filter:drop-shadow(12px 18px 0 rgba(70,12,12,.25))}
+.desk-item.dragging{cursor:grabbing;filter:drop-shadow(12px 18px 0 rgba(30,14,6,.28))}
 @media not all and (min-width:900px) and (min-height:560px){
   .desk-hint{font-size:9.5px;padding:6px 12px;white-space:normal;text-align:center;width:80vw}
 }
@@ -624,12 +624,12 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 
 <div class="desk-scene" id="deskScene">
   <p class="desk-hint">My desk, mid-recipe &mdash; move things aside, then open the book</p>
-  <div class="desk-fixed mat" style="left:22%;top:24%;--w:clamp(380px,50vw,700px);--r:-2deg" aria-hidden="true"><img src="desk/mat.webp" alt="" draggable="false"></div>
+  <div class="desk-fixed mat" style="left:50%;top:52%;--w:clamp(340px,min(60vw,112vh),1150px);--r:-2deg" aria-hidden="true"><img src="desk/mat.webp" alt="" draggable="false"></div>
   <div class="desk-item" style="left:10%;top:14%;--w:clamp(110px,12vw,170px);--r:-11deg;z-index:2" aria-hidden="true"><img src="desk/paper.webp" alt="" draggable="false"></div>
   <div class="desk-item" style="left:4%;top:44%;--w:clamp(110px,12vw,170px);--r:-9deg;z-index:3" aria-hidden="true"><img src="desk/sketchbook.webp" alt="" draggable="false"></div>
   <div class="desk-item" style="left:60%;top:56%;--w:clamp(130px,15vw,200px);--r:5deg;z-index:4" aria-hidden="true"><img src="desk/pad.webp" alt="" draggable="false"></div>
   <div class="desk-item" style="left:13%;top:58%;--w:clamp(140px,16vw,220px);--r:0deg;z-index:5" aria-hidden="true"><img src="desk/ruler.webp" alt="" draggable="false"></div>
-  <div class="desk-item" data-book="1" style="left:40%;top:33%;--w:clamp(170px,19vw,250px);--r:4deg;z-index:6" role="button" tabindex="0" aria-label="Open the recipe book"><img src="desk/book.webp" alt="" draggable="false"></div>
+  <div class="desk-item" data-book="1" style="left:41%;top:32%;--w:clamp(170px,19vw,250px);--r:4deg;z-index:6" role="button" tabindex="0" aria-label="Open the recipe book"><img src="desk/book.webp" alt="" draggable="false"></div>
   <div class="desk-item" style="left:79%;top:46%;--w:clamp(70px,7vw,100px);--r:70deg;z-index:7" aria-hidden="true"><img src="desk/pencils.webp" alt="" draggable="false"></div>
   <div class="desk-item" style="left:46%;top:47%;--w:clamp(90px,10vw,140px);--r:8deg;z-index:8" aria-hidden="true"><img src="desk/knife.webp" alt="" draggable="false"></div>
   <div class="desk-item" style="left:88%;top:70%;--w:clamp(80px,8vw,115px);--r:0deg;z-index:9" aria-hidden="true"><img src="desk/glass.webp" alt="" draggable="false"></div>
