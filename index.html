@@ -10,6 +10,14 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400;700&display=swap">
 <style>
+/* Mynerve by Sudtipos (Google Fonts, SIL Open Font License) — self-hosted in fonts/ */
+@font-face{font-family:"Mynerve";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/mynerve-latin.woff2) format("woff2");
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Mynerve";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/mynerve-latin-ext.woff2) format("woff2");
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C4,U+2113,U+2C60-2C7F,U+A720-A7FF}
+/* Schoolbell by Font Diner (Google Fonts, Apache License 2.0) — self-hosted, body copy */
+@font-face{font-family:"Schoolbell";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/schoolbell-latin.woff2) format("woff2");size-adjust:112%;
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 /* Layout: a ring-binder recipe book on a dark desk — kraft board covers, three metal rings, punched
    cream pages printed in black, index tabs on the outer edges, divider pages with line drawings.
    Bright yellow is kept for special headings (as a highlighter), the pocket and the note cards.
@@ -18,8 +26,8 @@
   --desk:#141210; --ink:#141210; --paper:#FAF0D0; --paper-2:#F4E7C2; --edge:#DDCD9C;
   --kraft:#B08B5E; --kraft-d:#8E6C45;
   --yellow:#FFD60A; --note:#FFE24A; --muted:#7A7060;
-  --display:"Libre Caslon Display","Libre Caslon Text",Georgia,serif;
-  --text:"Libre Caslon Text",Georgia,serif;
+  --display:"Mynerve","Libre Caslon Text",Georgia,serif;
+  --text:"Schoolbell","Libre Caslon Text",Georgia,serif;
   --mono:"Space Mono",ui-monospace,"Courier New",monospace;
   --hdr:72px; --ftr:44px; --gap:26px;
   --ph:640px; --pw:calc(var(--ph) * .72); --u:calc(var(--ph) / 100);
@@ -30,7 +38,7 @@
 }
 *{box-sizing:border-box}
 html,body{height:100%}
-body{background:var(--desk);color:var(--paper);font-family:var(--text);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{background:var(--desk) url(desk/table.webp) center/cover fixed;color:var(--paper);font-family:var(--text);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit}
 a:focus-visible,button:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--yellow);outline-offset:3px}
 p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-style:none;margin:0;padding:0}
@@ -81,31 +89,26 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
 .stage{position:fixed;left:0;right:0;top:var(--hdr);bottom:var(--ftr);display:grid;place-items:center;perspective:2800px;touch-action:none;user-select:none}
 .binder{position:relative;width:calc(var(--pw) * 2 + var(--gap));height:var(--ph);transition:transform .9s cubic-bezier(.645,.045,.355,1)}
 .binder.at-start{transform:translateX(calc((var(--pw) + var(--gap)) * -.5))}
-.kraft{background-color:var(--kraft);
-  background-image:var(--kraft-tex);
-  background-size:160px 160px,7px 7px,11px 11px,100% 100%;background-position:0 0,0 0,3px 5px,0 0}
-.board{position:absolute;top:-14px;height:calc(100% + 28px);border-radius:3px 8px 8px 3px;box-shadow:0 30px 50px -16px rgba(0,0,0,.8)}
+/* illustrated assets (binder/*.webp) drawn to match the desk scene's hand-painted style */
+.kraft{background:url(binder/cover.webp) center/100% 100% no-repeat}
+.board{position:absolute;top:-14px;height:calc(100% + 28px);filter:drop-shadow(0 22px 22px rgba(0,0,0,.55))}
 .board-r{left:calc(50% + 4px);width:calc(var(--pw) + 22px)}
 .board-r .fin{position:absolute;right:calc(var(--u)*7);bottom:calc(var(--u)*6);text-align:right;color:#2a1d0e;opacity:0;transition:opacity .6s .3s}
 .binder.at-end .board-r .fin{opacity:1}
-.spine{position:absolute;top:-14px;bottom:-14px;left:calc(50% - 4px);width:8px;background:var(--kraft-d)}
+.spine{position:absolute;top:-14px;bottom:-14px;left:calc(50% - 4px);width:8px;background:linear-gradient(rgba(70,34,6,.45),rgba(70,34,6,.45)),var(--kraft-d) url(binder/cover.webp) center/cover}
 /* .rings itself must NOT get a z-index — that would trap its children in their own stacking
    context, where they could only move as one block relative to the leaves. Leaving it a plain
    position:absolute wrapper lets each ring-half's own z-index interleave directly with the pages
    (both share .binder's stacking context), which is what makes the front/back split work. */
 .rings{position:absolute;left:50%;top:0;bottom:0;width:0;pointer-events:none;opacity:1}
-.ring-wrap{position:absolute;left:-36px;width:72px;height:26px;margin-top:-13px}
+.ring-wrap{position:absolute;left:-39px;width:78px;height:26px;margin-top:-13px}
 .ring-wrap:nth-child(1){top:16%} .ring-wrap:nth-child(2){top:50%} .ring-wrap:nth-child(3){top:84%}
-.br{position:absolute;inset:0;border-radius:50%;border:5px solid #c9c9c9;border-color:#f1f1f1 #8d8d8d #7a7a7a #d8d8d8;
-  box-shadow:0 3px 4px rgba(0,0,0,.55),inset 0 2px 2px rgba(0,0,0,.35),inset 0 0 0 1px rgba(0,0,0,.15)}
-.br::before{content:"";position:absolute;inset:3px;border-radius:50%;border:1px solid rgba(0,0,0,.2);box-shadow:inset 0 1px 1px rgba(255,255,255,.5)}
-.br::after{content:"";position:absolute;left:28px;top:50%;width:11px;height:7px;margin-top:-3.5px;border-radius:2px;background:linear-gradient(#7d7d7d,#4a4a4a);box-shadow:inset 0 1px 1px rgba(255,255,255,.3),0 1px 1px rgba(0,0,0,.5)}
+.br{position:absolute;inset:0;background:url(binder/ring.webp) center/100% 100% no-repeat;filter:drop-shadow(0 3px 2px rgba(0,0,0,.45))}
 /* back half: the far side of the loop, dipping under the page. Full width, so wherever nothing
    covers it (the open gutter, or the far side of a closed cover) it reads as one complete loop,
    not a visibly truncated arc — only the page's own edge should ever cut it off. Sits just behind
    whichever two leaves are the current open spread (set from JS as --ring-back-z). */
 .br-back{clip-path:inset(0 0 54% 0);z-index:var(--ring-back-z,2)}
-.br-back::before,.br-back::after{content:none}
 /* front half: the near side of the loop, always resting on top of the page surface */
 .br-front{clip-path:inset(46% 0 0 0);z-index:901}
 
@@ -115,12 +118,21 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
 .leaf.drag{transition:none}
 .leaf.cover-leaf{top:-14px;height:calc(100% + 28px);left:calc(50% + 4px);width:calc(var(--pw) + 22px);transform-origin:-4px 50%}
 
-.page{position:absolute;inset:0;background-color:var(--paper);background-image:var(--grain);background-size:180px 180px;color:var(--ink);backface-visibility:hidden;-webkit-backface-visibility:hidden;
+.page{position:absolute;inset:0;background-color:var(--paper);background-image:url(binder/paper.webp);background-size:360px 360px;color:var(--ink);backface-visibility:hidden;-webkit-backface-visibility:hidden;
   padding:calc(var(--u)*8.5) calc(var(--u)*6.5) calc(var(--u)*8) calc(var(--u)*9);display:flex;flex-direction:column;gap:calc(var(--u)*2.4);
   box-shadow:0 3px 0 -1px var(--edge),0 6px 0 -2px #C9B88A;overflow:visible}
 .page.l{padding:calc(var(--u)*8.5) calc(var(--u)*9) calc(var(--u)*8) calc(var(--u)*6.5)}
 .f-back{transform:rotateY(180deg)}
 .page.alt{background-color:var(--paper-2)}
+/* illustrated page backgrounds (binder/*.webp); left pages use mirrored copies so the doodles sit on the outer edge */
+.page.r{background:var(--paper) url(binder/page-r.webp) center/100% 100% no-repeat}
+.page.l{background:var(--paper) url(binder/page-l.webp) center/100% 100% no-repeat}
+.page.alt.r{background:var(--paper-2) url(binder/alt-r.webp) center/100% 100% no-repeat}
+.page.alt.l{background:var(--paper-2) url(binder/alt-l.webp) center/100% 100% no-repeat}
+.page.divider{background:var(--paper) url(binder/divider.webp) center/100% 100% no-repeat;padding:calc(var(--u)*13) calc(var(--u)*16) calc(var(--u)*16) calc(var(--u)*15)}
+.page.divider .dtitle{font-size:calc(var(--u)*9)}
+.page.divider svg{width:52%}
+.page.pocket-page{background-image:none}
 .page::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .5s;background:linear-gradient(to right,rgba(20,18,16,.32),rgba(20,18,16,0) 45%,rgba(255,255,255,.12) 70%,rgba(20,18,16,.16))}
 .leaf.moving .page::after,.leaf.drag .page::after{opacity:1}
 .holes{position:absolute;top:0;bottom:0;width:18px;pointer-events:none}
@@ -134,16 +146,15 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
 .folio{font-family:var(--display);font-size:calc(var(--u)*2.6);letter-spacing:0;opacity:.8;font-weight:400}
 
 /* index tabs: a fixed rail on the book's edge — not part of a flipping leaf, so turning a page never flips a tab */
-.page.kraft{background-color:var(--kraft);color:#2a1d0e;background-image:var(--kraft-tex);background-size:160px 160px,7px 7px,11px 11px,100% 100%;background-position:0 0,0 0,3px 5px,0 0}
-/* a thumb-index physically attached to each leaf (one sheet, two faces): the labeled flap
+.page.kraft{background:url(binder/cover.webp) center/100% 100% no-repeat;color:#2a1d0e;box-shadow:none}/* a thumb-index physically attached to each leaf (one sheet, two faces): the labeled flap
    sits on the sheet's front, cut into the right edge, exactly like the sheet's own f-front
    page — same preserve-3d box, same backface-visibility hiding. Flip that sheet and the label
    rotates away with it; what rotates into view on the back is the same flap's blank reverse,
    a plain paper tab with no writing, on the left edge where the sheet now sits. Hidden on the
    closed cover. */
 .tab,.tab-back{position:absolute;width:34px;top:var(--t);height:var(--h);display:flex;align-items:center;justify-content:center;text-align:center;
-  background:var(--paper);font-family:var(--mono);font-weight:700;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;writing-mode:vertical-rl;
-  border:1px solid rgba(20,18,16,.12);border-top-width:.5px;border-bottom-width:.5px;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  background:var(--paper) url(binder/paper.webp) 0 0/360px 360px;font-family:var(--mono);font-weight:700;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;writing-mode:vertical-rl;
+  border:2px solid #8a4a17;backface-visibility:hidden;-webkit-backface-visibility:hidden;
   box-shadow:-2px 2px 5px rgba(0,0,0,.22);opacity:1;transition:opacity .2s,background .2s}
 .tab{right:-34px;z-index:4;color:var(--ink);text-decoration:none;border-left:0;border-radius:0 5px 5px 0}
 .tab:hover{background:var(--yellow)}
@@ -152,10 +163,10 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
 .tab.cur,.tab-back.cur{background:var(--yellow)}
 
 /* covers */
-.cover{border-radius:3px 8px 8px 3px;color:#2a1d0e;padding:calc(var(--u)*8) calc(var(--u)*7);justify-content:center;align-items:center;box-shadow:inset 6px 0 0 rgba(0,0,0,.14)}
-.inside{border-radius:8px 3px 3px 8px;box-shadow:inset -6px 0 0 rgba(0,0,0,.12);justify-content:center;align-items:center}
-.label{background:var(--paper);color:var(--ink);padding:calc(var(--u)*5) calc(var(--u)*4.5);text-align:center;display:flex;flex-direction:column;gap:calc(var(--u)*2);align-items:center;width:100%;
-  box-shadow:0 2px 0 rgba(0,0,0,.12),0 10px 18px -8px rgba(0,0,0,.4);outline:1.5px solid var(--ink);outline-offset:-10px}
+.cover{color:#2a1d0e;padding:calc(var(--u)*8) calc(var(--u)*7);justify-content:center;align-items:center}
+.inside{justify-content:center;align-items:center}
+.label{border:calc(var(--u)*5) solid transparent;border-image:url(binder/label.webp) 135 fill / calc(var(--u)*5) stretch;color:var(--ink);padding:calc(var(--u)*1.5) calc(var(--u)*1);text-align:center;display:flex;flex-direction:column;gap:calc(var(--u)*2);align-items:center;width:100%;
+  filter:drop-shadow(4px 6px 0 rgba(40,18,4,.28))}
 .label .big{font-size:calc(var(--u)*11)}
 .label .mono.hl{align-self:center}
 .exlibris{position:relative;padding:calc(var(--u)*3) calc(var(--u)*4);transform:rotate(-1.6deg);gap:calc(var(--u)*1.6)}
@@ -299,7 +310,9 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 .desk-scene{position:fixed;inset:0;z-index:950;pointer-events:none;overflow:hidden;transition:opacity .5s}
 .desk-scene[hidden]{display:none}
 .desk-scene.hiding{opacity:0}
-.desk-scene{background:#7A4A2A url(desk/table.webp) center/cover no-repeat;--matw:min(75vw,137vh);--math:calc(var(--matw) / 1.488)}
+.desk-scene{background:#7A4A2A url(desk/table.webp) center/cover no-repeat;--matw:min(86vw,188vh);--math:calc(var(--matw) / 2);--k:1.25;--rl:calc(var(--matw) * .6294);--rt:calc(var(--rl) * .138)}
+/* Real-world scale: the mat grid is 48 columns = 1 inch each, so 1in = .0198 of mat width.
+   Each prop's --fw = (its real width in inches) x .0198. --k scales every object together (grows from its centre). Ruler (--rl): sized so its 0-30 ticks span exactly 30 mat columns; --rt = its thickness. Its 0 tick sits on mat column 0. */
 .desk-hint{position:absolute;top:max(18px,env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%) rotate(-1.5deg);
   font-family:var(--mono);font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);
   background:var(--yellow);border-radius:999px;
@@ -307,17 +320,25 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 .desk-fixed{position:absolute;pointer-events:none}
 .desk-fixed.mat{width:var(--matw);height:var(--math);transform:translate(-50%,-50%) rotate(var(--r,0deg));filter:drop-shadow(8px 10px 0 rgba(30,14,6,.35))}
 .desk-scene .desk-fixed.mat img{width:100%;height:100%}
-.desk-item.ruler{--r:-1deg;width:calc(var(--matw) * .9);left:calc(50% - var(--matw) * .45);top:calc(50% + var(--math) * .5 - var(--matw) * .1241 - var(--math) * .05)}
+.desk-item.ruler{--r:-1deg;translate:none;width:var(--rl);left:calc(50% - var(--matw) / 2 + var(--matw) * .0302);top:calc(50% - var(--math) / 2 + var(--math) * .779)}
 .desk-fixed img,.desk-item img{display:block;width:100%;height:auto;pointer-events:none;user-select:none;-webkit-user-drag:none}
-.desk-item{position:absolute;left:calc(50% - var(--matw) / 2 + var(--matw) * var(--fx));top:calc(50% - var(--math) / 2 + var(--math) * var(--fy));width:calc(var(--matw) * var(--fw));transform:translate(var(--dx,0px),var(--dy,0px)) rotate(var(--r,0deg));
+.desk-item{position:absolute;left:calc(50% - var(--matw) / 2 + var(--matw) * var(--fx));top:calc(50% - var(--math) / 2 + var(--math) * var(--fy));width:calc(var(--matw) * var(--fw) * var(--k));translate:calc((1 - 1 / var(--k)) * -50%) calc((1 - 1 / var(--k)) * -50%);transform:translate(var(--dx,0px),var(--dy,0px)) rotate(var(--r,0deg));
   cursor:grab;pointer-events:auto;touch-action:none;filter:drop-shadow(6px 8px 0 rgba(30,14,6,.32));
   transition:filter .2s}
 .desk-item.dragging{cursor:grabbing;filter:drop-shadow(12px 18px 0 rgba(30,14,6,.28))}
+.desk-wire{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:12}
+.desk-wire path{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.desk-wire .w-sh{stroke:rgba(30,14,6,.3);transform:translate(4px,5px)}
+.desk-wire .w-edge{stroke:#c3bcdc}
+.desk-wire .w-core{stroke:#f7f3ed}
+.desk-wire .w-hit{stroke:rgba(0,0,0,0);pointer-events:stroke;cursor:grab;touch-action:none}
+.desk-end{position:absolute;left:0;top:0;z-index:13;pointer-events:auto;cursor:grab;touch-action:none;user-select:none;-webkit-user-drag:none;filter:drop-shadow(5px 7px 0 rgba(30,14,6,.3))}
+.desk-end.dragging{cursor:grabbing;z-index:60}
 @media not all and (min-width:900px) and (min-height:560px){
-  .desk-item{left:calc(50% - var(--math) / 2 + var(--math) * var(--mfx));top:calc(50% - var(--matw) / 2 + var(--matw) * var(--mfy));width:calc(var(--math) * var(--mfw))}
+  .desk-item{left:calc(50% - var(--math) / 2 + var(--math) * var(--mfx));top:calc(50% - var(--matw) / 2 + var(--matw) * var(--mfy))}
   .desk-fixed.mat{transform:translate(-50%,-50%) rotate(90deg)}
-  .desk-scene{--matw:min(85vh,137vw)}
-  .desk-scene .desk-item.ruler{--r:90deg;width:calc(var(--matw) * .9);left:calc(50% + var(--math) * .5 - var(--matw) * .062 - var(--math) * .05 - var(--matw) * .45);top:calc(50% - var(--matw) * .062)}
+  .desk-scene{--matw:min(85vh,184vw)}
+  .desk-scene .desk-item.ruler{--r:90deg;width:var(--rl);left:calc(50% - var(--math) / 2 + var(--math) * .8196 - var(--rl) / 2);top:calc(50% - var(--matw) / 2 + var(--matw) * .3449 - var(--rt) / 2)}
   .desk-hint{font-size:9.5px;padding:6px 12px;white-space:normal;text-align:center;width:80vw}
 }
 </style>
@@ -630,21 +651,28 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 
 <div class="desk-scene" id="deskScene">
   <p class="desk-hint">My desk, mid-recipe &mdash; move things aside, then open the book</p>
-  <div class="desk-fixed mat" style="left:50%;top:50%;--r:-1deg" aria-hidden="true"><img src="desk/mat.webp" alt="" draggable="false"></div>
-  <div class="desk-item" style="--fx:0.06;--fy:0.42;--fw:0.12;--mfx:0.03;--mfy:0.43;--mfw:0.2;--r:-11deg;z-index:2" aria-hidden="true"><img src="desk/paper.webp" alt="" draggable="false"></div>
-  <div class="desk-item" style="--fx:0.21;--fy:0.38;--fw:0.12;--mfx:0.03;--mfy:0.63;--mfw:0.2;--r:-9deg;z-index:3" aria-hidden="true"><img src="desk/sketchbook.webp" alt="" draggable="false"></div>
-  <div class="desk-item" style="--fx:0.63;--fy:0.32;--fw:0.13;--mfx:0.28;--mfy:0.6;--mfw:0.22;--r:5deg;z-index:4" aria-hidden="true"><img src="desk/pad.webp" alt="" draggable="false"></div>
+  <div class="desk-fixed mat" style="left:50%;top:50%;--r:-1deg" aria-hidden="true"><img src="desk/mat-wide.webp" alt="" draggable="false"></div>
+  <!-- --fw = real width in inches x .0198 (see .desk-scene). Real sizes used: paper 4x6in card, sketchbook A5, notepad 5x7in,
+       Portfolio book 8.5in square ring binder, pencils 7in, utility knife 6.3in, iced coffee 3.5in, cereal bowl 6in,
+       earbuds ~5in coil, iPad 7x9.8in, compact camera 4.3in, phone 5.8in tall. -->
+  <div class="desk-item" style="--fx:0.0542;--fy:0.5147;--fw:0.095;--mfx:0.7228;--mfy:0.8154;--r:-11deg;z-index:2" aria-hidden="true"><img src="desk/paper.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="--fx:0.258;--fy:0.3818;--fw:0.125;--mfx:0.4258;--mfy:0.7095;--r:-9deg;z-index:3" aria-hidden="true"><img src="desk/sketchbook.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="--fx:0.6985;--fy:0.2626;--fw:0.109;--mfx:0.0949;--mfy:0.7683;--r:5deg;z-index:4" aria-hidden="true"><img src="desk/pad.webp" alt="" draggable="false"></div>
   <div class="desk-item ruler" style="z-index:5" aria-hidden="true"><img src="desk/ruler.webp" alt="" draggable="false"></div>
-  <div class="desk-item" data-book="1" style="--fx:0.4;--fy:0.1;--fw:0.2;--mfx:0.28;--mfy:0.24;--mfw:0.34;--r:4deg;z-index:6" role="button" tabindex="0" aria-label="Open the recipe book"><img src="desk/book.webp" alt="" draggable="false"></div>
-  <div class="desk-item" style="--fx:0.88;--fy:0.56;--fw:0.07;--mfx:0.56;--mfy:0.6;--mfw:0.1;--r:70deg;z-index:7" aria-hidden="true"><img src="desk/pencils.webp" alt="" draggable="false"></div>
-  <div class="desk-item" style="--fx:0.44;--fy:0.44;--fw:0.11;--mfx:0.3;--mfy:0.5;--mfw:0.2;--r:8deg;z-index:8" aria-hidden="true"><img src="desk/knife.webp" alt="" draggable="false"></div>
-  <div class="desk-item" style="--fx:0.31;--fy:0.5;--fw:0.09;--mfx:0.55;--mfy:0.82;--mfw:0.14;--r:0deg;z-index:9" aria-hidden="true"><img src="desk/glass.webp" alt="" draggable="false"></div>
-  <div class="desk-item" style="--fx:0.81;--fy:0.36;--fw:0.1;--mfx:0.6;--mfy:0.36;--mfw:0.16;--r:-6deg;z-index:10" aria-hidden="true"><img src="desk/coffee.webp" alt="" draggable="false"></div>
-  <div class="desk-item" style="--fx:0.8;--fy:0.05;--fw:0.14;--mfx:0.55;--mfy:0.18;--mfw:0.22;--r:0deg;z-index:11" aria-hidden="true"><img src="desk/cereal.webp" alt="" draggable="false"></div>
-  <div class="desk-item" style="--fx:0.29;--fy:0.06;--fw:0.08;--mfx:0.5;--mfy:0.04;--mfw:0.14;--r:-20deg;z-index:12" aria-hidden="true"><img src="desk/earphones.webp" alt="" draggable="false"></div>
-  <div class="desk-item" style="--fx:0.04;--fy:0.06;--fw:0.13;--mfx:0.03;--mfy:0.03;--mfw:0.26;--r:-7deg;z-index:13" aria-hidden="true"><img src="desk/ipad.webp" alt="" draggable="false"></div>
-  <div class="desk-item" style="--fx:0.62;--fy:0.05;--fw:0.14;--mfx:0.03;--mfy:0.27;--mfw:0.24;--r:9deg;z-index:14" aria-hidden="true"><img src="desk/camera.webp" alt="" draggable="false"></div>
-  <div class="desk-item" style="--fx:0.2;--fy:0.07;--fw:0.07;--mfx:0.32;--mfy:0.03;--mfw:0.13;--r:13deg;z-index:15" aria-hidden="true"><img src="desk/phone.webp" alt="" draggable="false"></div>
+  <div class="desk-item" data-book="1" style="--fx:0.4606;--fy:0.0822;--fw:0.19;--mfx:0.0926;--mfy:0.3173;--r:4deg;z-index:6" role="button" tabindex="0" aria-label="Open the recipe book"><img src="desk/book.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="--fx:0.761;--fy:0.6553;--fw:0.09;--mfx:0.4735;--mfy:0.8124;--r:70deg;z-index:7" aria-hidden="true"><img src="desk/pencils.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="--fx:0.5368;--fy:0.553;--fw:0.1;--mfx:0.476;--mfy:0.5752;--r:8deg;z-index:8" aria-hidden="true"><img src="desk/knife.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="--fx:0.8662;--fy:0.4257;--fw:0.075;--mfx:0.5486;--mfy:0.4496;--r:-6deg;z-index:10" aria-hidden="true"><img src="desk/coffee.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="--fx:0.8291;--fy:0.0573;--fw:0.139;--mfx:0.1024;--mfy:0.5754;--r:0deg;z-index:11" aria-hidden="true"><img src="desk/cereal.webp" alt="" draggable="false"></div>
+  <!-- Earphones: only the ends are images; the cable is drawn live by the wire script below. -->
+  <svg class="desk-wire" aria-hidden="true"><path class="w-sh"/><path class="w-edge"/><path class="w-core"/><path class="w-hit"/></svg>
+  <img class="desk-end" data-end="budL" src="desk/ear-bud-l.webp" alt="" draggable="false" aria-hidden="true">
+  <img class="desk-end" data-end="budR" src="desk/ear-bud-r.webp" alt="" draggable="false" aria-hidden="true">
+  <img class="desk-end" data-end="remote" src="desk/ear-remote.webp" alt="" draggable="false" aria-hidden="true">
+  <img class="desk-end" data-end="jack" src="desk/ear-jack.webp" alt="" draggable="false" aria-hidden="true">
+  <div class="desk-item" style="--fx:0.0592;--fy:0.0767;--fw:0.158;--mfx:0.0846;--mfy:0.0581;--r:-7deg;z-index:13" aria-hidden="true"><img src="desk/ipad.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="--fx:0.7011;--fy:0.0497;--fw:0.085;--mfx:0.5342;--mfy:0.3462;--r:9deg;z-index:14" aria-hidden="true"><img src="desk/camera.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="--fx:0.2554;--fy:0.0626;--fw:0.058;--mfx:0.4882;--mfy:0.0538;--r:13deg;z-index:15" aria-hidden="true"><img src="desk/phone.webp" alt="" draggable="false"></div>
 </div>
 
 <footer class="ftr" aria-hidden="true">
@@ -701,6 +729,217 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
       if(e.key==='Enter'||e.key===' '){ e.preventDefault(); reveal(); }
     });
   });
+})();
+</script>
+<script>
+/* Earphone cable: the buds, inline remote and 3.5mm jack are cut-out images; the cable between
+   them is a Verlet rope (nodes + distance constraints) drawn as a smooth SVG path. It's Y-shaped
+   like real wired buds: each bud's lead meets at a splitter, the remote sits on the right lead,
+   and one long cord runs on to the jack. Grab a bud, the remote, the jack or any point on the
+   cable and the rest follows; desk friction (no gravity, heavy damping) lets it settle where
+   you leave it. Routes are in mat units (desktop mat 1774x887; phone mat rotated 887x1774). */
+(function(){
+  var scene=document.getElementById('deskScene');
+  var svg=scene && scene.querySelector('.desk-wire');
+  if(!svg) return;
+  var mat=scene.querySelector('.desk-fixed.mat');
+  var P={sh:svg.querySelector('.w-sh'),edge:svg.querySelector('.w-edge'),core:svg.querySelector('.w-core'),hit:svg.querySelector('.w-hit')};
+  var mq=matchMedia('(min-width: 900px) and (min-height: 560px)');
+  var SRC=0.3635*1.25;   // mat units per px of the original earphones artwork (x1.25 = the desk's --k)
+  var DAMP=0.8, ITER=22;
+  // per part: source size, the point where the cable leaves (fraction of w/h) and the cable's direction there (deg)
+  var PART={
+    budL:{w:160,h:216,ax:.397,ay:.995,dir:80},
+    budR:{w:155,h:203,ax:.306,ay:.995,dir:120},
+    jack:{w:154,h:100,ax:.987,ay:.06,dir:-31},
+    remote:{w:106,h:158,tx:.844,ty:0,bx:.208,by:.994}
+  };
+  var ROUTES={
+    wide:{budL:[[610,200],[612,250],[650,290],[715,330]],
+          budR:[[720,170],[728,205]], remoteDir:[.1,.99], split:[715,330],
+          main:[[715,330],[738,390],[750,440],[775,485],[840,500],[900,470],[960,500],[940,580],[860,610],[800,650],[860,690],[960,680],[1060,700],[1150,680],[1200,640],[1225,620]]},
+    tall:{budL:[[420,450],[435,500],[480,545],[520,565]],
+          budR:[[610,430],[612,470]], remoteDir:[-.15,.99], split:[520,565],
+          main:[[520,565],[600,590],[640,640],[620,760],[650,880],[630,980],[660,1080],[700,1200],[740,1300],[760,1380],[780,1400]]}
+  };
+  var els={};
+  [].forEach.call(scene.querySelectorAll('.desk-end'),function(e){ els[e.getAttribute('data-end')]=e; });
+
+  var nodes, cons, ropes, ends, W, H;
+
+  function smooth(pts){
+    if(pts.length<3) return pts.slice();
+    var out=[], n=pts.length;
+    for(var i=0;i<n-1;i++){
+      var p0=pts[Math.max(i-1,0)], p1=pts[i], p2=pts[i+1], p3=pts[Math.min(i+2,n-1)];
+      for(var s=0;s<12;s++){
+        var t=s/12, t2=t*t, t3=t2*t;
+        out.push([0,1].map(function(k){
+          return 0.5*((2*p1[k])+(-p0[k]+p2[k])*t+(2*p0[k]-5*p1[k]+4*p2[k]-p3[k])*t2+(-p0[k]+3*p1[k]-3*p2[k]+p3[k])*t3);
+        }));
+      }
+    }
+    out.push(pts[n-1].slice());
+    return out;
+  }
+  function resample(pts, seg){
+    var cum=[0];
+    for(var i=1;i<pts.length;i++) cum.push(cum[i-1]+Math.hypot(pts[i][0]-pts[i-1][0], pts[i][1]-pts[i-1][1]));
+    var L=cum[cum.length-1], n=Math.max(2, Math.round(L/seg)), out=[], j=1;
+    for(var k=0;k<=n;k++){
+      var d=L*k/n;
+      while(j<cum.length-1 && cum[j]<d) j++;
+      var a=pts[j-1], b=pts[j], f=(d-cum[j-1])/((cum[j]-cum[j-1])||1);
+      out.push([a[0]+(b[0]-a[0])*f, a[1]+(b[1]-a[1])*f]);
+    }
+    return out;
+  }
+  function addNode(p){ nodes.push({x:p[0],y:p[1],px:p[0],py:p[1],pin:false}); return nodes.length-1; }
+  function link(a,b,k){ cons.push([a,b,Math.hypot(nodes[b].x-nodes[a].x, nodes[b].y-nodes[a].y),k]); }
+  function rope(points, seg, startIdx, endIdx){
+    var pts=resample(smooth(points), seg), idx=[];
+    pts.forEach(function(p,k){
+      if(k===0 && startIdx!=null) idx.push(startIdx);
+      else if(k===pts.length-1 && endIdx!=null) idx.push(endIdx);
+      else idx.push(addNode(p));
+    });
+    for(var i=0;i<idx.length-1;i++) link(idx[i],idx[i+1],1);
+    for(i=0;i<idx.length-2;i++) link(idx[i],idx[i+2],0.06); // gentle bend memory, like a real cable
+    ropes.push(idx);
+    return idx;
+  }
+
+  function build(){
+    W=scene.clientWidth; H=scene.clientHeight;
+    var matw=mat.offsetWidth; if(!matw) return false;
+    var f=matw/1774, wide=mq.matches, R=ROUTES[wide?'wide':'tall'];
+    var ox=wide? W/2-887*f : W/2-443.5*f, oy=wide? H/2-443.5*f : H/2-887*f;
+    function S(p){ return [ox+p[0]*f, oy+p[1]*f]; }
+    nodes=[]; cons=[]; ropes=[]; ends={};
+    Object.keys(els).forEach(function(k){
+      var p=PART[k]; p.W=p.w*SRC*f; p.H=p.h*SRC*f;
+      els[k].style.width=p.W+'px'; els[k].style.height=p.H+'px';
+    });
+    var seg=16*f, t=16*SRC*f;
+    var split=addNode(S(R.split));
+    var L=rope(R.budL.map(S), seg, null, split);
+    var R1=rope(R.budR.map(S), seg, null, null);
+    var rm=PART.remote, rlen=Math.hypot((rm.tx-rm.bx)*rm.W, (rm.ty-rm.by)*rm.H);
+    var top=R1[R1.length-1], dl=Math.hypot(R.remoteDir[0],R.remoteDir[1]);
+    var bot=addNode([nodes[top].x+R.remoteDir[0]/dl*rlen, nodes[top].y+R.remoteDir[1]/dl*rlen]);
+    link(top,bot,1);
+    rope([[nodes[bot].x,nodes[bot].y],[nodes[split].x,nodes[split].y]], seg, bot, split);
+    var M=rope(R.main.map(S), seg, split, null);
+    ends={budL:[L[0],L[1]], budR:[R1[0],R1[1]], jack:[M[M.length-1],M[M.length-2]], remote:[bot,top]};
+    P.sh.style.strokeWidth=P.edge.style.strokeWidth=t+'px';
+    P.core.style.strokeWidth=(t*0.6)+'px';
+    P.hit.style.strokeWidth=Math.max(t*4,22)+'px';
+    return true;
+  }
+
+  function step(){
+    nodes.forEach(function(n){
+      if(n.pin){ n.px=n.x; n.py=n.y; return; }
+      var vx=(n.x-n.px)*DAMP, vy=(n.y-n.py)*DAMP;
+      n.px=n.x; n.py=n.y; n.x+=vx; n.y+=vy;
+    });
+    for(var it=0;it<ITER;it++){
+      for(var c=0;c<cons.length;c++){
+        var C=cons[c], a=nodes[C[0]], b=nodes[C[1]];
+        var wa=a.pin?0:1, wb=b.pin?0:1, s=wa+wb; if(!s) continue;
+        var dx=b.x-a.x, dy=b.y-a.y, d=Math.hypot(dx,dy)||1e-6, k=(d-C[2])/d*C[3]/s;
+        a.x+=dx*k*wa; a.y+=dy*k*wa; b.x-=dx*k*wb; b.y-=dy*k*wb;
+      }
+    }
+    var motion=0;
+    nodes.forEach(function(n){
+      n.x=Math.min(W,Math.max(0,n.x)); n.y=Math.min(H,Math.max(0,n.y));
+      motion=Math.max(motion, Math.abs(n.x-n.px)+Math.abs(n.y-n.py));
+    });
+    return motion;
+  }
+
+  function pathD(){
+    return ropes.map(function(idx){
+      var p=idx.map(function(i){ return nodes[i]; }), d='M'+p[0].x.toFixed(1)+' '+p[0].y.toFixed(1);
+      for(var i=0;i<p.length-1;i++){
+        var a=p[Math.max(i-1,0)], b=p[i], c=p[i+1], e=p[Math.min(i+2,p.length-1)];
+        d+='C'+(b.x+(c.x-a.x)/6).toFixed(1)+' '+(b.y+(c.y-a.y)/6).toFixed(1)+' '
+             +(c.x-(e.x-b.x)/6).toFixed(1)+' '+(c.y-(e.y-b.y)/6).toFixed(1)+' '
+             +c.x.toFixed(1)+' '+c.y.toFixed(1);
+      }
+      return d;
+    }).join('');
+  }
+  function place(el, x, y, ox, oy, deg){
+    el.style.transformOrigin=(ox*100)+'% '+(oy*100)+'%';
+    el.style.left=(x-ox*el.offsetWidth)+'px'; el.style.top=(y-oy*el.offsetHeight)+'px';
+    el.style.transform='rotate('+deg.toFixed(2)+'deg)';
+  }
+  function ang(a,b){ return Math.atan2(nodes[b].y-nodes[a].y, nodes[b].x-nodes[a].x)*180/Math.PI; }
+  function render(){
+    var d=pathD();
+    P.sh.setAttribute('d',d); P.edge.setAttribute('d',d); P.core.setAttribute('d',d); P.hit.setAttribute('d',d);
+    ['budL','budR','jack'].forEach(function(k){
+      var p=PART[k], e=ends[k], n=nodes[e[0]];
+      place(els[k], n.x, n.y, p.ax, p.ay, ang(e[0],e[1])-p.dir);
+    });
+    var rm=PART.remote, e=ends.remote, nb=nodes[e[0]];
+    var a0=Math.atan2((rm.ty-rm.by)*rm.H, (rm.tx-rm.bx)*rm.W)*180/Math.PI;
+    place(els.remote, nb.x, nb.y, rm.bx, rm.by, ang(e[0],e[1])-a0);
+  }
+
+  var drag=null, running=false, still=0;
+  function loop(){
+    var m=step(); render();
+    still = (drag || m>0.05) ? 0 : still+1;
+    if(still<20) requestAnimationFrame(loop); else running=false;
+  }
+  function wake(){ if(!running){ running=true; still=0; requestAnimationFrame(loop); } }
+  function local(e){ var r=scene.getBoundingClientRect(); return [e.clientX-r.left, e.clientY-r.top]; }
+  function grab(e, idx, target){
+    e.preventDefault(); e.stopPropagation();
+    var p=local(e), n=nodes[idx];
+    drag={i:idx, ox:n.x-p[0], oy:n.y-p[1], pid:e.pointerId, el:target};
+    n.pin=true;
+    try{ target.setPointerCapture(e.pointerId); }catch(err){}
+    target.classList.add('dragging');
+    wake();
+  }
+  function move(e){
+    if(!drag || e.pointerId!==drag.pid) return;
+    var p=local(e), n=nodes[drag.i];
+    n.x=Math.min(W,Math.max(0,p[0]+drag.ox)); n.y=Math.min(H,Math.max(0,p[1]+drag.oy));
+  }
+  function drop(e){
+    if(!drag || e.pointerId!==drag.pid) return;
+    nodes[drag.i].pin=false;
+    drag.el.classList.remove('dragging');
+    try{ drag.el.releasePointerCapture(drag.pid); }catch(err){}
+    drag=null; wake();
+  }
+  Object.keys(els).forEach(function(k){
+    var el=els[k];
+    el.addEventListener('pointerdown', function(e){ grab(e, k==='remote'? ends.remote[1] : ends[k][0], el); });
+    el.addEventListener('pointermove', move);
+    el.addEventListener('pointerup', drop);
+    el.addEventListener('pointercancel', drop);
+  });
+  P.hit.addEventListener('pointerdown', function(e){
+    var p=local(e), best=0, bd=Infinity;
+    nodes.forEach(function(n,i){ var d=Math.hypot(n.x-p[0], n.y-p[1]); if(d<bd){ bd=d; best=i; } });
+    grab(e, best, P.hit);
+  });
+  P.hit.addEventListener('pointermove', move);
+  P.hit.addEventListener('pointerup', drop);
+  P.hit.addEventListener('pointercancel', drop);
+
+  function reset(){ if(build()) render(); }
+  var rt; addEventListener('resize', function(){ clearTimeout(rt); rt=setTimeout(reset,120); });
+  if(mq.addEventListener) mq.addEventListener('change', reset);
+  // wait for the end images so their measured size is right before the first layout
+  Promise.all(Object.keys(els).map(function(k){ return els[k].decode ? els[k].decode().catch(function(){}) : null; })).then(reset);
+  reset();
 })();
 </script>
 <script>
