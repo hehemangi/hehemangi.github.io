@@ -334,6 +334,12 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 .desk-wire .w-hit{stroke:rgba(0,0,0,0);pointer-events:stroke;cursor:grab;touch-action:none}
 .desk-end{position:absolute;left:0;top:0;z-index:13;pointer-events:auto;cursor:grab;touch-action:none;user-select:none;-webkit-user-drag:none;filter:drop-shadow(5px 7px 0 rgba(30,14,6,.3))}
 .desk-end.dragging{cursor:grabbing;z-index:60}
+/* coffee spill: puddles/splats sit on the desk under the cup; splash + flying droplets ride above everything */
+.spill-floor,.spill-air{position:absolute;inset:0;pointer-events:none;overflow:visible}
+.spill-floor{z-index:9} .spill-air{z-index:80}
+.spill-floor svg,.spill-air svg{position:absolute;overflow:visible}
+.spill-mess{position:absolute;inset:0;transition:opacity 1.2s}
+[data-spill] img{transform-origin:50% 55%;will-change:transform}
 @media not all and (min-width:900px) and (min-height:560px){
   .desk-item{left:calc(50% - var(--math) / 2 + var(--math) * var(--mfx));top:calc(50% - var(--matw) / 2 + var(--matw) * var(--mfy))}
   .desk-fixed.mat{transform:translate(-50%,-50%) rotate(90deg)}
@@ -662,7 +668,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
   <div class="desk-item" data-book="1" style="--fx:0.4606;--fy:0.0822;--fw:0.19;--mfx:0.0926;--mfy:0.3173;--r:4deg;z-index:6" role="button" tabindex="0" aria-label="Open the recipe book"><img src="desk/book.webp" alt="" draggable="false"></div>
   <div class="desk-item" style="--fx:0.761;--fy:0.6553;--fw:0.09;--mfx:0.4735;--mfy:0.8124;--r:70deg;z-index:7" aria-hidden="true"><img src="desk/pencils.webp" alt="" draggable="false"></div>
   <div class="desk-item" style="--fx:0.5368;--fy:0.553;--fw:0.1;--mfx:0.476;--mfy:0.5752;--r:8deg;z-index:8" aria-hidden="true"><img src="desk/knife.webp" alt="" draggable="false"></div>
-  <div class="desk-item" style="--fx:0.8662;--fy:0.4257;--fw:0.075;--mfx:0.5486;--mfy:0.4496;--r:-6deg;z-index:10" aria-hidden="true"><img src="desk/coffee.webp" alt="" draggable="false"></div>
+  <div class="desk-item" style="--fx:0.8662;--fy:0.4257;--fw:0.075;--mfx:0.5486;--mfy:0.4496;--r:-6deg;z-index:10" data-spill aria-hidden="true"><img src="desk/coffee.webp" alt="" draggable="false"></div>
   <div class="desk-item" style="--fx:0.8291;--fy:0.0573;--fw:0.139;--mfx:0.1024;--mfy:0.5754;--r:0deg;z-index:11" aria-hidden="true"><img src="desk/cereal.webp" alt="" draggable="false"></div>
   <!-- Earphones: only the ends are images; the cable is drawn live by the wire script below. -->
   <svg class="desk-wire" aria-hidden="true"><path class="w-sh"/><path class="w-edge"/><path class="w-core"/><path class="w-hit"/></svg>
@@ -940,6 +946,169 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
   // wait for the end images so their measured size is right before the first layout
   Promise.all(Object.keys(els).map(function(k){ return els[k].decode ? els[k].decode().catch(function(){}) : null; })).then(reset);
   reset();
+})();
+</script>
+<script>
+/* Coffee spill: every grab/tap of the iced coffee (data-spill) knocks it — the cup tips toward the
+   drag, a hand-painted splash crowns over the rim, droplets fly out and splat on the desk, and a
+   puddle spreads where it lands. It only listens alongside the normal drag handler (never blocks
+   it), so the cup keeps moving freely. One spill per gesture plus a short cooldown; the last few
+   messes stay on the desk, older ones fade away. */
+(function(){
+  var scene=document.getElementById('deskScene');
+  var cup=scene && scene.querySelector('[data-spill]');
+  if(!cup) return;
+  var img=cup.querySelector('img');
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)');
+  var COOLDOWN=900, LINGER=1600, FADE=800;   // spill is fully gone ~2.4s after it starts
+  var C={coffee:'#6b3a16', deep:'#3d1f08', light:'#8f5626', hi:'#fff8ec'};
+  var SVGNS='http://www.w3.org/2000/svg';
+
+  var floor=document.createElement('div'); floor.className='spill-floor';
+  var air=document.createElement('div'); air.className='spill-air';
+  scene.appendChild(floor); scene.appendChild(air);
+
+  function rnd(a,b){ return a+Math.random()*(b-a); }
+  // irregular closed blob; lobe pushes it out toward `ang` (radians) for splashes
+  function blob(n, r, jitter, lobe, ang, spikes){
+    var pts=[];
+    for(var i=0;i<n;i++){
+      var t=i/n*Math.PI*2, k=1-jitter/2+Math.random()*jitter;
+      if(lobe){ var c=Math.max(0,Math.cos(t-ang)); k*=1+lobe*c*c; if(spikes && i%2 && c>0.2) k*=1+rnd(.25,.6); }
+      pts.push([Math.cos(t)*r*k, Math.sin(t)*r*k]);
+    }
+    var d='M'+pts[0][0].toFixed(1)+' '+pts[0][1].toFixed(1);
+    for(i=0;i<n;i++){
+      var p0=pts[(i-1+n)%n], p1=pts[i], p2=pts[(i+1)%n], p3=pts[(i+2)%n];
+      d+='C'+(p1[0]+(p2[0]-p0[0])/6).toFixed(1)+' '+(p1[1]+(p2[1]-p0[1])/6).toFixed(1)+' '
+           +(p2[0]-(p3[0]-p1[0])/6).toFixed(1)+' '+(p2[1]-(p3[1]-p1[1])/6).toFixed(1)+' '
+           +p2[0].toFixed(1)+' '+p2[1].toFixed(1);
+    }
+    return d+'Z';
+  }
+  function svgAt(layer, x, y, size){
+    var s=document.createElementNS(SVGNS,'svg');
+    s.setAttribute('width',size); s.setAttribute('height',size);
+    s.setAttribute('viewBox',(-size/2)+' '+(-size/2)+' '+size+' '+size);
+    s.style.left=(x-size/2)+'px'; s.style.top=(y-size/2)+'px';
+    layer.appendChild(s); return s;
+  }
+  function path(svg, d, fill, stroke, sw, extra){
+    var p=document.createElementNS(SVGNS,'path'); p.setAttribute('d',d);
+    p.setAttribute('fill',fill||'none');
+    if(stroke){ p.setAttribute('stroke',stroke); p.setAttribute('stroke-width',sw); p.setAttribute('stroke-linecap','round'); p.setAttribute('stroke-linejoin','round'); }
+    if(extra) for(var k in extra) p.setAttribute(k,extra[k]);
+    svg.appendChild(p); return p;
+  }
+  // soft white highlight strokes, like the rest of the desk art
+  function shine(svg, r, ang){
+    var a=ang+Math.PI*0.75, x=Math.cos(a)*r*.45, y=Math.sin(a)*r*.45;
+    path(svg,'M'+(x-r*.12)+' '+(y-r*.05)+' q'+(r*.1)+' '+(-r*.12)+' '+(r*.26)+' '+(-r*.1),null,C.hi,Math.max(1.5,r*.07),{opacity:.8});
+    path(svg,'M'+(x+r*.2)+' '+(y+r*.12)+' l'+(r*.06)+' '+(-r*.02),null,C.hi,Math.max(1.5,r*.06),{opacity:.7});
+  }
+
+  // each spill cleans itself up; a new spill sweeps away anything left from the previous one
+  function newMess(){
+    floor.querySelectorAll('.spill-mess').forEach(function(old){ old.remove(); });
+    air.querySelectorAll('svg').forEach(function(old){ old.remove(); });
+    var m=document.createElement('div'); m.className='spill-mess';
+    m.style.transition='opacity '+FADE+'ms ease';
+    floor.appendChild(m);
+    setTimeout(function(){ m.style.opacity='0'; setTimeout(function(){ m.remove(); },FADE+50); },LINGER);
+    return m;
+  }
+  function puddle(mess, x, y, r, ang){
+    var s=svgAt(mess, x, y, r*3.2);
+    path(s, blob(11, r, .5, .35, ang), C.coffee, C.deep, Math.max(1.5,r*.05));
+    var g=path(s, blob(9, r*.55, .4), C.light, null, 0, {opacity:.55});
+    g.setAttribute('transform','translate('+(-r*.18)+' '+(-r*.2)+')');
+    shine(s, r, ang);
+    s.style.transformOrigin='50% 50%';
+    if(!reduce.matches) s.animate([
+      {transform:'scale(.1)'},
+      {transform:'scale(1.05,.97)', offset:.6},
+      {transform:'none'}
+    ],{duration:550, easing:'cubic-bezier(.2,.8,.3,1)'});
+  }
+  function splat(mess, x, y, r){
+    var s=svgAt(mess, x, y, r*3);
+    path(s, blob(7, r, .55), C.coffee, C.deep, Math.max(1,r*.12));
+    path(s,'M'+(-r*.35)+' '+(-r*.25)+' l'+(r*.25)+' '+(-r*.1),null,C.hi,Math.max(1,r*.18),{opacity:.75});
+    s.style.transformOrigin='50% 50%';
+    s.animate([{transform:'scale(1.5,.5)'},{transform:'scale(.9,1.1)',offset:.6},{transform:'none'}],{duration:260,easing:'ease-out'});
+  }
+
+  function spill(dx, dy){
+    var sr=scene.getBoundingClientRect(), cr=cup.getBoundingClientRect();
+    var w=cr.width, cx=cr.left-sr.left+w/2, cy=cr.top-sr.top+cr.height/2;
+    var len=Math.hypot(dx,dy)||1; dx/=len; dy/=len;
+    var ang=Math.atan2(dy,dx), rimX=cx+dx*w*.44, rimY=cy+dy*w*.44;
+    var mess=newMess();
+
+    // 1. a small tip toward the drag, then a smooth settle back upright
+    var tilt=(dx>=0?1:-1)*(5+2*Math.abs(dx));
+    img.animate([
+      {transform:'none'},
+      {transform:'translate('+(dx*w*.02)+'px,'+(dy*w*.02)+'px) rotate('+tilt+'deg)', offset:.22},
+      {transform:'rotate('+(-tilt*.3)+'deg)', offset:.55},
+      {transform:'rotate('+(tilt*.08)+'deg)', offset:.8},
+      {transform:'none'}
+    ],{duration:reduce.matches?250:650, easing:'cubic-bezier(.3,.7,.4,1)'});
+
+    // 2. a small puddle peeks out from under the cup
+    var pr=w*rnd(.22,.28);
+    setTimeout(function(){ puddle(mess, cx+dx*w*.3, cy+dy*w*.3, pr, ang); }, reduce.matches?0:90);
+    if(reduce.matches) return;
+
+    // 3. a tiny splash over the rim
+    var cs=svgAt(air, rimX, rimY, w*.9);
+    path(cs, blob(12, w*.09, .3, .9, ang, true), C.coffee, C.deep, Math.max(1,w*.012));
+    cs.style.transformOrigin='50% 50%';
+    cs.animate([
+      {transform:'scale(.2)', opacity:1},
+      {transform:'scale(1)', opacity:1, offset:.4},
+      {transform:'scale(.7) translate('+(dx*w*.04)+'px,'+(dy*w*.04)+'px)', opacity:0}
+    ],{duration:380, easing:'cubic-bezier(.2,.8,.4,1)'}).onfinish=function(){ cs.remove(); };
+
+    // 4. just 2-4 little droplets, landing close to the cup
+    var n=Math.round(rnd(2,4));
+    for(var i=0;i<n;i++){
+      (function(){
+        var a=ang+rnd(-.7,.7), dist=w*rnd(.18,.42), r=w*rnd(.022,.038);
+        var tx=Math.cos(a)*dist, ty=Math.sin(a)*dist, lift=w*rnd(.05,.1);
+        var ds=svgAt(air, rimX, rimY, r*3);
+        path(ds, blob(7, r, .45), C.coffee, C.deep, Math.max(1,r*.15));
+        var anim=ds.animate([
+          {transform:'translate(0,0) scale(.3)'},
+          {transform:'translate('+(tx*.5)+'px,'+(ty*.5-lift)+'px) scale(1.35)', offset:.45},
+          {transform:'translate('+tx+'px,'+ty+'px) scale(1)'}
+        ],{duration:rnd(320,460), delay:rnd(20,90), easing:'cubic-bezier(.25,.6,.5,1)', fill:'forwards'});
+        anim.onfinish=function(){ ds.remove(); if(mess.isConnected) splat(mess, rimX+tx, rimY+ty, r); };
+      })();
+    }
+  }
+
+  // one spill per gesture: fire on the first real movement (aimed along the drag), or on a
+  // tap / still press (random direction); cooldown stops quick re-grabs from spamming it
+  var last=0, pend=null;
+  function fire(dx,dy){
+    if(!pend) return; clearTimeout(pend.t); pend=null;
+    if(Date.now()-last<COOLDOWN) return;
+    last=Date.now(); spill(dx,dy);
+  }
+  function randomDir(){ var a=Math.random()*Math.PI*2; return [Math.cos(a),Math.sin(a)]; }
+  cup.addEventListener('pointerdown', function(e){
+    pend={x:e.clientX, y:e.clientY, id:e.pointerId,
+          t:setTimeout(function(){ var r=randomDir(); fire(r[0],r[1]); },160)};
+  });
+  cup.addEventListener('pointermove', function(e){
+    if(!pend || e.pointerId!==pend.id) return;
+    var dx=e.clientX-pend.x, dy=e.clientY-pend.y;
+    if(Math.hypot(dx,dy)>3) fire(dx,dy);
+  });
+  function up(e){ if(pend && e.pointerId===pend.id){ var r=randomDir(); fire(r[0],r[1]); } }
+  cup.addEventListener('pointerup', up);
+  cup.addEventListener('pointercancel', up);
 })();
 </script>
 <script>
