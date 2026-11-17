@@ -101,16 +101,39 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
    position:absolute wrapper lets each ring-half's own z-index interleave directly with the pages
    (both share .binder's stacking context), which is what makes the front/back split work. */
 .rings{position:absolute;left:50%;top:0;bottom:0;width:0;pointer-events:none;opacity:1}
-.ring-wrap{position:absolute;left:-39px;width:78px;height:26px;margin-top:-13px}
+/* Each ring is one round polished-silver loop whose centreline runs exactly through the punched hole
+   on each facing page (holes sit gap/2 + 15px either side of the spine = 56px apart, so r = 28px).
+   */
+.ring-wrap{position:absolute;left:-32px;width:64px;height:64px;margin-top:-32px}
 .ring-wrap:nth-child(1){top:16%} .ring-wrap:nth-child(2){top:50%} .ring-wrap:nth-child(3){top:84%}
-.br{position:absolute;inset:0;background:url(binder/ring.webp) center/100% 100% no-repeat;filter:drop-shadow(0 3px 2px rgba(0,0,0,.45))}
-/* back half: the far side of the loop, dipping under the page. Full width, so wherever nothing
-   covers it (the open gutter, or the far side of a closed cover) it reads as one complete loop,
-   not a visibly truncated arc — only the page's own edge should ever cut it off. Sits just behind
-   whichever two leaves are the current open spread (set from JS as --ring-back-z). */
-.br-back{clip-path:inset(0 0 54% 0);z-index:var(--ring-back-z,2)}
-/* front half: the near side of the loop, always resting on top of the page surface */
-.br-front{clip-path:inset(46% 0 0 0);z-index:901}
+.br{position:absolute;inset:0;background:var(--ends,none) center/100% 100% no-repeat,var(--ring) center/100% 100% no-repeat}
+.rings{--ring:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='m' x1='4' y1='4' x2='60' y2='60' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23fbfcfd'/%3E%3Cstop offset='.3' stop-color='%23b4bac2'/%3E%3Cstop offset='.52' stop-color='%23eef1f4'/%3E%3Cstop offset='.78' stop-color='%239aa1a9'/%3E%3Cstop offset='1' stop-color='%236d737b'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='32' cy='32' r='28' fill='none' stroke='%23454a51' stroke-width='7.4'/%3E%3Ccircle cx='32' cy='32' r='28' fill='none' stroke='url(%23m)' stroke-width='5.2'/%3E%3Ccircle cx='32' cy='32' r='26.3' fill='none' stroke='%23000' stroke-opacity='.16' stroke-width='1.1'/%3E%3Cpath d='M9.3 20.6A26 26 0 0 1 22.6 7.8' fill='none' stroke='%23fff' stroke-width='1.7' stroke-linecap='round'/%3E%3Cpath d='M44.5 7.6A26 26 0 0 1 50.6 11.4' fill='none' stroke='%23fff' stroke-opacity='.85' stroke-width='1.2' stroke-linecap='round'/%3E%3Cpath d='M32 .6v6.8' stroke='%23565c63' stroke-width='1.1'/%3E%3C/svg%3E")}
+.br-back{display:none}
+.br-front{z-index:901;filter:drop-shadow(1.5px 3px 1.5px rgba(40,20,5,.42))}
+/* Two independent ring sets share only the silver ring artwork (--ring). Exactly one is shown:
+   .rings-cover while the book is closed (.at-start), .rings-inside once it's open. */
+.binder:not(.at-start) .rings-cover,.binder.at-start .rings-inside{visibility:hidden}
+
+/* INSIDE BINDER RINGS (open book, the approved look): the upper arc rises over the pages and each end
+   runs 3px past the hole's centre, darkening as it drops into the punched hole (so the hole's dark
+   rim shows around the metal); the brown spine sits in front of the ring's middle (8px masked band). */
+.rings-inside{--ends:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='e' x1='0' y1='22' x2='0' y2='35' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23140e08' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23140e08' stop-opacity='.85'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M58.31 22.42A28 28 0 0 1 59.85 34.93' fill='none' stroke='url(%23e)' stroke-width='7.4'/%3E%3Cpath d='M5.69 22.42A28 28 0 0 0 4.15 34.93' fill='none' stroke='url(%23e)' stroke-width='7.4'/%3E%3C/svg%3E")}
+.rings-inside .br-front{clip-path:inset(0 0 calc(50% - 3px) 0);
+  -webkit-mask:linear-gradient(90deg,#000 calc(50% - 4px),transparent calc(50% - 4px),transparent calc(50% + 4px),#000 calc(50% + 4px));
+  mask:linear-gradient(90deg,#000 calc(50% - 4px),transparent calc(50% - 4px),transparent calc(50% + 4px),#000 calc(50% + 4px))}
+
+/* COVER BINDER RINGS (book closed): three clean 180-degree semicircles protruding from the cover's
+   outer left edge. Each ring is centred exactly on that edge (the cover board starts 4px right of the
+   binder's centre line) and its right half is clipped away there, so the straight ends sit on the
+   edge and the curve faces out over the desk. No hole shading, no connectors. */
+.rings-cover .ring-wrap{left:-28px}
+.rings-cover .br-front{clip-path:inset(0 50% 0 0)}
+/* the cover's punched holes on its outside face would sit empty beside the semicircles: hide them
+   (front face only; the inside cover and every page keep theirs) */
+.cover-leaf .page.cover .holes{display:none}
+/* the spine strip only belongs to the open book's gutter; with the book closed it would sit as a bare
+   brown rail on the desk beside the cover, so it is hidden until the cover opens */
+.binder.at-start .spine{opacity:0}
 
 .leaf{position:absolute;top:0;left:calc(50% + var(--gap) / 2);width:var(--pw);height:100%;transform-origin:calc(var(--gap) / -2) 50%;transform-style:preserve-3d;
   transition:transform .95s cubic-bezier(.645,.045,.355,1);cursor:pointer}
@@ -140,6 +163,9 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
 .holes b{position:absolute;left:2px;width:14px;height:14px;margin-top:-7px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#473a2b,#1c1610 60%);box-shadow:inset 0 2px 3px rgba(0,0,0,.75),inset 0 -1px 1px rgba(255,255,255,.08)}
 .holes b::before{content:"";position:absolute;inset:-3px;border-radius:50%;border:1px solid rgba(20,18,16,.12);background:radial-gradient(circle,transparent 60%,rgba(20,18,16,.06) 90%)}
 .holes b:nth-child(1){top:16%} .holes b:nth-child(2){top:50%} .holes b:nth-child(3){top:84%}
+/* the cover board hinges 9px nearer the spine and is 28px taller than a sheet: shift its holes so
+   they line up with the sheets' holes (and so the rings pass through all of them) */
+.cover-leaf .holes{top:14px;bottom:14px} .cover-leaf .r .holes{left:15px} .cover-leaf .l .holes{right:15px}
 .rh,.folio{position:absolute;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.6}
 .rh{top:calc(var(--u)*4)} .folio{bottom:calc(var(--u)*3.4)}
 .r .rh,.r .folio{right:calc(var(--u)*6.5)} .l .rh,.l .folio{left:calc(var(--u)*6.5)}
@@ -169,6 +195,9 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
   filter:drop-shadow(4px 6px 0 rgba(40,18,4,.28))}
 .label .big{font-size:calc(var(--u)*11)}
 .label .mono.hl{align-self:center}
+/* front-cover title: the desk book's own hand-lettering (purple + yellow highlighter), so it's visibly the same book */
+.cover-title{width:78%;margin:calc(var(--u)*-.5) 0 calc(var(--u)*-1);line-height:0}
+.cover-title img{display:block;width:100%;height:auto}
 .exlibris{position:relative;padding:calc(var(--u)*3) calc(var(--u)*4);transform:rotate(-1.6deg);gap:calc(var(--u)*1.6)}
 .exlibris-stamp{position:absolute;top:calc(var(--u)*-2.2);left:calc(var(--u)*-3);background:var(--ink);color:var(--paper);padding:5px 11px;transform:rotate(5deg);box-shadow:2px 2px 0 rgba(0,0,0,.25)}
 
@@ -195,18 +224,17 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
 .go{display:inline-flex;align-self:flex-start;font-family:var(--mono);font-weight:700;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;border:1.5px solid currentColor;padding:8px 13px;background:none;color:inherit;cursor:pointer}
 .go:hover{background:var(--yellow);border-color:var(--ink)}
 
-/* pocket page (black page, yellow pocket) */
-.pocket-page{background-color:var(--ink)!important;color:var(--paper);align-items:center;justify-content:flex-end;
-  background-image:radial-gradient(rgba(250,240,208,.08) 1px,transparent 1.6px)!important;background-size:6px 6px!important}
-.pocket-page .holes b{background:#000}
+/* pocket page: a kraft board page (same painted board as the covers) holding a cream paper pocket */
+.pocket-page{background:#c96a1e url(binder/cover.webp) center/100% 100% no-repeat!important;color:#fff4dc;align-items:center;justify-content:flex-end;box-shadow:none}.pocket-page .holes b{background:#000}
 .pocket-wrap{position:relative;width:76%;aspect-ratio:3/3.7;margin-bottom:calc(var(--u)*2);cursor:grab}
 .photo-card{position:absolute;left:7%;right:7%;top:0;height:74%;background:var(--paper);padding:10px 10px 0;transform:rotate(-2.5deg) translateY(calc(var(--pull,0) * 1%));transition:transform .55s cubic-bezier(.3,1.4,.5,1);box-shadow:0 4px 10px rgba(0,0,0,.45)}
 .photo-card .ph{height:calc(100% - 10px);color:var(--ink)}
 .pocket-wrap:hover .photo-card,.pocket-wrap:focus-visible .photo-card,.pocket-wrap.out .photo-card{--pull:-24}
 .photo-card.dragging{transition:none;cursor:grabbing}
-.pocket{position:absolute;left:0;right:0;bottom:0;height:60%;background:var(--yellow);color:var(--ink);clip-path:polygon(0 22%,100% 0,100% 100%,0 100%);
-  display:flex;align-items:flex-end;justify-content:space-between;padding:calc(var(--u)*2.6) calc(var(--u)*3);
-  background-image:radial-gradient(rgba(20,18,16,.1) 1px,transparent 1.6px);background-size:5px 5px}
+.pocket{position:absolute;left:0;right:0;bottom:0;height:60%;color:#5a2d0c;
+  display:flex;align-items:flex-end;justify-content:space-between;padding:calc(var(--u)*2.6) calc(var(--u)*3.4);
+  background:center/100% 100% no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M1.5 23.5 C30 17 60 9 98.5 1.6 L98.2 50 L98.6 98.4 L50 98.1 L1.7 98.5 L1.4 60 Z' fill='%23fbebc6' stroke='%238a4a17' stroke-width='3' stroke-linejoin='round' vector-effect='non-scaling-stroke'/%3E%3Cpath d='M5 29.5 C32 23.5 62 15.5 95 9' fill='none' stroke='%23c98a4a' stroke-width='1.6' stroke-dasharray='5 4' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3Cpath d='M70 30 l5 -8 M76 32 l7 -6 M81 36 l6 -3' stroke='%23e2a24a' stroke-width='2.4' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
+  filter:drop-shadow(3px 5px 0 rgba(40,18,4,.3))}
 .pocket span{font-family:var(--mono);font-weight:700;font-size:calc(var(--u)*2);letter-spacing:.04em;text-transform:uppercase}
 .pocket-cap{text-align:center;font-size:calc(var(--u)*1.9);line-height:1.45;max-width:92%}
 
@@ -340,6 +368,16 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 .spill-floor svg,.spill-air svg{position:absolute;overflow:visible}
 .spill-mess{position:absolute;inset:0;transition:opacity 1.2s}
 [data-spill] img{transform-origin:50% 55%;will-change:transform}
+/* pencils: the old 3-pencil artwork's box stays as an invisible layout anchor; each pencil is its own rolling body */
+.desk-item.pencil-anchor{aspect-ratio:404/600;visibility:hidden;pointer-events:none}
+.pencil{position:absolute;left:0;top:0;z-index:7;pointer-events:auto;cursor:grab;touch-action:none;will-change:transform;
+  filter:drop-shadow(5px 7px 0 rgba(30,14,6,.32));transition:filter .2s}
+.pencil.dragging{cursor:grabbing;filter:drop-shadow(9px 14px 0 rgba(30,14,6,.26))}
+.pencil-body{position:absolute;inset:0}
+.pencil-body img{display:block;width:100%;height:100%;pointer-events:none;user-select:none;-webkit-user-drag:none}
+.pencil-shade{position:absolute;inset:0;pointer-events:none;opacity:0;
+  background:linear-gradient(90deg,rgba(40,18,4,0) 0%,rgba(40,18,4,.34) 28%,rgba(255,248,230,.26) 52%,rgba(40,18,4,0) 74%) 0 0/100% 100% repeat-x;
+  -webkit-mask:var(--m) center/100% 100% no-repeat;mask:var(--m) center/100% 100% no-repeat}
 @media not all and (min-width:900px) and (min-height:560px){
   .desk-item{left:calc(50% - var(--math) / 2 + var(--math) * var(--mfx));top:calc(50% - var(--matw) / 2 + var(--matw) * var(--mfy))}
   .desk-fixed.mat{transform:translate(-50%,-50%) rotate(90deg)}
@@ -413,7 +451,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
       <section class="page f-front r cover kraft" id="cover" aria-label="Cover">
         <div class="label">
           <p class="mono hl">Vol. 01 · Mumbai · 2026</p>
-          <h1 class="big">Port&shy;folio</h1>
+          <h1 class="big cover-title"><img src="binder/cover-title.webp" alt="Portfolio" width="320" height="143"></h1>
           <p style="font-size:calc(var(--u)*3)">Recipes from the kitchen of<br>Hemangi Ganatra</p>
           <p class="mono c-muted">Packaging · Identity · Advertising · Copy</p>
         </div>
@@ -436,7 +474,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
       </section>
       <section class="page f-back l pocket-page" id="chef" aria-labelledby="chef-h">
         <span class="rh" style="color:var(--paper)">The chef</span>
-        <h2 id="chef-h" class="mono" style="align-self:flex-start;margin-bottom:auto;color:var(--yellow)">Fig. 1 — The chef</h2>
+        <h2 id="chef-h" class="mono" style="align-self:flex-start;margin-bottom:auto;color:#fff4dc">Fig. 1 — The chef</h2>
         <div class="pocket-wrap" tabindex="0" role="button" aria-label="Pull the chef's photo out of the pocket" data-noflip>
           <div class="photo-card"><div class="ph ph-photo"><img src="chef.jpg" alt="Hemangi Ganatra on a footbridge in Mumbai" loading="lazy"></div></div>
           <div class="pocket"><span>Hemangi Ganatra</span><span>2026</span></div>
@@ -647,10 +685,15 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
       </section>
     </div>
 
-    <div class="rings" aria-hidden="true">
+    <div class="rings rings-inside" aria-hidden="true">
       <i class="ring-wrap"><i class="br br-back"></i><i class="br br-front"></i></i>
       <i class="ring-wrap"><i class="br br-back"></i><i class="br br-front"></i></i>
       <i class="ring-wrap"><i class="br br-back"></i><i class="br br-front"></i></i>
+    </div>
+    <div class="rings rings-cover" aria-hidden="true">
+      <i class="ring-wrap"><i class="br br-front"></i></i>
+      <i class="ring-wrap"><i class="br br-front"></i></i>
+      <i class="ring-wrap"><i class="br br-front"></i></i>
     </div>
   </div>
 </main>
@@ -666,7 +709,10 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
   <div class="desk-item" style="--fx:0.6985;--fy:0.2626;--fw:0.109;--mfx:0.0949;--mfy:0.7683;--r:5deg;z-index:4" aria-hidden="true"><img src="desk/pad.webp" alt="" draggable="false"></div>
   <div class="desk-item ruler" style="z-index:5" aria-hidden="true"><img src="desk/ruler.webp" alt="" draggable="false"></div>
   <div class="desk-item" data-book="1" style="--fx:0.4606;--fy:0.0822;--fw:0.19;--mfx:0.0926;--mfy:0.3173;--r:4deg;z-index:6" role="button" tabindex="0" aria-label="Open the recipe book"><img src="desk/book.webp" alt="" draggable="false"></div>
-  <div class="desk-item" style="--fx:0.761;--fy:0.6553;--fw:0.09;--mfx:0.4735;--mfy:0.8124;--r:70deg;z-index:7" aria-hidden="true"><img src="desk/pencils.webp" alt="" draggable="false"></div>
+  <div class="desk-item pencil-anchor" data-pencils style="--fx:0.761;--fy:0.6553;--fw:0.09;--mfx:0.4735;--mfy:0.8124;--r:70deg;z-index:7" aria-hidden="true"></div>
+  <div class="pencil" data-u=".1844" data-v=".5315" data-a="-9.52" data-w=".2624" data-h=".9133" aria-hidden="true"><div class="pencil-body" style="--m:url(desk/pencil-red.webp)"><img src="desk/pencil-red.webp" alt="" draggable="false"><i class="pencil-shade"></i></div></div>
+  <div class="pencil" data-u=".4858" data-v=".4505" data-a="2.43" data-w=".2426" data-h=".9133" aria-hidden="true"><div class="pencil-body" style="--m:url(desk/pencil-green.webp)"><img src="desk/pencil-green.webp" alt="" draggable="false"><i class="pencil-shade"></i></div></div>
+  <div class="pencil" data-u=".7808" data-v=".5609" data-a="13.8" data-w=".2673" data-h=".9" aria-hidden="true"><div class="pencil-body" style="--m:url(desk/pencil-black.webp)"><img src="desk/pencil-black.webp" alt="" draggable="false"><i class="pencil-shade"></i></div></div>
   <div class="desk-item" style="--fx:0.5368;--fy:0.553;--fw:0.1;--mfx:0.476;--mfy:0.5752;--r:8deg;z-index:8" aria-hidden="true"><img src="desk/knife.webp" alt="" draggable="false"></div>
   <div class="desk-item" style="--fx:0.8662;--fy:0.4257;--fw:0.075;--mfx:0.5486;--mfy:0.4496;--r:-6deg;z-index:10" data-spill aria-hidden="true"><img src="desk/coffee.webp" alt="" draggable="false"></div>
   <div class="desk-item" style="--fx:0.8291;--fy:0.0573;--fw:0.139;--mfx:0.1024;--mfy:0.5754;--r:0deg;z-index:11" aria-hidden="true"><img src="desk/cereal.webp" alt="" draggable="false"></div>
@@ -694,14 +740,50 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 (function(){
   var scene=document.getElementById('deskScene');
   if(!scene) return;
-  var items=Array.prototype.slice.call(scene.querySelectorAll('.desk-item'));
+  var items=Array.prototype.slice.call(scene.querySelectorAll('.desk-item:not([data-pencils])'));
   var topZ=20;
   var TAP_SLOP=6; // max px of movement still counted as a tap, not a drag
 
+  /* Opening the book: the desk book's own artwork lifts off the desk and glides (straightening out)
+     onto the exact spot where the binder's front cover sits, the rest of the desk fades away, the
+     artwork cross-fades into the real binder cover, and then the cover swings open. One object,
+     start to finish. Phones (stacked card layout) and reduced-motion just fade, as before. */
   function reveal(){
-    if(scene.hidden) return;
+    if(scene.hidden || scene.classList.contains('hiding')) return;
+    var book=scene.querySelector('[data-book]'), img=book && book.querySelector('img');
+    var binder=document.getElementById('binder'), cover=binder && binder.querySelector('.leaf.cover-leaf');
+    var still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(!img || !cover || still || getComputedStyle(cover).position==='static'){
+      scene.classList.add('hiding');
+      setTimeout(function(){ scene.hidden=true; }, 520);
+      return;
+    }
+    var br=book.getBoundingClientRect(), cr=cover.getBoundingClientRect();
+    var bw=img.offsetWidth, bh=img.offsetHeight, R=parseFloat(getComputedStyle(book).getPropertyValue('--r'))||0;
+    // in desk/book.webp the cover board spans x 9.3%..100% (the rings stick out to the left of it)
+    var W=cr.width/.907, H=W*bh/bw, L=cr.left-.093*W, T=cr.top+(cr.height-H)/2;
+    var fly=document.createElement('img');
+    fly.src=img.currentSrc||img.src; fly.alt=''; fly.setAttribute('aria-hidden','true');
+    fly.style.cssText='position:fixed;z-index:2000;pointer-events:none;margin:0;left:'+L+'px;top:'+T+'px;width:'+W+'px;height:'+H+'px;'+
+      'transform-origin:50% 50%;filter:drop-shadow(0 22px 22px rgba(0,0,0,.45))';
+    document.body.appendChild(fly);
+    var dx=(br.left+br.width/2)-(L+W/2), dy=(br.top+br.height/2)-(T+H/2);
+    img.style.visibility='hidden';
+    binder.style.transition='opacity .4s ease, transform .9s cubic-bezier(.645,.045,.355,1)';
+    binder.style.opacity='0';
     scene.classList.add('hiding');
-    setTimeout(function(){ scene.hidden=true; }, 520);
+    var DUR=820;
+    var anim=fly.animate([
+      {transform:'translate('+dx+'px,'+dy+'px) rotate('+R+'deg) scale('+(bw/W)+')'},
+      {transform:'translate('+(dx*.35)+'px,'+(dy*.35-18)+'px) rotate('+(R*.3)+'deg) scale('+(.55+.45*bw/W)*1.04+')',offset:.55},
+      {transform:'none'}
+    ],{duration:DUR,easing:'cubic-bezier(.45,.05,.3,1)',fill:'forwards'});
+    setTimeout(function(){ binder.style.opacity='1'; fly.style.transition='opacity .4s ease'; fly.style.opacity='0'; }, DUR*.72);
+    setTimeout(function(){ scene.hidden=true; }, 560);
+    setTimeout(function(){
+      fly.remove(); img.style.visibility=''; binder.style.transition=''; binder.style.opacity='';
+      if(window.binderOpen) window.binderOpen();
+    }, DUR*.72+460);
   }
 
   items.forEach(function(el){
@@ -946,6 +1028,193 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
   // wait for the end images so their measured size is right before the first layout
   Promise.all(Object.keys(els).map(function(k){ return els[k].decode ? els[k].decode().catch(function(){}) : null; })).then(reset);
   reset();
+})();
+</script>
+<script>
+/* Rolling pencils: each pencil is a rigid stick on the desk. Dragging pulls it by the point you
+   grabbed, so it swings to trail behind your hand (grab an end and it pivots; grab the middle and
+   it just moves). Motion across the pencil's length is rolling: low friction, a facet "squash", a
+   sliding shade band and a little wobble; motion along its length is sliding and stops fast. On
+   release it keeps rolling, curving gently toward its tip, then settles with a tiny bounce. Pencils
+   nudge each other, and the edges of the screen bounce them back. Pure 2D: the art is never redrawn. */
+(function(){
+  var scene=document.getElementById('deskScene');
+  var anchor=scene && scene.querySelector('[data-pencils]');
+  if(!anchor) return;
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var ROLL_FRIC=.925, SLIDE_FRIC=.8, SPIN_FRIC=.86, MAXV=20, FLING=.55, EDGE=6;
+  var P=[].map.call(scene.querySelectorAll('.pencil'),function(el){
+    var d=el.dataset;
+    return {el:el, body:el.querySelector('.pencil-body'), shade:el.querySelector('.pencil-shade'),
+      u:+d.u, v:+d.v, a0:+d.a*Math.PI/180, wf:+d.w, hf:+d.h,
+      hx:0,hy:0,ha:0, ox:0,oy:0,oa:0, x:0,y:0,a:0, W:0,L:0,
+      vx:0,vy:0,va:0, roll:0, act:0, drag:false, live:false, lastMove:0, dir:1};
+  });
+  var pairs=[]; for(var i=0;i<P.length;i++) for(var j=i+1;j<P.length;j++) pairs.push({p:P[i],q:P[j],allow:0});
+
+  function axis(p){ return {ux:Math.sin(p.a), uy:-Math.cos(p.a), nx:Math.cos(p.a), ny:Math.sin(p.a)}; }
+  function sceneXY(e){ var r=scene.getBoundingClientRect(); return [e.clientX-r.left, e.clientY-r.top]; }
+
+  function render(p){
+    var s=Math.min(1,p.act), ph=p.roll/(p.W*.5);
+    var wob=reduce?0:Math.sin(ph)*s*.03;                         // rad, ~1.7deg at full roll
+    p.el.style.width=p.W+'px'; p.el.style.height=p.L+'px';
+    p.el.style.transform='translate('+(p.x-p.W/2)+'px,'+(p.y-p.L/2)+'px) rotate('+(p.a+wob)+'rad)';
+    p.body.style.scale=(1-.045*Math.abs(Math.sin(ph*1.5))*s)+' 1';  // facets turning past
+    p.shade.style.opacity=(.75*s).toFixed(3);
+    p.shade.style.backgroundPosition=(p.roll%p.W)+'px 0';
+  }
+  function clamp(p){
+    var sw=scene.clientWidth, sh=scene.clientHeight, sa=Math.abs(Math.sin(p.a)), ca=Math.abs(Math.cos(p.a));
+    var ex=sa*p.L/2+ca*p.W/2, ey=ca*p.L/2+sa*p.W/2;
+    if(p.x-ex<EDGE){ p.x=EDGE+ex; if(p.vx<0) p.vx=-p.vx*.4; }
+    if(p.x+ex>sw-EDGE){ p.x=sw-EDGE-ex; if(p.vx>0) p.vx=-p.vx*.4; }
+    if(p.y-ey<EDGE){ p.y=EDGE+ey; if(p.vy<0) p.vy=-p.vy*.4; }
+    if(p.y+ey>sh-EDGE){ p.y=sh-EDGE-ey; if(p.vy>0) p.vy=-p.vy*.4; }
+  }
+  function store(p){ p.ox=p.x-p.hx; p.oy=p.y-p.hy; p.oa=p.a-p.ha; }
+
+  // home spots come from the invisible anchor, so the pencils follow the desk layout on resize/rotation
+  function layout(){
+    var sr=scene.getBoundingClientRect(), r=anchor.getBoundingClientRect();
+    var cx=r.left+r.width/2-sr.left, cy=r.top+r.height/2-sr.top, w=anchor.offsetWidth, h=anchor.offsetHeight;
+    var R=(parseFloat(getComputedStyle(anchor).getPropertyValue('--r'))||0)*Math.PI/180, c=Math.cos(R), s=Math.sin(R);
+    P.forEach(function(p){
+      var lx=(p.u-.5)*w, ly=(p.v-.5)*h;
+      p.hx=cx+lx*c-ly*s; p.hy=cy+lx*s+ly*c; p.ha=R+p.a0;
+      p.W=p.wf*w; p.L=p.hf*h;
+      p.x=p.hx+p.ox; p.y=p.hy+p.oy; p.a=p.ha+p.oa;
+      if(p.ox||p.oy) clamp(p);
+      render(p);
+    });
+    pairs.forEach(function(k){ k.allow=Math.max(0,overlap(k.p,k.q).o); });  // resting overlaps are allowed
+  }
+
+  // capsule vs capsule (segment closest points); returns penetration depth + contact normal (q -> p)
+  function seg(p){ var A=axis(p), h=Math.max(0,p.L/2-p.W*.36); return [p.x+A.ux*h,p.y+A.uy*h,p.x-A.ux*h,p.y-A.uy*h]; }
+  function overlap(p,q){
+    var a=seg(p), b=seg(q), d1x=a[2]-a[0], d1y=a[3]-a[1], d2x=b[2]-b[0], d2y=b[3]-b[1], rx=a[0]-b[0], ry=a[1]-b[1];
+    var A=d1x*d1x+d1y*d1y, E=d2x*d2x+d2y*d2y, F=d2x*rx+d2y*ry, C=d1x*rx+d1y*ry, B=d1x*d2x+d1y*d2y, den=A*E-B*B;
+    var s=den>1e-6?Math.min(1,Math.max(0,(B*F-C*E)/den)):0, t=(B*s+F)/E;
+    if(t<0){ t=0; s=Math.min(1,Math.max(0,-C/A)); } else if(t>1){ t=1; s=Math.min(1,Math.max(0,(B-C)/A)); }
+    var px=a[0]+d1x*s, py=a[1]+d1y*s, qx=b[0]+d2x*t, qy=b[1]+d2y*t, dx=px-qx, dy=py-qy, dist=Math.sqrt(dx*dx+dy*dy)||1e-3;
+    return {o:p.W*.36+q.W*.36-dist, nx:dx/dist, ny:dy/dist, cx:(px+qx)/2, cy:(py+qy)/2};
+  }
+  function push(p,o,nx,ny,cx,cy){
+    if(p.drag) return;
+    var rx=cx-p.x, ry=cy-p.y, r2=rx*rx+ry*ry, I=p.L*p.L/12;
+    p.x+=nx*o*I/(I+r2); p.y+=ny*o*I/(I+r2);                       // an end-on bump turns it more than it shoves it
+    p.a+=Math.max(-.05,Math.min(.05,(rx*ny-ry*nx)*o/(I+r2)*.6));
+    p.vx+=nx*Math.min(o,3)*.12; p.vy+=ny*Math.min(o,3)*.12;          // a little shared momentum
+    p.coasted=true;
+    wake(p);
+  }
+  function collide(){
+    pairs.forEach(function(k){
+      if(!k.p.live && !k.q.live) return;
+      var c=overlap(k.p,k.q); if(c.o<k.allow) k.allow=Math.max(0,c.o);
+      var o=c.o-k.allow; if(o<=0) return;
+      var fp=k.p.drag?0:(k.q.drag?1:.5), fq=1-fp;
+      push(k.p,o*fp,c.nx,c.ny,c.cx,c.cy); push(k.q,o*fq,-c.nx,-c.ny,c.cx,c.cy);
+    });
+  }
+
+  var raf=0, last=0;
+  function wake(p){ p.live=true; if(!raf){ last=performance.now(); raf=requestAnimationFrame(tick); } }
+  function tick(now){
+    var f=Math.min(3,(now-last)/16.67)||1; last=now; raf=0;
+    var any=false;
+    P.forEach(function(p){
+      if(!p.live) return;
+      if(p.drag){
+        if(now-p.lastMove>60){ p.vx*=.6; p.vy*=.6; }              // hand held still: stop "rolling"
+        var A=axis(p), sp=Math.abs(p.vx*A.nx+p.vy*A.ny);
+        p.act+=(Math.min(1,sp/5)-p.act)*.25;
+      } else {
+        var A=axis(p), vp=p.vx*A.nx+p.vy*A.ny, vl=p.vx*A.ux+p.vy*A.uy;
+        vp*=Math.pow(ROLL_FRIC,f); vl*=Math.pow(SLIDE_FRIC,f);
+        p.va*=Math.pow(SPIN_FRIC,f);
+        p.va-=vp*.07/p.L*f*.1;                                      // the tapered tip end rolls slower: a gentle curve
+        vp=Math.max(-MAXV,Math.min(MAXV,vp)); p.va=Math.max(-.06,Math.min(.06,p.va));
+        p.vx=A.nx*vp+A.ux*vl; p.vy=A.ny*vp+A.uy*vl;
+        p.x+=p.vx*f; p.y+=p.vy*f; p.a+=p.va*f; p.roll+=vp*f;
+        if(Math.abs(vp)>.3) p.dir=vp>0?1:-1;
+        clamp(p);
+        p.act+=(Math.min(1,Math.abs(vp)/5)-p.act)*.25;
+        if(Math.abs(vp)<.12 && Math.abs(vl)<.12 && Math.abs(p.va)<.0006){
+          p.vx=p.vy=p.va=0; p.live=false; p.act=0;
+          if(p.coasted && !reduce) settle(p);
+          p.coasted=false;
+        }
+      }
+      store(p); render(p);
+      if(p.live) any=true;
+    });
+    collide();
+    if(any) raf=requestAnimationFrame(tick);
+  }
+  function settle(p){
+    if(!p.body.animate) return;
+    var d=p.dir;
+    p.body.animate([{transform:'rotate(0deg) scale(1)'},{transform:'rotate('+(2.4*d)+'deg) scale(1.035)',offset:.35},
+      {transform:'rotate('+(-1.1*d)+'deg) scale(.99)',offset:.7},{transform:'rotate(0deg) scale(1)'}],
+      {duration:430,easing:'ease-out'});
+  }
+
+  function topZ(){
+    var z=7; [].forEach.call(scene.querySelectorAll('.desk-item,.pencil'),function(e){ z=Math.max(z,parseInt(e.style.zIndex,10)||0); });
+    return z+1;
+  }
+
+  P.forEach(function(p){
+    var el=p.el, pid=null, gs=0, gt=0, lt=0;
+    el.addEventListener('pointerdown',function(e){
+      e.preventDefault();
+      pid=e.pointerId; try{ el.setPointerCapture(pid); }catch(err){}
+      var m=sceneXY(e), A=axis(p), dx=m[0]-p.x, dy=m[1]-p.y;
+      gs=dx*A.ux+dy*A.uy; gt=dx*A.nx+dy*A.ny;                     // where on the pencil you grabbed it
+      p.drag=true; p.coasted=false; p.vx=p.vy=p.va=0; p.lastMove=lt=performance.now();
+      el.classList.add('dragging'); el.style.zIndex=topZ();
+      wake(p);
+    });
+    el.addEventListener('pointermove',function(e){
+      if(!p.drag || e.pointerId!==pid) return;
+      var m=sceneXY(e), A=axis(p), px0=p.x, py0=p.y, a0=p.a;
+      var gx=p.x+A.ux*gs+A.nx*gt, gy=p.y+A.uy*gs+A.ny*gt, dx=m[0]-gx, dy=m[1]-gy;
+      var dp=dx*A.nx+dy*A.ny;                                       // sideways pull at the grab point -> swing
+      var dth=dp*gs/(p.L*p.L/12+gs*gs);
+      p.a+=Math.max(-.35,Math.min(.35,dth));
+      A=axis(p);
+      p.x=m[0]-A.ux*gs-A.nx*gt; p.y=m[1]-A.uy*gs-A.ny*gt;
+      clamp(p);
+      var now=performance.now(), dt=Math.max(8,now-lt)/16.67; lt=p.lastMove=now;
+      var cx=p.x-px0, cy=p.y-py0;
+      p.roll+=cx*A.nx+cy*A.ny;
+      p.vx+=(cx/dt-p.vx)*.5; p.vy+=(cy/dt-p.vy)*.5; p.va+=((p.a-a0)/dt-p.va)*.5;
+      store(p); render(p); wake(p);
+    });
+    function end(e){
+      if(!p.drag || (e && e.pointerId!==pid)) return;
+      p.drag=false; el.classList.remove('dragging');
+      try{ el.releasePointerCapture(pid); }catch(err){}
+      if(performance.now()-p.lastMove>80){ p.vx=p.vy=0; p.va=0; }   // let go after stopping: no fling
+      p.vx*=FLING; p.vy*=FLING;
+      var sp=Math.sqrt(p.vx*p.vx+p.vy*p.vy);
+      if(sp>MAXV){ p.vx*=MAXV/sp; p.vy*=MAXV/sp; }
+      p.va=Math.max(-.08,Math.min(.08,p.va*.5));
+      if(reduce){ p.vx=p.vy=p.va=0; }
+      p.coasted=true;
+      wake(p);
+    }
+    el.addEventListener('pointerup',end);
+    el.addEventListener('pointercancel',end);
+    el.addEventListener('lostpointercapture',end);
+  });
+
+  layout();
+  var rt=0; addEventListener('resize',function(){ clearTimeout(rt); rt=setTimeout(layout,60); });
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(layout);
+  addEventListener('load',layout);
 })();
 </script>
 <script>
@@ -1234,6 +1503,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
   }
   function next(){ goTo(cur+1); } function prev(){ goTo(cur-1); }
   prevB.addEventListener('click',prev); nextB.addEventListener('click',next);
+  window.binderOpen=function(){ if(cur===0) next(); };   // the desk's "open the book" hand-off
 
   var acc=0, accT=0;
   stage.addEventListener('wheel',function(e){
