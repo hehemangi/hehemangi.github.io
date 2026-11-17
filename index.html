@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Hemangi Ganatra — graphic design portfolio, styled as a hand-written recipe book.">
+<meta name="description" content="Hemangi Ganatra — graphic design portfolio, styled as a hand-made kraft project folder.">
 <title>Hemangi Ganatra Portfolio</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -135,6 +135,32 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
    brown rail on the desk beside the cover, so it is hidden until the cover opens */
 .binder.at-start .spine{opacity:0}
 
+/* ---- REPORT-FILE FOLDER ----
+   The book is a report-style file folder (like a document file with a metal fastener): no rings or
+   punched holes. The cover has a scored hinge strip down its left edge with a silver clip on it,
+   a cream sheet peeks out above the closed cover, and the section tabs stick out on the right in
+   different colours. The centre strip stays as the folder's fold once it's open. */
+.rings,.holes{display:none!important}
+.spine{width:6px;left:calc(50% - 3px);background:linear-gradient(90deg,rgba(70,34,6,.5),rgba(70,34,6,.15) 50%,rgba(70,34,6,.5)),#b8641c url(binder/cover.webp) center/cover}
+.page.cover{padding-left:calc(var(--u)*7 + 34px)}   /* keep the label clear of the hinge strip and clip */
+/* scored hinge strip: two pressed lines a little in from the cover's left edge */
+.cover .hinge{position:absolute;top:2.2%;bottom:2.2%;left:9%;width:7px;pointer-events:none;
+  background:linear-gradient(90deg,rgba(80,36,6,.45) 0 2px,rgba(255,236,200,.35) 2px 4px,rgba(80,36,6,.38) 4px 6px,transparent 6px)}
+/* silver fastener on the hinge strip, in the same metal as the old rings */
+.cover .clip{position:absolute;left:calc(9% - 15px);top:37%;width:30px;height:28%;pointer-events:none;filter:drop-shadow(2px 4px 1.5px rgba(40,20,5,.42));
+  background:center/100% 100% no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 150' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='m' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%23fbfcfd'/%3E%3Cstop offset='.35' stop-color='%23c3c9d0'/%3E%3Cstop offset='.6' stop-color='%23eef1f4'/%3E%3Cstop offset='1' stop-color='%23858c96'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='2' y='2' width='20' height='146' rx='8' fill='url(%23m)' stroke='%23454a51' stroke-width='2.4'/%3E%3Crect x='8' y='14' width='8' height='54' rx='4' fill='%236d737b' stroke='%23454a51' stroke-width='1.2'/%3E%3Crect x='8' y='82' width='8' height='54' rx='4' fill='%236d737b' stroke='%23454a51' stroke-width='1.2'/%3E%3Cpath d='M4 72h16M4 78h16' stroke='%23454a51' stroke-width='1.6'/%3E%3Cpath d='M5.5 10v52M5.5 86v52' stroke='%23fff' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E")}
+/* cream sheet peeking out above the closed cover (sits behind it; only while the folder is shut) */
+.cover-sheet{position:absolute;top:calc(-14px - var(--u)*3.6);left:calc(50% + 4px + 7%);width:calc(var(--pw) + 22px - 9%);height:40%;pointer-events:none;
+  background:var(--paper) url(binder/paper.webp) 0 0/360px 360px;border:2px solid #8a4a17;border-radius:6px 6px 0 0;
+  box-shadow:-2px -1px 4px rgba(0,0,0,.18);opacity:0;transition:opacity .25s}
+.binder.at-start .cover-sheet{opacity:1;transition-delay:0s}
+/* index tabs in different colours, like a real document file */
+.tab[data-sec="chef"],.tab-back[data-sec="chef"]{--tc:#f6e79a}
+.tab[data-sec="mains"],.tab-back[data-sec="mains"]{--tc:#f7b8c9}
+.tab[data-sec="shake-ko-bulao"],.tab-back[data-sec="shake-ko-bulao"]{--tc:#66b1e6}
+.tab[data-sec="oak-and-awe"],.tab-back[data-sec="oak-and-awe"]{--tc:#c4e6a6}
+.tab[data-sec="say-hi"],.tab-back[data-sec="say-hi"]{--tc:#d7c9f2}
+
 .leaf{position:absolute;top:0;left:calc(50% + var(--gap) / 2);width:var(--pw);height:100%;transform-origin:calc(var(--gap) / -2) 50%;transform-style:preserve-3d;
   transition:transform .95s cubic-bezier(.645,.045,.355,1);cursor:pointer}
 .leaf.flipped{transform:rotateY(-180deg)}
@@ -179,14 +205,15 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
    a plain paper tab with no writing, on the left edge where the sheet now sits. Hidden on the
    closed cover. */
 .tab,.tab-back{position:absolute;width:34px;top:var(--t);height:var(--h);display:flex;align-items:center;justify-content:center;text-align:center;
-  background:var(--paper) url(binder/paper.webp) 0 0/360px 360px;font-family:var(--mono);font-weight:700;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;writing-mode:vertical-rl;
+  background:linear-gradient(color-mix(in srgb,var(--tc,transparent) 82%,transparent),color-mix(in srgb,var(--tc,transparent) 82%,transparent)),var(--paper) url(binder/paper.webp) 0 0/360px 360px;font-family:var(--mono);font-weight:700;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;writing-mode:vertical-rl;
   border:2px solid #8a4a17;backface-visibility:hidden;-webkit-backface-visibility:hidden;
   box-shadow:-2px 2px 5px rgba(0,0,0,.22);opacity:1;transition:opacity .2s,background .2s}
 .tab{right:-34px;z-index:4;color:var(--ink);text-decoration:none;border-left:0;border-radius:0 5px 5px 0}
-.tab:hover{background:var(--yellow)}
+.tab:hover{filter:brightness(1.06)}
 .tab-thin{font-size:7.5px;letter-spacing:.08em}
 .tab-back{left:-34px;z-index:4;pointer-events:none;border-right:0;border-radius:5px 0 0 5px}
-.tab.cur,.tab-back.cur{background:var(--yellow)}
+/* current section: its tab sticks out a little further instead of changing colour */
+.tab.cur{right:-42px;width:42px} .tab-back.cur{left:-42px;width:42px}
 
 /* covers */
 .cover{color:#2a1d0e;padding:calc(var(--u)*8) calc(var(--u)*7);justify-content:center;align-items:center}
@@ -298,6 +325,8 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
   .binder,.binder.at-start{width:auto;height:auto;transform:none;display:flex;flex-direction:column;gap:18px}
   .board,.spine,.rings,.holes,.tab,.tab-back,.navbtn,.hint{display:none}
   .leaf,.leaf.flipped,.leaf.cover-leaf{position:static;width:auto;height:auto;transform:none;display:flex;flex-direction:column;gap:18px;cursor:auto}
+
+  .cover-sheet{display:none}
   .page,.f-back{position:relative;inset:auto;transform:none;backface-visibility:visible;-webkit-backface-visibility:visible;min-height:calc(var(--u)*82);padding:54px 20px 50px!important}
   .page::after{display:none}
   .photo-page{min-height:calc(var(--u)*110)}
@@ -317,7 +346,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
    keyboard (arrow keys, Home/End) to turn pages; the header, footer, nav buttons and hint text
    are all hidden rather than deleted, so this is easy to bring back later if wanted. */
 .hdr,.ftr,.navbtn,.hint{display:none}
-.stage{top:0;bottom:0}
+.stage{top:0;bottom:0;padding-top:var(--tabpad,0px)}
 
 /* ---------- Desk-clutter intro: the table mid-cooking, dragged aside to reach the book ----------
    A full-viewport layer of hand-drawn desk objects sitting on top of the binder. Everything in
@@ -391,19 +420,23 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <path id="circ" d="M70,70 m-54,0 a54,54 0 1,1 108,0 a54,54 0 1,1 -108,0"/>
+    <!-- About divider: a pencil signing a squiggle -->
     <g id="ill-bowl" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
-      <ellipse cx="100" cy="92" rx="78" ry="17"/>
-      <path d="M22 92c6 44 38 64 78 64s72-20 78-64"/>
-      <path d="M34 112c10 6 20 10 30 12M44 128c10 6 22 10 34 11M126 139c14-2 26-7 36-15M140 118c8-4 14-8 20-13" stroke-width="2"/>
-      <path d="M58 34l66 62M52 26c-6-8-2-18 8-20 10-2 16 6 14 14-2 8-14 12-22 6z"/>
-      <path d="M150 30l-66 66M142 18l18 20M148 14l18 20M154 10l18 20M140 40c10 2 20-2 24-12"/>
+      <path d="M42 138L51.2 113.3 126.1 38.3 141.7 53.9 66.7 128.8Z"/>
+      <path d="M51.2 113.3L66.7 128.8"/>
+      <path d="M45 129.7L50.3 135" stroke-width="4"/>
+      <path d="M126.1 38.3L134.6 29.8 150.2 45.4 141.7 53.9M130.4 34L146 49.6" />
+      <path d="M134.6 29.8L143.8 20.6c4-4 11-4 15 0s4 11 0 15L150.2 45.4"/>
+      <path d="M59 121L133.9 46.1" stroke-width="2"/>
+      <path d="M28 160c20-14 30 6 48-4s26-10 40 2 30-4 48-6" stroke-width="2.4"/>
     </g>
+    <!-- Projects divider: a kraft file folder with a sheet sticking out -->
     <g id="ill-plate" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
-      <ellipse cx="100" cy="96" rx="64" ry="54"/>
-      <ellipse cx="100" cy="96" rx="44" ry="36"/>
-      <path d="M78 82c8-8 22-10 32-4M70 100c2 6 6 11 12 14" stroke-width="2"/>
-      <path d="M18 36v34c0 8 6 12 10 12v72M10 36v24M26 36v24"/>
-      <path d="M182 36c-12 8-14 30-14 46h14v72"/>
+      <path d="M30 148V50h42l10 12h88v86"/>
+      <path d="M46 80V36h104v44"/>
+      <path d="M60 50h64M60 62h44" stroke-width="2"/>
+      <path d="M22 82h156l-8 70H30Z"/>
+      <rect x="72" y="102" width="56" height="20" rx="3" stroke-width="2.2"/>
     </g>
     <g id="ill-cup" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M40 74h104l-10 70c-2 10-10 16-20 16H70c-10 0-18-6-20-16z"/>
@@ -416,7 +449,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 </svg>
 
 <header class="hdr">
-  <a class="mono" href="#cover" style="text-decoration:none">Hemangi's Recipe Book</a>
+  <a class="mono" href="#cover" style="text-decoration:none">Hemangi's Project Folder</a>
   <div class="hdr-r">
     <a class="btn mono" href="#contents">Contents</a>
     <a class="btn mono" href="#say-hi">Say hi</a>
@@ -425,13 +458,13 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 </header>
 
 <div class="menu-ov" id="menu-ov" role="dialog" aria-modal="true" aria-label="Contents">
-  <div class="menu-top"><span class="mono">Hemangi's Recipe Book — contents</span><button class="x" type="button" id="close-menu" aria-label="Close contents"></button></div>
+  <div class="menu-top"><span class="mono">Hemangi's Project Folder — contents</span><button class="x" type="button" id="close-menu" aria-label="Close contents"></button></div>
   <ol>
     <li><a href="#cover"><b>—</b><em>Cover</em> <small>Portfolio</small></a></li>
-    <li><a href="#chef"><b>p.2</b><em>The chef</em> <small>About</small></a></li>
-    <li><a href="#foreword"><b>p.3</b><em>A note from the chef</em> <small>Foreword</small></a></li>
-    <li><a href="#shake-ko-bulao"><b>p.6</b><em>Shake Ko Bulao</em> <small>Main dish</small></a></li>
-    <li><a href="#oak-and-awe"><b>p.10</b><em>Oak &amp; Awe</em> <small>Main dish</small></a></li>
+    <li><a href="#chef"><b>p.2</b><em>The designer</em> <small>About</small></a></li>
+    <li><a href="#foreword"><b>p.3</b><em>A note from the designer</em> <small>Foreword</small></a></li>
+    <li><a href="#shake-ko-bulao"><b>p.6</b><em>Shake Ko Bulao</em> <small>Project</small></a></li>
+    <li><a href="#oak-and-awe"><b>p.10</b><em>Oak &amp; Awe</em> <small>Project</small></a></li>
     <li><a href="#say-hi"><b>p.16</b><em>Say hi</em> <small>Other</small></a></li>
   </ol>
   <div class="menu-top"><span class="mono">Packaging · Brand identity · Advertising · Copywriting</span><span class="note">ganatrahemangi93@gmail.com</span></div>
@@ -439,62 +472,64 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 
 <button class="navbtn" id="prev" type="button" aria-label="Previous page">←</button>
 <button class="navbtn" id="next" type="button" aria-label="Next page">→</button>
-<p class="hint" id="hint">Click the page, drag it over the rings, or press → to turn</p>
+<p class="hint" id="hint">Click the page, drag it across, or press → to turn</p>
 
-<main class="stage" id="stage" aria-label="Recipe book">
+<main class="stage" id="stage" aria-label="Project folder">
   <div class="binder at-start" id="binder">
-    <div class="board board-r kraft" aria-hidden="true"><p class="fin"><span class="big" style="font-size:calc(var(--u)*8);display:block">Fin.</span><span class="mono">Every recipe tested on a real brief</span></p></div>
+    <div class="board board-r kraft" aria-hidden="true"><p class="fin"><span class="big" style="font-size:calc(var(--u)*8);display:block">Fin.</span><span class="mono">Every project made for a real brief</span></p></div>
+    <i class="cover-sheet" aria-hidden="true"></i>
     <div class="spine kraft" aria-hidden="true"></div>
 
     <!-- LEAF 0 · cover / inside cover -->
     <div class="leaf cover-leaf">
       <section class="page f-front r cover kraft" id="cover" aria-label="Cover">
+        <i class="hinge" aria-hidden="true"></i><i class="clip" aria-hidden="true"></i>
         <div class="label">
-          <p class="mono hl">Vol. 01 · Mumbai · 2026</p>
+          <p class="mono hl">File 01 · Mumbai · 2026</p>
           <h1 class="big cover-title"><img src="binder/cover-title.webp" alt="Portfolio" width="320" height="143"></h1>
-          <p style="font-size:calc(var(--u)*3)">Recipes from the kitchen of<br>Hemangi Ganatra</p>
+          <p style="font-size:calc(var(--u)*3)">Project files from the desk of<br>Hemangi Ganatra</p>
           <p class="mono c-muted">Packaging · Identity · Advertising · Copy</p>
         </div>
       </section>
       <section class="page f-back l inside kraft" aria-label="Inside cover">
         <div class="label exlibris" style="width:68%">
           <span class="mono exlibris-stamp">Ex libris</span>
-          <p class="big" style="font-size:calc(var(--u)*5.6)">This book belongs to <span class="hl">Hemangi Ganatra</span></p>
-          <p class="note">If found, please return to the chef.<br>Reward: one iced coffee.</p>
+          <p class="big" style="font-size:calc(var(--u)*5.6)">This folder belongs to <span class="hl">Hemangi Ganatra</span></p>
+          <p class="note">If found, please return to the designer.<br>Reward: one iced coffee.</p>
         </div>
       </section>
     </div>
 
     <!-- LEAF 1 · divider: the chef / pocket page -->
     <div class="leaf">
-      <section class="page f-front r divider" aria-label="Section: The chef">
+      <section class="page f-front r divider" aria-label="Section: About">
         <svg viewBox="0 0 200 170" aria-hidden="true"><use href="#ill-bowl"/></svg>
-        <h2 class="dtitle">The<br>chef</h2>
+        <h2 class="dtitle">About</h2>
         <span class="folio">1</span>
       </section>
       <section class="page f-back l pocket-page" id="chef" aria-labelledby="chef-h">
-        <span class="rh" style="color:var(--paper)">The chef</span>
-        <h2 id="chef-h" class="mono" style="align-self:flex-start;margin-bottom:auto;color:#fff4dc">Fig. 1 — The chef</h2>
-        <div class="pocket-wrap" tabindex="0" role="button" aria-label="Pull the chef's photo out of the pocket" data-noflip>
+        <span class="rh" style="color:var(--paper)">About</span>
+        <h2 id="chef-h" class="mono" style="align-self:flex-start;margin-bottom:auto;color:#fff4dc">Fig. 1 — The designer</h2>
+        <div class="pocket-wrap" tabindex="0" role="button" aria-label="Pull the designer's photo out of the pocket" data-noflip>
           <div class="photo-card"><div class="ph ph-photo"><img src="chef.jpg" alt="Hemangi Ganatra on a footbridge in Mumbai" loading="lazy"></div></div>
           <div class="pocket"><span>Hemangi Ganatra</span><span>2026</span></div>
         </div>
-        <p class="pocket-cap">Hemangi Ganatra. Mumbai, 2026. Graphic designer, packaging nerd, judge of menus. Pictured here probably holding coffee.</p>
+        <p class="pocket-cap">Hemangi Ganatra. Mumbai, 2026. Graphic designer, packaging nerd, judge of labels. Pictured here probably holding coffee.</p>
         <span class="folio" style="color:var(--paper)">2</span>
         <i class="tab-back" data-sec="chef" style="--t:10%;--h:16%" aria-hidden="true"></i>
       </section>
-      <a class="tab" href="#chef" data-sec="chef" style="--t:10%;--h:16%">The chef</a>
+      <a class="tab" href="#chef" data-sec="chef" style="--t:10%;--h:16%">About</a>
     </div>
 
     <!-- LEAF 2 · foreword / contents -->
     <div class="leaf">
       <section class="page f-front r letter" id="foreword" aria-labelledby="fw-h">
         <span class="rh">Foreword</span>
-        <p class="mono hl">A note from the chef</p>
+        <p class="mono hl">A note from the designer</p>
         <h2 id="fw-h" class="big" style="font-size:calc(var(--u)*7.4)">Hi. I'm <span class="hl" style="display:inline-block;transform:rotate(2deg)">Hemangi.</span></h2>
         <p>I'm a graphic designer who somehow ended up with feelings all over her work, and honestly? Not complaining.</p>
-        <p>This is my recipe book. Most of what's in it started with something I've lived, felt, or found deeply annoying. I figured out I was serious about packaging during an internship: something about holding a thing you made with your hands and thinking, yeah, that's it.</p>
-        <p>I cook where design meets writing: packaging, brand identity, advertising and copy. Sometimes all four in one dish, which is chaotic and also my favourite.</p>
+        <p>This is my project folder. Most of what's in it started with something I've lived, felt, or found deeply annoying. I figured out I was serious about packaging during an internship: something about holding a thing you made with your hands and thinking, yeah, that's it.</p>
+        <p>I work where design meets writing: packaging, brand identity, advertising and copy. Sometimes all four in one project, which is chaotic and also my favourite.</p>
         <p style="margin-top:auto">Junior Graphic Designer at SMDB. Studying Visual Communication at Ecole Intuit Lab, Mumbai.</p>
         <p class="sign">— Hemangi</p>
         <span class="folio">3</span>
@@ -503,14 +538,14 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
         <span class="rh">Contents</span>
         <h2 id="toc-h" class="big" style="font-size:calc(var(--u)*9)"><span class="hl" style="display:inline-block;transform:rotate(-1.5deg)">Con&shy;tents</span></h2>
         <ol class="toc">
-          <li class="sec mono">The chef</li>
+          <li class="sec mono">About</li>
           <li><a href="#chef" style="display:contents"><span class="t">Fig. 1, in the pocket</span><span class="pg">p.2</span></a></li>
-          <li><a href="#foreword" style="display:contents"><span class="t">A note from the chef</span><span class="pg">p.3</span></a></li>
-          <li class="sec mono">Main dishes</li>
+          <li><a href="#foreword" style="display:contents"><span class="t">A note from the designer</span><span class="pg">p.3</span></a></li>
+          <li class="sec mono">Projects</li>
           <li><a href="#shake-ko-bulao" style="display:contents"><span class="t">Shake Ko Bulao</span><span class="pg">p.6</span></a></li>
           <li><a href="#oak-and-awe" style="display:contents"><span class="t">Oak &amp; Awe</span><span class="pg">p.10</span></a></li>
           <li class="sec mono">Other</li>
-          <li><a href="#kitchen" style="display:contents"><span class="t">Still in the kitchen</span><span class="pg">p.14</span></a></li>
+          <li><a href="#kitchen" style="display:contents"><span class="t">Still on the desk</span><span class="pg">p.14</span></a></li>
           <li><a href="#say-hi" style="display:contents"><span class="t">Say hi</span><span class="pg">p.16</span></a></li>
         </ol>
         <span class="folio">4</span>
@@ -519,29 +554,29 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 
     <!-- LEAF 3 · divider: main dishes / SKB recipe card -->
     <div class="leaf">
-      <section class="page f-front r divider" id="mains" aria-label="Section: Main dishes">
+      <section class="page f-front r divider" id="mains" aria-label="Section: Projects">
         <svg viewBox="0 0 200 170" aria-hidden="true"><use href="#ill-plate"/></svg>
-        <h2 class="dtitle">Main<br>dishes</h2>
+        <h2 class="dtitle">Projects</h2>
         <span class="folio">5</span>
       </section>
       <section class="page f-back l" id="shake-ko-bulao" aria-labelledby="skb-h">
-        <span class="rh">Recipe 04</span>
-        <p class="mono hl">Recipe 04 · Main dish</p>
+        <span class="rh">Project 04</span>
+        <p class="mono hl">Project 04 · Packaging &amp; copy</p>
         <h2 id="skb-h" class="big" style="font-size:calc(var(--u)*9)">Shake Ko <span class="hl" style="display:inline-block;transform:rotate(2.5deg)">Bulao</span></h2>
         <p style="font-size:calc(var(--u)*2.6)">A milkshake brand where the names do the work.</p>
         <div class="facts-row">
-          <div><p class="mono c-muted">Serves</p><p>Six personalities</p></div>
-          <div><p class="mono c-muted">Course</p><p>Main</p></div>
-          <div><p class="mono c-muted">Cooked with</p><p>Copy first</p></div>
+          <div><p class="mono c-muted">For</p><p>Six personalities</p></div>
+          <div><p class="mono c-muted">Discipline</p><p>Packaging &amp; copy</p></div>
+          <div><p class="mono c-muted">Led by</p><p>Copy first</p></div>
         </div>
         <div class="ph grow"><span class="note">[ Drop image ] the six bottles</span></div>
-        <div><p class="mono c-muted" style="margin-bottom:4px">Ingredients</p>
+        <div><p class="mono c-muted" style="margin-bottom:4px">What went in</p>
           <ul class="ingredients"><li>Brand identity</li><li>Packaging</li><li>Copywriting, as the main flavour</li></ul></div>
         <span class="folio">6</span>
         <i class="tab-back" data-sec="mains" style="--t:28%;--h:7%" aria-hidden="true"></i>
         <i class="tab-back" data-sec="shake-ko-bulao" style="--t:37%;--h:16%" aria-hidden="true"></i>
       </section>
-      <a class="tab tab-thin" href="#mains" data-sec="mains" style="--t:28%;--h:7%">Mains</a>
+      <a class="tab tab-thin" href="#mains" data-sec="mains" style="--t:28%;--h:7%">Projects</a>
       <a class="tab" href="#shake-ko-bulao" data-sec="shake-ko-bulao" style="--t:37%;--h:16%">04 Shake</a>
     </div>
 
@@ -556,7 +591,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
         <span class="folio">7</span>
       </section>
       <section class="page f-back l alt" aria-label="Shake Ko Bulao — the six names">
-        <span class="rh">Method</span>
+        <span class="rh">Process</span>
         <div class="step"><b>3</b><p>Six flavours, six personalities.</p></div>
         <h3 class="split grow" style="display:flex;flex-direction:column;justify-content:center" aria-label="Gulabo, Paan Pataka, Aam Kahani, Rang Rasiya, Shaant Shahi, Shahi Swaad">
           <span class="ln">Gulabo<small class="mono c-muted">rose</small></span>
@@ -572,26 +607,26 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 
     <!-- LEAF 5 · SKB plating / O&A recipe card -->
     <div class="leaf">
-      <section class="page f-front r" aria-label="Shake Ko Bulao — plating">
-        <span class="rh">Plating</span>
+      <section class="page f-front r" aria-label="Shake Ko Bulao — final">
+        <span class="rh">Final</span>
         <div class="ph grow"><span class="note">[ Drop image ] label close-up</span></div>
         <div class="step"><b>4</b><p>Let every label say who ordered it.</p></div>
-        <p class="mono hl" style="margin-top:calc(var(--u)*1)">Chef's note</p>
+        <p class="mono hl" style="margin-top:calc(var(--u)*1)">Designer's note</p>
         <blockquote class="quote">“You already know exactly who ordered that shake.”</blockquote>
         <span class="folio">9</span>
       </section>
       <section class="page f-back l" id="oak-and-awe" aria-labelledby="oa-h">
-        <span class="rh">Recipe 05</span>
-        <p class="mono hl">Recipe 05 · Main dish</p>
+        <span class="rh">Project 05</span>
+        <p class="mono hl">Project 05 · Packaging</p>
         <h2 id="oa-h" class="big" style="font-size:calc(var(--u)*9)">Oak <span class="hl" style="display:inline-block;transform:rotate(-2deg)">&amp; Awe</span></h2>
         <p style="font-size:calc(var(--u)*2.6)">An Armenian brandy for the generation that wasn't supposed to drink it.</p>
         <div class="facts-row">
-          <div><p class="mono c-muted">Serves</p><p>Under-30s</p></div>
-          <div><p class="mono c-muted">Course</p><p>Main</p></div>
+          <div><p class="mono c-muted">For</p><p>Under-30s</p></div>
+          <div><p class="mono c-muted">Discipline</p><p>Packaging</p></div>
           <div><p class="mono c-muted">Origin</p><p>Armenia</p></div>
         </div>
         <div class="ph grow"><span class="note">[ Drop image ] the box, hand-assembled</span></div>
-        <div><p class="mono c-muted" style="margin-bottom:4px">Ingredients</p>
+        <div><p class="mono c-muted" style="margin-bottom:4px">What went in</p>
           <ul class="ingredients"><li>Armenian folk patterns</li><li>Deep burgundy &amp; gold</li><li>Bold symmetry, one hand-assembled box</li></ul></div>
         <span class="folio">10</span>
         <i class="tab-back" data-sec="oak-and-awe" style="--t:55%;--h:28%" aria-hidden="true"></i>
@@ -610,7 +645,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
         <span class="folio">11</span>
       </section>
       <section class="page f-back l alt" style="justify-content:center" aria-label="Oak and Awe — the problem">
-        <span class="rh">Method</span>
+        <span class="rh">Process</span>
         <div class="step"><b>3</b><p>Know what you're fixing.</p></div>
         <blockquote class="quote" style="font-size:calc(var(--u)*6.2)">Brandy sits on your dad's shelf and comes out at <span class="hl">funerals.</span></blockquote>
         <p class="note c-muted">Nobody under 30 thinks it's for them. It's serious in a way that feels uninviting.</p>
@@ -620,23 +655,23 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 
     <!-- LEAF 7 · O&A plating / still in the kitchen -->
     <div class="leaf">
-      <section class="page f-front r" aria-label="Oak and Awe — plating">
-        <span class="rh">Plating</span>
+      <section class="page f-front r" aria-label="Oak and Awe — final">
+        <span class="rh">Final</span>
         <div class="ph grow"><span class="note">[ Drop image ] flask in the gift set</span></div>
-        <div class="step"><b>4</b><p>Season with burgundy, gold and symmetry. Assemble by hand into a real prototype.</p></div>
-        <p class="mono hl" style="margin-top:calc(var(--u)*1)">Chef's note</p>
+        <div class="step"><b>4</b><p>Build with burgundy, gold and symmetry. Assemble by hand into a real prototype.</p></div>
+        <p class="mono hl" style="margin-top:calc(var(--u)*1)">Designer's note</p>
         <blockquote class="quote" style="font-size:calc(var(--u)*4.2)">“The goal wasn't to make brandy look young. It was to make it look worth keeping.”</blockquote>
         <span class="folio">13</span>
       </section>
       <section class="page f-back l" id="kitchen" aria-labelledby="kit-h">
         <span class="rh">Notes</span>
-        <h2 id="kit-h" class="big" style="font-size:calc(var(--u)*6.4)">Still in the <span class="hl" style="display:inline-block;transform:rotate(1.5deg)">kitchen</span></h2>
+        <h2 id="kit-h" class="big" style="font-size:calc(var(--u)*6.4)">Still on the <span class="hl" style="display:inline-block;transform:rotate(1.5deg)">desk</span></h2>
         <ul class="lined-list ruled">
-          <li>Zine <small>Starter</small></li>
-          <li>Wear Your Race <small>Main</small></li>
-          <li>Drop the Label <small>Main</small></li>
-          <li>Kiss Her, You Fool <small>Side</small></li>
-          <li>Ganatra Foods <small>Dessert</small></li>
+          <li>Zine <small>Sketching</small></li>
+          <li>Wear Your Race <small>In progress</small></li>
+          <li>Drop the Label <small>In progress</small></li>
+          <li>Kiss Her, You Fool <small>Drafting</small></li>
+          <li>Ganatra Foods <small>In progress</small></li>
         </ul>
         <p class="note c-muted" style="margin-top:auto">Coming in the next edition.</p>
         <span class="folio">14</span>
@@ -653,7 +688,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
       <section class="page f-back l" id="say-hi" aria-labelledby="hi-h">
         <span class="rh">Say hi</span>
         <h2 id="hi-h" class="big" style="font-size:calc(var(--u)*11)">Say <span class="hl" style="display:inline-block;transform:rotate(-3deg)">hi.</span></h2>
-        <p style="font-size:calc(var(--u)*2.6)">The kitchen is open for orders.</p>
+        <p style="font-size:calc(var(--u)*2.6)">The desk is open for new briefs.</p>
         <div class="stepbox"><p class="mono c-muted">Step 1</p><h3>Copy my email</h3><span class="email" id="email">ganatrahemangi93@gmail.com</span><button class="go copy" type="button">Copy</button></div>
         <div class="stepbox"><p class="mono c-muted">Step 2</p><h3>Send the brief</h3><p>Packaging, a brand, an ad, or a strong opinion about a label.</p></div>
         <span class="folio">16</span>
@@ -666,14 +701,14 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     <div class="leaf">
       <section class="page f-front r" aria-label="Colophon" style="justify-content:space-between">
         <span class="rh">Colophon</span>
-        <p class="big" style="font-size:calc(var(--u)*8)">Written &amp; cooked <span class="hl" style="display:inline-block;transform:rotate(2deg)">by hand.</span></p>
+        <p class="big" style="font-size:calc(var(--u)*8)">Written &amp; made <span class="hl" style="display:inline-block;transform:rotate(2deg)">by hand.</span></p>
         <dl class="cred">
-          <dt>Chef</dt><dd>Hemangi Ganatra</dd>
-          <dt>Kitchen</dt><dd>Ecole Intuit Lab, Mumbai</dd>
+          <dt>Designer</dt><dd>Hemangi Ganatra</dd>
+          <dt>Studio</dt><dd>Ecole Intuit Lab, Mumbai</dd>
           <dt>Edition</dt><dd>Project 03 · Personal Branding &amp; Portfolio</dd>
-          <dt>Type</dt><dd>Libre Caslon &amp; Space Mono</dd>
+          <dt>Type</dt><dd>Mynerve, Schoolbell &amp; Space Mono</dd>
         </dl>
-        <a class="go" href="#cover">← Close the book</a>
+        <a class="go" href="#cover">← Close the folder</a>
         <span class="folio">17</span>
       </section>
       <section class="page f-back l alt" aria-label="The end">
@@ -699,7 +734,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 </main>
 
 <div class="desk-scene" id="deskScene">
-  <p class="desk-hint">My desk, mid-recipe &mdash; move things aside, then open the book</p>
+  <p class="desk-hint">My desk, mid-project &mdash; move things aside, then open the folder</p>
   <div class="desk-fixed mat" style="left:50%;top:50%;--r:-1deg" aria-hidden="true"><img src="desk/mat-wide.webp" alt="" draggable="false"></div>
   <!-- --fw = real width in inches x .0198 (see .desk-scene). Real sizes used: paper 4x6in card, sketchbook A5, notepad 5x7in,
        Portfolio book 8.5in square ring binder, pencils 7in, utility knife 6.3in, iced coffee 3.5in, cereal bowl 6in,
@@ -708,7 +743,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
   <div class="desk-item" style="--fx:0.258;--fy:0.3818;--fw:0.125;--mfx:0.4258;--mfy:0.7095;--r:-9deg;z-index:3" aria-hidden="true"><img src="desk/sketchbook.webp" alt="" draggable="false"></div>
   <div class="desk-item" style="--fx:0.6985;--fy:0.2626;--fw:0.109;--mfx:0.0949;--mfy:0.7683;--r:5deg;z-index:4" aria-hidden="true"><img src="desk/pad.webp" alt="" draggable="false"></div>
   <div class="desk-item ruler" style="z-index:5" aria-hidden="true"><img src="desk/ruler.webp" alt="" draggable="false"></div>
-  <div class="desk-item" data-book="1" style="--fx:0.4606;--fy:0.0822;--fw:0.19;--mfx:0.0926;--mfy:0.3173;--r:4deg;z-index:6" role="button" tabindex="0" aria-label="Open the recipe book"><img src="desk/book.webp" alt="" draggable="false"></div>
+  <div class="desk-item" data-book="1" style="--fx:0.4606;--fy:0.0822;--fw:0.17;--mfx:0.0926;--mfy:0.3173;--r:4deg;z-index:6" role="button" tabindex="0" aria-label="Open the portfolio folder"><img src="desk/folder.webp" alt="" draggable="false"></div>
   <div class="desk-item pencil-anchor" data-pencils style="--fx:0.761;--fy:0.6553;--fw:0.09;--mfx:0.4735;--mfy:0.8124;--r:70deg;z-index:7" aria-hidden="true"></div>
   <div class="pencil" data-u=".1844" data-v=".5315" data-a="-9.52" data-w=".2624" data-h=".9133" aria-hidden="true"><div class="pencil-body" style="--m:url(desk/pencil-red.webp)"><img src="desk/pencil-red.webp" alt="" draggable="false"><i class="pencil-shade"></i></div></div>
   <div class="pencil" data-u=".4858" data-v=".4505" data-a="2.43" data-w=".2426" data-h=".9133" aria-hidden="true"><div class="pencil-body" style="--m:url(desk/pencil-green.webp)"><img src="desk/pencil-green.webp" alt="" draggable="false"><i class="pencil-shade"></i></div></div>
@@ -721,7 +756,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
   <img class="desk-end" data-end="budL" src="desk/ear-bud-l.webp" alt="" draggable="false" aria-hidden="true">
   <img class="desk-end" data-end="budR" src="desk/ear-bud-r.webp" alt="" draggable="false" aria-hidden="true">
   <img class="desk-end" data-end="remote" src="desk/ear-remote.webp" alt="" draggable="false" aria-hidden="true">
-  <img class="desk-end" data-end="jack" src="desk/ear-jack.webp" alt="" draggable="false" aria-hidden="true">
+  <img class="desk-end" data-end="jack" src="desk/ear-usbc.webp" alt="" draggable="false" aria-hidden="true">
   <div class="desk-item" style="--fx:0.0592;--fy:0.0767;--fw:0.158;--mfx:0.0846;--mfy:0.0581;--r:-7deg;z-index:13" aria-hidden="true"><img src="desk/ipad.webp" alt="" draggable="false"></div>
   <div class="desk-item" style="--fx:0.7011;--fy:0.0497;--fw:0.085;--mfx:0.5342;--mfy:0.3462;--r:9deg;z-index:14" aria-hidden="true"><img src="desk/camera.webp" alt="" draggable="false"></div>
   <div class="desk-item" style="--fx:0.2554;--fy:0.0626;--fw:0.058;--mfx:0.4882;--mfy:0.0538;--r:13deg;z-index:15" aria-hidden="true"><img src="desk/phone.webp" alt="" draggable="false"></div>
@@ -760,8 +795,9 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     }
     var br=book.getBoundingClientRect(), cr=cover.getBoundingClientRect();
     var bw=img.offsetWidth, bh=img.offsetHeight, R=parseFloat(getComputedStyle(book).getPropertyValue('--r'))||0;
-    // in desk/book.webp the cover board spans x 9.3%..100% (the rings stick out to the left of it)
-    var W=cr.width/.907, H=W*bh/bw, L=cr.left-.093*W, T=cr.top+(cr.height-H)/2;
+    // in desk/folder.webp the cover board spans x 0.6%..94% (the coloured index tabs stick out to its
+    // right) and its top edge sits 5.2% down (the cream sheet peeks out above it): line those up
+    var W=cr.width/.934, H=W*bh/bw, L=cr.left-.006*W, T=cr.top-.052*H;
     var fly=document.createElement('img');
     fly.src=img.currentSrc||img.src; fly.alt=''; fly.setAttribute('aria-hidden','true');
     fly.style.cssText='position:fixed;z-index:2000;pointer-events:none;margin:0;left:'+L+'px;top:'+T+'px;width:'+W+'px;height:'+H+'px;'+
@@ -786,15 +822,33 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     }, DUR*.72+460);
   }
 
+  /* Momentum: while dragging we track the hand's velocity; let go mid-motion and the item keeps
+     sliding, easing to a stop on desk friction, and bounces softly off the screen edges. Let go
+     after pausing and it stays put. */
+  var FRIC=.88, FLING=.45, MAXV=20, still=matchMedia('(prefers-reduced-motion: reduce)').matches;
   items.forEach(function(el){
     var dx=0, dy=0, startX=0, startY=0, dragging=false, pid=null, moved=0;
+    var vx=0, vy=0, lx=0, ly=0, lt=0, raf=0, last=0;
     var isBook=el.hasAttribute('data-book');
+    function place(){ el.style.setProperty('--dx', dx+'px'); el.style.setProperty('--dy', dy+'px'); }
+    function coast(now){
+      var f=Math.min(3,(now-last)/16.67)||1; last=now;
+      dx+=vx*f; dy+=vy*f;
+      var k=Math.pow(FRIC,f); vx*=k; vy*=k;
+      place();
+      var r=el.getBoundingClientRect(), W=scene.clientWidth, H=scene.clientHeight, m=4;
+      if(r.left<m){ dx+=m-r.left; vx=Math.abs(vx)*.4; } else if(r.right>W-m){ dx-=r.right-(W-m); vx=-Math.abs(vx)*.4; }
+      if(r.top<m){ dy+=m-r.top; vy=Math.abs(vy)*.4; } else if(r.bottom>H-m){ dy-=r.bottom-(H-m); vy=-Math.abs(vy)*.4; }
+      place();
+      raf=(Math.abs(vx)+Math.abs(vy)>.15)?requestAnimationFrame(coast):0;
+    }
     el.addEventListener('pointerdown', function(e){
+      if(raf){ cancelAnimationFrame(raf); raf=0; }
       dragging=true; pid=e.pointerId; moved=0;
       try{ el.setPointerCapture(pid); }catch(err){}
       el.classList.add('dragging');
       topZ+=1; el.style.zIndex=topZ;
-      startX=e.clientX; startY=e.clientY;
+      startX=lx=e.clientX; startY=ly=e.clientY; lt=performance.now(); vx=vy=0;
     });
     el.addEventListener('pointermove', function(e){
       if(!dragging) return;
@@ -802,6 +856,9 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
       moved=Math.max(moved, Math.abs(e.clientX-startX), Math.abs(e.clientY-startY));
       el.style.setProperty('--dx', ndx+'px');
       el.style.setProperty('--dy', ndy+'px');
+      var now=performance.now(), fr=Math.max(8,now-lt)/16.67;
+      vx+=((e.clientX-lx)/fr-vx)*.5; vy+=((e.clientY-ly)/fr-vy)*.5;
+      lx=e.clientX; ly=e.clientY; lt=now;
     });
     function end(e){
       if(!dragging) return;
@@ -809,7 +866,11 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
       dx=dx+(e.clientX-startX); dy=dy+(e.clientY-startY);
       el.classList.remove('dragging');
       try{ el.releasePointerCapture(pid); }catch(err){}
-      if(isBook && moved<TAP_SLOP) reveal();
+      if(isBook && moved<TAP_SLOP){ reveal(); return; }
+      if(still || moved<TAP_SLOP || performance.now()-lt>80) return;   // a pause before letting go: no throw
+      vx*=FLING; vy*=FLING;
+      var sp=Math.sqrt(vx*vx+vy*vy); if(sp>MAXV){ vx*=MAXV/sp; vy*=MAXV/sp; }
+      last=performance.now(); raf=requestAnimationFrame(coast);
     }
     el.addEventListener('pointerup', end);
     el.addEventListener('pointercancel', end);
@@ -839,7 +900,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
   var PART={
     budL:{w:160,h:216,ax:.397,ay:.995,dir:80},
     budR:{w:155,h:203,ax:.306,ay:.995,dir:120},
-    jack:{w:154,h:100,ax:.987,ay:.06,dir:-31},
+    jack:{w:154,h:100,ax:.987,ay:.06,dir:-31},   // USB-C plug (desk/ear-usbc.webp), drawn on the same frame/anchor as the old 3.5mm jack
     remote:{w:106,h:158,tx:.844,ty:0,bx:.208,by:.994}
   };
   var ROUTES={
@@ -927,7 +988,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 
   function step(){
     nodes.forEach(function(n){
-      if(n.pin){ n.px=n.x; n.py=n.y; return; }
+      if(n.pin){ n.hvx=n.x-n.px; n.hvy=n.y-n.py; n.px=n.x; n.py=n.y; return; }   // hand velocity, kept for the throw
       var vx=(n.x-n.px)*DAMP, vy=(n.y-n.py)*DAMP;
       n.px=n.x; n.py=n.y; n.x+=vx; n.y+=vy;
     });
@@ -998,10 +1059,17 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     if(!drag || e.pointerId!==drag.pid) return;
     var p=local(e), n=nodes[drag.i];
     n.x=Math.min(W,Math.max(0,p[0]+drag.ox)); n.y=Math.min(H,Math.max(0,p[1]+drag.oy));
+    drag.t=performance.now();
   }
   function drop(e){
     if(!drag || e.pointerId!==drag.pid) return;
-    nodes[drag.i].pin=false;
+    var n=nodes[drag.i];
+    n.pin=false;
+    // momentum: let go mid-motion and the part (and the cable behind it) keeps travelling a little
+    if(drag.t && performance.now()-drag.t<80 && !matchMedia('(prefers-reduced-motion: reduce)').matches){
+      var vx=(n.hvx||0)*1.2, vy=(n.hvy||0)*1.2, sp=Math.hypot(vx,vy); if(sp>30){ vx*=30/sp; vy*=30/sp; }
+      n.px=n.x-vx; n.py=n.y-vy;
+    }
     drag.el.classList.remove('dragging');
     try{ drag.el.releasePointerCapture(drag.pid); }catch(err){}
     drag=null; wake();
@@ -1406,8 +1474,10 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
   }).sort(function(a,b){ return a.start-b.start; });
 
   function size(){
-    if(!H()){ root.style.removeProperty('--ph'); return; }
-    var availH=innerHeight-40, availW=innerWidth-60;
+    if(!H()){ root.style.removeProperty('--ph'); root.style.removeProperty('--tabpad'); return; }
+    // leave headroom for the cream sheet peeking out above the closed cover
+    var availH=(innerHeight-40)/1.04, availW=innerWidth-60;
+    root.style.setProperty('--tabpad', Math.round(Math.min(availH, availW/2/0.72)*.04)+'px');
     var ph=Math.min(availH, availW/2/0.72);
     root.style.setProperty('--ph', Math.max(320,Math.floor(ph))+'px');
   }
