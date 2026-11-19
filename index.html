@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Hemangi Ganatra — graphic design portfolio, styled as a hand-made kraft project folder.">
+<meta name="description" content="Hemangi Ganatra — graphic design portfolio, styled as a hand-made project folder called Proof of Work.">
 <title>Hemangi Ganatra Portfolio</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -141,25 +141,106 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
    a cream sheet peeks out above the closed cover, and the section tabs stick out on the right in
    different colours. The centre strip stays as the folder's fold once it's open. */
 .rings,.holes{display:none!important}
-.spine{width:6px;left:calc(50% - 3px);background:linear-gradient(90deg,rgba(70,34,6,.5),rgba(70,34,6,.15) 50%,rgba(70,34,6,.5)),#b8641c url(binder/cover.webp) center/cover}
+.spine{width:6px;left:calc(50% - 3px);background:linear-gradient(90deg,rgba(8,26,14,.55),rgba(8,26,14,.15) 50%,rgba(8,26,14,.55)),#2c5a3c url(binder/cover.webp) center/cover}
 .page.cover{padding-left:calc(var(--u)*7 + 34px)}   /* keep the label clear of the hinge strip and clip */
 /* scored hinge strip: two pressed lines a little in from the cover's left edge */
 .cover .hinge{position:absolute;top:2.2%;bottom:2.2%;left:9%;width:7px;pointer-events:none;
-  background:linear-gradient(90deg,rgba(80,36,6,.45) 0 2px,rgba(255,236,200,.35) 2px 4px,rgba(80,36,6,.38) 4px 6px,transparent 6px)}
+  background:linear-gradient(90deg,rgba(8,26,14,.55) 0 2px,rgba(200,236,210,.28) 2px 4px,rgba(8,26,14,.45) 4px 6px,transparent 6px)}
 /* silver fastener on the hinge strip, in the same metal as the old rings */
 .cover .clip{position:absolute;left:calc(9% - 15px);top:37%;width:30px;height:28%;pointer-events:none;filter:drop-shadow(2px 4px 1.5px rgba(40,20,5,.42));
   background:center/100% 100% no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 150' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='m' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%23fbfcfd'/%3E%3Cstop offset='.35' stop-color='%23c3c9d0'/%3E%3Cstop offset='.6' stop-color='%23eef1f4'/%3E%3Cstop offset='1' stop-color='%23858c96'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='2' y='2' width='20' height='146' rx='8' fill='url(%23m)' stroke='%23454a51' stroke-width='2.4'/%3E%3Crect x='8' y='14' width='8' height='54' rx='4' fill='%236d737b' stroke='%23454a51' stroke-width='1.2'/%3E%3Crect x='8' y='82' width='8' height='54' rx='4' fill='%236d737b' stroke='%23454a51' stroke-width='1.2'/%3E%3Cpath d='M4 72h16M4 78h16' stroke='%23454a51' stroke-width='1.6'/%3E%3Cpath d='M5.5 10v52M5.5 86v52' stroke='%23fff' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E")}
-/* cream sheet peeking out above the closed cover (sits behind it; only while the folder is shut) */
-.cover-sheet{position:absolute;top:calc(-14px - var(--u)*3.6);left:calc(50% + 4px + 7%);width:calc(var(--pw) + 22px - 9%);height:40%;pointer-events:none;
-  background:var(--paper) url(binder/paper.webp) 0 0/360px 360px;border:2px solid #8a4a17;border-radius:6px 6px 0 0;
-  box-shadow:-2px -1px 4px rgba(0,0,0,.18);opacity:0;transition:opacity .25s}
-.binder.at-start .cover-sheet{opacity:1;transition-delay:0s}
+/* project prints + cream sheet peeking out above the closed cover: the top strip of the desk folder
+   art (binder/peek.webp), scaled down and centred, its board-top line lined up with the cover top */
+.cover-sheet{position:absolute;--cw:calc(var(--pw) + 22px);--pk:calc(var(--cw) * .62);left:calc(50% + 4px + (var(--cw) - var(--pk) * .777) / 2 - var(--pk) * .154);width:var(--pk);height:calc(var(--pk) * .5343);  top:calc(-14px - var(--pk) * .5177);pointer-events:none;background:url(binder/peek.webp) 0 0/100% 100% no-repeat}
+/* (stays visible once the folder is open too: the work stays tucked in behind the pages) */
 /* index tabs in different colours, like a real document file */
 .tab[data-sec="chef"],.tab-back[data-sec="chef"]{--tc:#f6e79a}
 .tab[data-sec="mains"],.tab-back[data-sec="mains"]{--tc:#f7b8c9}
 .tab[data-sec="shake-ko-bulao"],.tab-back[data-sec="shake-ko-bulao"]{--tc:#66b1e6}
 .tab[data-sec="oak-and-awe"],.tab-back[data-sec="oak-and-awe"]{--tc:#c4e6a6}
 .tab[data-sec="say-hi"],.tab-back[data-sec="say-hi"]{--tc:#d7c9f2}
+
+/* ---- PROJECT COLLAGE PAGES ----
+   Project spreads are laid out like an open kraft folder you've been working in: left page a
+   clipped & taped spec card, right page a punched sheet under a bulldog clip with taped polaroids,
+   a film strip and sticky notes. Things sit a little crooked (--rot) and overlap; small hand-drawn
+   hearts and stars are scattered around the edges. Image frames are placeholders for now. */
+.page.collage{background:linear-gradient(rgba(150,92,38,.5),rgba(150,92,38,.5)),#e3bd85 url(binder/paper.webp) 0 0/360px 360px!important;
+  padding:calc(var(--u)*7) calc(var(--u)*5) calc(var(--u)*6.5);gap:0}
+.page.collage::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:
+    var(--heart) 6% 7%/calc(var(--u)*2.2) no-repeat,var(--heart) 93% 18%/calc(var(--u)*1.6) no-repeat,
+    var(--star) 4% 52%/calc(var(--u)*2) no-repeat,var(--heart) 95% 63%/calc(var(--u)*2) no-repeat,
+    var(--star) 91% 95%/calc(var(--u)*2.4) no-repeat,var(--heart) 8% 96%/calc(var(--u)*1.7) no-repeat}
+.page.collage{--heart:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 22'%3E%3Cpath d='M12 20.5C5 15.6 1.6 11.8 1.8 7.4 2 3.9 4.8 1.6 7.8 1.9c2 .2 3.4 1.5 4.2 3 .8-1.5 2.4-2.9 4.4-3 3.2-.2 5.9 2.3 5.8 5.7-.1 4.6-3.8 8.3-10.2 12.9z' fill='%23b7322c' stroke='%237a1d18' stroke-width='1.2'/%3E%3C/svg%3E");
+  --star:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 1.5c.9 5.8 3.6 8.7 10.5 10.5-6.9 1.8-9.6 4.7-10.5 10.5C11.1 16.7 8.4 13.8 1.5 12 8.4 10.2 11.1 7.3 12 1.5z' fill='%23f2c230' stroke='%23a8740f' stroke-width='1.1'/%3E%3C/svg%3E")}
+.page.collage .rh{color:#fff4dc;opacity:.85;z-index:1}
+.page.collage .folio{color:#fff4dc;z-index:1}
+.page.collage > *{position:relative;z-index:1}
+.page.collage > .rh,.page.collage > .folio,.page.collage > .tab-back,.page.collage > .bclip{position:absolute}
+.collage .lede{font-size:calc(var(--u)*2.4);line-height:1.3}
+
+/* white card: the spec / process card, held by a paper clip and a strip of washi tape */
+.kcard{flex:1;min-height:0;display:flex;flex-direction:column;gap:calc(var(--u)*1.7);padding:calc(var(--u)*4.2) calc(var(--u)*3.6) calc(var(--u)*3.4);
+  background:linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.55)),#fbf8f1 url(binder/paper.webp) 0 0/360px 360px;border-radius:6px;transform:rotate(var(--rot,0deg));
+  box-shadow:3px 5px 0 rgba(40,18,4,.28),0 0 0 1px rgba(60,30,8,.08)}
+.kcard.lined{background:repeating-linear-gradient(transparent 0 calc(var(--u)*4.4 - 1px),rgba(70,110,170,.22) calc(var(--u)*4.4 - 1px) calc(var(--u)*4.4)),linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.55)),#fbf8f1 url(binder/paper.webp) 0 0/360px 360px;
+  background-position:0 calc(var(--u)*1.6),0 0,0 0}
+
+/* punched sheet: right-hand pages, two punched holes on the left, under a bulldog clip */
+.sheet{flex:1;min-height:0;display:flex;flex-direction:column;gap:calc(var(--u)*2.2);position:relative;
+  padding:calc(var(--u)*5) calc(var(--u)*3.4) calc(var(--u)*3.4) calc(var(--u)*6.6);
+  background:linear-gradient(rgba(255,255,255,.6),rgba(255,255,255,.6)),#f4f1ea url(binder/paper.webp) 0 0/360px 360px;border-radius:3px;transform:rotate(.6deg);
+  box-shadow:3px 5px 0 rgba(40,18,4,.26),0 0 0 1px rgba(60,30,8,.08)}
+.sheet::before,.sheet::after{content:"";position:absolute;left:calc(var(--u)*2);width:calc(var(--u)*2.2);height:calc(var(--u)*2.2);border-radius:50%;
+  background:#a26b35;box-shadow:inset 1px 2px 2px rgba(0,0,0,.45)}
+.sheet::before{top:22%} .sheet::after{top:74%}
+.sheet .rh{position:absolute;top:calc(var(--u)*1.6);left:calc(var(--u)*6.6);color:var(--ink);opacity:.55}
+
+/* bulldog clip pinching the sheet at the top of the page */
+.bclip{position:absolute;top:calc(var(--u)*1.2);left:50%;width:calc(var(--u)*16);height:calc(var(--u)*9);transform:translateX(-50%);z-index:3;pointer-events:none;
+  filter:drop-shadow(1.5px 3px 1.5px rgba(30,14,4,.4));
+  background:center/100% 100% no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 90'%3E%3Cdefs%3E%3ClinearGradient id='m' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23f4f6f8'/%3E%3Cstop offset='.5' stop-color='%23c3c9d0'/%3E%3Cstop offset='1' stop-color='%238a919b'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M46 40 C40 18 56 6 80 6 S120 18 114 40' fill='none' stroke='%23454a51' stroke-width='9' stroke-linecap='round'/%3E%3Cpath d='M46 40 C40 18 56 6 80 6 S120 18 114 40' fill='none' stroke='url(%23m)' stroke-width='5.5' stroke-linecap='round'/%3E%3Crect x='14' y='38' width='132' height='46' rx='8' fill='url(%23m)' stroke='%23454a51' stroke-width='3'/%3E%3Cpath d='M24 50h112' stroke='%23fff' stroke-width='3' stroke-linecap='round' opacity='.9'/%3E%3Cpath d='M22 74h116' stroke='%236d737b' stroke-width='2'/%3E%3C/svg%3E")}
+
+/* paper clip over the top-left corner of a card */
+.pclip{position:absolute;top:calc(var(--u)*-2.4);left:calc(var(--u)*3.6);width:calc(var(--u)*3.2);height:calc(var(--u)*9.5);z-index:3;pointer-events:none;
+  filter:drop-shadow(1px 2px 1px rgba(30,14,4,.35));
+  background:center/100% 100% no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 96'%3E%3Cpath d='M10 70V18a8 8 0 0 1 16 0v62a12 12 0 0 1-24 0V24' fill='none' stroke='%23454a51' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M10 70V18a8 8 0 0 1 16 0v62a12 12 0 0 1-24 0V24' fill='none' stroke='%23d9dde2' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E")}
+
+/* washi tape strip */
+.tape{position:absolute;top:calc(var(--u)*-1.6);left:var(--tl,38%);width:calc(var(--u)*11);height:calc(var(--u)*3.2);z-index:3;pointer-events:none;transform:rotate(var(--tr,-3deg));
+  background:repeating-linear-gradient(45deg,rgba(255,255,255,.28) 0 5px,transparent 5px 10px),color-mix(in srgb,var(--tc,#f6c97a) 80%,transparent);
+  clip-path:polygon(2% 8%,98% 0,100% 30%,97% 55%,100% 92%,3% 100%,0 70%,3% 45%,0 18%);opacity:.92}
+
+/* polaroid photo frames (placeholders until real images go in) */
+.polaroid{margin:0;display:flex;flex-direction:column;background:#fffdf8;padding:calc(var(--u)*1.4) calc(var(--u)*1.4) 0;position:relative;transform:rotate(var(--rot,0deg));
+  box-shadow:2px 4px 0 rgba(40,18,4,.22),0 0 0 1px rgba(60,30,8,.1)}
+.polaroid .ph{flex:1;min-height:calc(var(--u)*12);border:0;background:#d8d2c6;color:#5a5048}
+.polaroid figcaption{font-family:var(--display);font-size:calc(var(--u)*2.3);line-height:1.1;padding:calc(var(--u)*1.1) 2px calc(var(--u)*1.3);text-align:center;color:#2c2a6e}
+.kcard .polaroid{align-self:center;width:86%}
+
+/* shots row on a sheet: a big/medium polaroid + a film strip beside it */
+.shots{display:flex;gap:calc(var(--u)*2.2);align-items:flex-start;flex:1;min-height:0}
+.shots .polaroid{flex:1;align-self:stretch}
+.shots .polaroid .ph{aspect-ratio:auto}
+.strip{flex:none;width:22%;display:flex;flex-direction:column;gap:5px;padding:6px 5px;background:#2b2622;border-radius:3px;transform:rotate(2deg);margin-top:calc(var(--u)*3);
+  box-shadow:2px 4px 0 rgba(40,18,4,.25)}
+.strip i{display:block;aspect-ratio:4/3;background:#cfc8bb;border-radius:1px}
+
+/* sticky note (the old notecard) and a torn paper scrap for the designer's note */
+.sticky{background:#fbe58a;color:var(--ink);padding:calc(var(--u)*3) calc(var(--u)*2.8) calc(var(--u)*2.4);position:relative;transform:rotate(var(--rot,0deg));
+  margin:calc(var(--u)*-1) 0 0 12%;font-size:calc(var(--u)*1.95);line-height:1.4;box-shadow:2px 4px 0 rgba(40,18,4,.22)}
+.sticky p + p{margin-top:calc(var(--u)*1.2)}
+.sticky .k{font-weight:700}
+.scrap{background:#fffdf8;padding:calc(var(--u)*2.6) calc(var(--u)*2.6) calc(var(--u)*2.2);position:relative;transform:rotate(var(--rot,0deg));
+  box-shadow:2px 4px 0 rgba(40,18,4,.2);border-radius:2px 5px 3px 6px}
+.scrap .quote{font-size:calc(var(--u)*4)}
+.scrap .mono{margin-bottom:calc(var(--u)*1)}
+
+/* step number as a little sticker label */
+.step.sticker{align-self:flex-start;background:#fffdf8;border:2px solid #2c2a6e;border-radius:8px;padding:calc(var(--u)*.9) calc(var(--u)*1.6);gap:10px;
+  box-shadow:2px 3px 0 rgba(40,18,4,.18);transform:rotate(-1.2deg);align-items:center}
+.kcard .step.sticker{border-color:var(--ink)}
 
 .leaf{position:absolute;top:0;left:calc(50% + var(--gap) / 2);width:var(--pw);height:100%;transform-origin:calc(var(--gap) / -2) 50%;transform-style:preserve-3d;
   transition:transform .95s cubic-bezier(.645,.045,.355,1);cursor:pointer}
@@ -205,13 +286,13 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
    a plain paper tab with no writing, on the left edge where the sheet now sits. Hidden on the
    closed cover. */
 .tab,.tab-back{position:absolute;width:34px;top:var(--t);height:var(--h);display:flex;align-items:center;justify-content:center;text-align:center;
-  background:linear-gradient(color-mix(in srgb,var(--tc,transparent) 82%,transparent),color-mix(in srgb,var(--tc,transparent) 82%,transparent)),var(--paper) url(binder/paper.webp) 0 0/360px 360px;font-family:var(--mono);font-weight:700;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;writing-mode:vertical-rl;
-  border:2px solid #8a4a17;backface-visibility:hidden;-webkit-backface-visibility:hidden;
-  box-shadow:-2px 2px 5px rgba(0,0,0,.22);opacity:1;transition:opacity .2s,background .2s}
-.tab{right:-34px;z-index:4;color:var(--ink);text-decoration:none;border-left:0;border-radius:0 5px 5px 0}
+  background:linear-gradient(color-mix(in srgb,var(--tc,#f3ead2) 92%,transparent),color-mix(in srgb,var(--tc,#f3ead2) 92%,transparent)),var(--paper) url(binder/paper.webp) 0 0/360px 360px;font-family:var(--mono);font-weight:700;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;writing-mode:vertical-rl;color:color-mix(in srgb,var(--tc,#8a4a17) 30%,#1c1208);
+  border:2.5px solid color-mix(in srgb,var(--tc,#8a4a17) 50%,#2a1a0a);backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  box-shadow:2px 3px 0 rgba(30,14,4,.22),inset 0 3px 0 rgba(255,255,255,.5),inset -4px 0 0 rgba(0,0,0,.07);opacity:1;transition:opacity .2s,background .2s}
+.tab{right:-34px;z-index:4;text-decoration:none;border-left:0;border-radius:0 12px 12px 0}
 .tab:hover{filter:brightness(1.06)}
 .tab-thin{font-size:7.5px;letter-spacing:.08em}
-.tab-back{left:-34px;z-index:4;pointer-events:none;border-right:0;border-radius:5px 0 0 5px}
+.tab-back{left:-34px;z-index:4;pointer-events:none;border-right:0;border-radius:12px 0 0 12px}
 /* current section: its tab sticks out a little further instead of changing colour */
 .tab.cur{right:-42px;width:42px} .tab-back.cur{left:-42px;width:42px}
 
@@ -252,7 +333,7 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
 .go:hover{background:var(--yellow);border-color:var(--ink)}
 
 /* pocket page: a kraft board page (same painted board as the covers) holding a cream paper pocket */
-.pocket-page{background:#c96a1e url(binder/cover.webp) center/100% 100% no-repeat!important;color:#fff4dc;align-items:center;justify-content:flex-end;box-shadow:none}.pocket-page .holes b{background:#000}
+.pocket-page{background:#2c5a3c url(binder/cover.webp) center/100% 100% no-repeat!important;color:#fff4dc;align-items:center;justify-content:flex-end;box-shadow:none}.pocket-page .holes b{background:#000}
 .pocket-wrap{position:relative;width:76%;aspect-ratio:3/3.7;margin-bottom:calc(var(--u)*2);cursor:grab}
 .photo-card{position:absolute;left:7%;right:7%;top:0;height:74%;background:var(--paper);padding:10px 10px 0;transform:rotate(-2.5deg) translateY(calc(var(--pull,0) * 1%));transition:transform .55s cubic-bezier(.3,1.4,.5,1);box-shadow:0 4px 10px rgba(0,0,0,.45)}
 .photo-card .ph{height:calc(100% - 10px);color:var(--ink)}
@@ -449,7 +530,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 </svg>
 
 <header class="hdr">
-  <a class="mono" href="#cover" style="text-decoration:none">Hemangi's Project Folder</a>
+  <a class="mono" href="#cover" style="text-decoration:none">Proof of Work</a>
   <div class="hdr-r">
     <a class="btn mono" href="#contents">Contents</a>
     <a class="btn mono" href="#say-hi">Say hi</a>
@@ -458,7 +539,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 </header>
 
 <div class="menu-ov" id="menu-ov" role="dialog" aria-modal="true" aria-label="Contents">
-  <div class="menu-top"><span class="mono">Hemangi's Project Folder — contents</span><button class="x" type="button" id="close-menu" aria-label="Close contents"></button></div>
+  <div class="menu-top"><span class="mono">Proof of Work — contents</span><button class="x" type="button" id="close-menu" aria-label="Close contents"></button></div>
   <ol>
     <li><a href="#cover"><b>—</b><em>Cover</em> <small>Portfolio</small></a></li>
     <li><a href="#chef"><b>p.2</b><em>The designer</em> <small>About</small></a></li>
@@ -474,7 +555,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 <button class="navbtn" id="next" type="button" aria-label="Next page">→</button>
 <p class="hint" id="hint">Click the page, drag it across, or press → to turn</p>
 
-<main class="stage" id="stage" aria-label="Project folder">
+<main class="stage" id="stage" aria-label="Proof of Work folder">
   <div class="binder at-start" id="binder">
     <div class="board board-r kraft" aria-hidden="true"><p class="fin"><span class="big" style="font-size:calc(var(--u)*8);display:block">Fin.</span><span class="mono">Every project made for a real brief</span></p></div>
     <i class="cover-sheet" aria-hidden="true"></i>
@@ -486,7 +567,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
         <i class="hinge" aria-hidden="true"></i><i class="clip" aria-hidden="true"></i>
         <div class="label">
           <p class="mono hl">File 01 · Mumbai · 2026</p>
-          <h1 class="big cover-title"><img src="binder/cover-title.webp" alt="Portfolio" width="320" height="143"></h1>
+          <h1 class="big cover-title"><img src="binder/cover-title.webp" alt="Proof of Work" width="531" height="194"></h1>
           <p style="font-size:calc(var(--u)*3)">Project files from the desk of<br>Hemangi Ganatra</p>
           <p class="mono c-muted">Packaging · Identity · Advertising · Copy</p>
         </div>
@@ -552,26 +633,29 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
       </section>
     </div>
 
-    <!-- LEAF 3 · divider: main dishes / SKB recipe card -->
+    <!-- LEAF 3 · divider: projects / SKB spec card -->
     <div class="leaf">
       <section class="page f-front r divider" id="mains" aria-label="Section: Projects">
         <svg viewBox="0 0 200 170" aria-hidden="true"><use href="#ill-plate"/></svg>
         <h2 class="dtitle">Projects</h2>
         <span class="folio">5</span>
       </section>
-      <section class="page f-back l" id="shake-ko-bulao" aria-labelledby="skb-h">
+      <section class="page f-back l collage" id="shake-ko-bulao" aria-labelledby="skb-h">
         <span class="rh">Project 04</span>
-        <p class="mono hl">Project 04 · Packaging &amp; copy</p>
-        <h2 id="skb-h" class="big" style="font-size:calc(var(--u)*9)">Shake Ko <span class="hl" style="display:inline-block;transform:rotate(2.5deg)">Bulao</span></h2>
-        <p style="font-size:calc(var(--u)*2.6)">A milkshake brand where the names do the work.</p>
-        <div class="facts-row">
-          <div><p class="mono c-muted">For</p><p>Six personalities</p></div>
-          <div><p class="mono c-muted">Discipline</p><p>Packaging &amp; copy</p></div>
-          <div><p class="mono c-muted">Led by</p><p>Copy first</p></div>
+        <div class="kcard" style="--rot:-1.2deg">
+          <i class="pclip" aria-hidden="true"></i><i class="tape" style="--tl:64%;--tr:5deg" aria-hidden="true"></i>
+          <p class="mono hl">Project 04 · Packaging &amp; copy</p>
+          <h2 id="skb-h" class="big" style="font-size:calc(var(--u)*8.4)">Shake Ko <span class="hl" style="display:inline-block;transform:rotate(2.5deg)">Bulao</span></h2>
+          <p class="lede">A milkshake brand where the names do the work.</p>
+          <div class="facts-row">
+            <div><p class="mono c-muted">For</p><p>Six personalities</p></div>
+            <div><p class="mono c-muted">Discipline</p><p>Packaging &amp; copy</p></div>
+            <div><p class="mono c-muted">Led by</p><p>Copy first</p></div>
+          </div>
+          <figure class="polaroid grow" style="--rot:1.6deg"><i class="tape" style="--tc:#f2a7b8" aria-hidden="true"></i><div class="ph"><span class="note">[ Drop image ]</span></div><figcaption>the six bottles</figcaption></figure>
+          <div><p class="mono c-muted" style="margin-bottom:4px">What went in</p>
+            <ul class="ingredients"><li>Brand identity</li><li>Packaging</li><li>Copywriting, as the main flavour</li></ul></div>
         </div>
-        <div class="ph grow"><span class="note">[ Drop image ] the six bottles</span></div>
-        <div><p class="mono c-muted" style="margin-bottom:4px">What went in</p>
-          <ul class="ingredients"><li>Brand identity</li><li>Packaging</li><li>Copywriting, as the main flavour</li></ul></div>
         <span class="folio">6</span>
         <i class="tab-back" data-sec="mains" style="--t:28%;--h:7%" aria-hidden="true"></i>
         <i class="tab-back" data-sec="shake-ko-bulao" style="--t:37%;--h:16%" aria-hidden="true"></i>
@@ -580,87 +664,124 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
       <a class="tab" href="#shake-ko-bulao" data-sec="shake-ko-bulao" style="--t:37%;--h:16%">04 Shake</a>
     </div>
 
-    <!-- LEAF 4 · SKB photo + note / SKB names -->
+    <!-- LEAF 4 · SKB photo sheet / SKB names card -->
     <div class="leaf">
-      <section class="page f-front r photo-page" aria-label="Shake Ko Bulao — method">
-        <div class="ph full"><div><span class="mono">[ Drop image — full page ]</span><span class="note">Bottles lined up</span></div></div>
-        <div class="notecard">
-          <p><span class="k">[01]</span> Start with words. The brief: build a milkshake brand with copywriting as the main design direction.</p>
-          <p><span class="k">[02]</span> Name each shake like a person, not a product. Each name does the work before the design even starts.</p>
+      <section class="page f-front r collage" aria-label="Shake Ko Bulao — method">
+        <i class="bclip" aria-hidden="true"></i>
+        <div class="sheet">
+          <div class="shots">
+            <figure class="polaroid big" style="--rot:-2deg"><i class="tape" aria-hidden="true"></i><div class="ph"><span class="note">[ Drop image ]</span></div><figcaption>Bottles lined up</figcaption></figure>
+            <div class="strip" aria-hidden="true"><i></i><i></i><i></i></div>
+          </div>
+          <div class="sticky" style="--rot:1.8deg"><i class="tape" style="--tc:#9fd0f0" aria-hidden="true"></i>
+            <p><span class="k">[01]</span> Start with words. The brief: build a milkshake brand with copywriting as the main design direction.</p>
+            <p><span class="k">[02]</span> Name each shake like a person, not a product. Each name does the work before the design even starts.</p>
+          </div>
         </div>
         <span class="folio">7</span>
       </section>
-      <section class="page f-back l alt" aria-label="Shake Ko Bulao — the six names">
+      <section class="page f-back l collage" aria-label="Shake Ko Bulao — the six names">
         <span class="rh">Process</span>
-        <div class="step"><b>3</b><p>Six flavours, six personalities.</p></div>
-        <h3 class="split grow" style="display:flex;flex-direction:column;justify-content:center" aria-label="Gulabo, Paan Pataka, Aam Kahani, Rang Rasiya, Shaant Shahi, Shahi Swaad">
-          <span class="ln">Gulabo<small class="mono c-muted">rose</small></span>
-          <span class="ln">Paan Pataka<small class="mono c-muted" style="font-style:normal">paan</small></span>
-          <span class="ln">Aam Kahani<small class="mono c-muted">mango</small></span>
-          <span class="ln"><span class="hl">Rang Rasiya</span><small class="mono c-muted" style="font-style:normal">thandai</small></span>
-          <span class="ln">Shaant Shahi<small class="mono c-muted">pista elaichi</small></span>
-          <span class="ln">Shahi Swaad<small class="mono c-muted" style="font-style:normal">kesar badam</small></span>
-        </h3>
+        <div class="kcard lined" style="--rot:1deg">
+          <i class="pclip" aria-hidden="true"></i>
+          <div class="step sticker"><b>3</b><p>Six flavours, six personalities.</p></div>
+          <h3 class="split grow" style="display:flex;flex-direction:column;justify-content:center" aria-label="Gulabo, Paan Pataka, Aam Kahani, Rang Rasiya, Shaant Shahi, Shahi Swaad">
+            <span class="ln">Gulabo<small class="mono c-muted">rose</small></span>
+            <span class="ln">Paan Pataka<small class="mono c-muted" style="font-style:normal">paan</small></span>
+            <span class="ln">Aam Kahani<small class="mono c-muted">mango</small></span>
+            <span class="ln"><span class="hl">Rang Rasiya</span><small class="mono c-muted" style="font-style:normal">thandai</small></span>
+            <span class="ln">Shaant Shahi<small class="mono c-muted">pista elaichi</small></span>
+            <span class="ln">Shahi Swaad<small class="mono c-muted" style="font-style:normal">kesar badam</small></span>
+          </h3>
+        </div>
         <span class="folio">8</span>
       </section>
     </div>
 
-    <!-- LEAF 5 · SKB plating / O&A recipe card -->
+    <!-- LEAF 5 · SKB final sheet / O&A spec card -->
     <div class="leaf">
-      <section class="page f-front r" aria-label="Shake Ko Bulao — final">
-        <span class="rh">Final</span>
-        <div class="ph grow"><span class="note">[ Drop image ] label close-up</span></div>
-        <div class="step"><b>4</b><p>Let every label say who ordered it.</p></div>
-        <p class="mono hl" style="margin-top:calc(var(--u)*1)">Designer's note</p>
-        <blockquote class="quote">“You already know exactly who ordered that shake.”</blockquote>
+      <section class="page f-front r collage" aria-label="Shake Ko Bulao — final">
+        <i class="bclip" aria-hidden="true"></i>
+        <div class="sheet">
+          <span class="rh">Final</span>
+          <div class="shots">
+            <figure class="polaroid" style="--rot:2.4deg"><i class="tape" style="--tc:#c4e6a6" aria-hidden="true"></i><div class="ph"><span class="note">[ Drop image ]</span></div><figcaption>label close-up</figcaption></figure>
+            <div class="strip" aria-hidden="true"><i></i><i></i><i></i></div>
+          </div>
+          <div class="step sticker"><b>4</b><p>Let every label say who ordered it.</p></div>
+          <div class="scrap" style="--rot:-1.4deg"><i class="tape" aria-hidden="true"></i>
+            <p class="mono hl">Designer's note</p>
+            <blockquote class="quote">“You already know exactly who ordered that shake.”</blockquote>
+          </div>
+        </div>
         <span class="folio">9</span>
       </section>
-      <section class="page f-back l" id="oak-and-awe" aria-labelledby="oa-h">
+      <section class="page f-back l collage" id="oak-and-awe" aria-labelledby="oa-h">
         <span class="rh">Project 05</span>
-        <p class="mono hl">Project 05 · Packaging</p>
-        <h2 id="oa-h" class="big" style="font-size:calc(var(--u)*9)">Oak <span class="hl" style="display:inline-block;transform:rotate(-2deg)">&amp; Awe</span></h2>
-        <p style="font-size:calc(var(--u)*2.6)">An Armenian brandy for the generation that wasn't supposed to drink it.</p>
-        <div class="facts-row">
-          <div><p class="mono c-muted">For</p><p>Under-30s</p></div>
-          <div><p class="mono c-muted">Discipline</p><p>Packaging</p></div>
-          <div><p class="mono c-muted">Origin</p><p>Armenia</p></div>
+        <div class="kcard" style="--rot:1.2deg">
+          <i class="pclip" aria-hidden="true"></i><i class="tape" style="--tl:60%;--tr:-4deg;--tc:#d7c9f2" aria-hidden="true"></i>
+          <p class="mono hl">Project 05 · Packaging</p>
+          <h2 id="oa-h" class="big" style="font-size:calc(var(--u)*8.4)">Oak <span class="hl" style="display:inline-block;transform:rotate(-2deg)">&amp; Awe</span></h2>
+          <p class="lede">An Armenian brandy for the generation that wasn't supposed to drink it.</p>
+          <div class="facts-row">
+            <div><p class="mono c-muted">For</p><p>Under-30s</p></div>
+            <div><p class="mono c-muted">Discipline</p><p>Packaging</p></div>
+            <div><p class="mono c-muted">Origin</p><p>Armenia</p></div>
+          </div>
+          <figure class="polaroid grow" style="--rot:-1.8deg"><i class="tape" style="--tc:#f6e79a" aria-hidden="true"></i><div class="ph"><span class="note">[ Drop image ]</span></div><figcaption>the box, hand-assembled</figcaption></figure>
+          <div><p class="mono c-muted" style="margin-bottom:4px">What went in</p>
+            <ul class="ingredients"><li>Armenian folk patterns</li><li>Deep burgundy &amp; gold</li><li>Bold symmetry, one hand-assembled box</li></ul></div>
         </div>
-        <div class="ph grow"><span class="note">[ Drop image ] the box, hand-assembled</span></div>
-        <div><p class="mono c-muted" style="margin-bottom:4px">What went in</p>
-          <ul class="ingredients"><li>Armenian folk patterns</li><li>Deep burgundy &amp; gold</li><li>Bold symmetry, one hand-assembled box</li></ul></div>
         <span class="folio">10</span>
         <i class="tab-back" data-sec="oak-and-awe" style="--t:55%;--h:28%" aria-hidden="true"></i>
       </section>
       <a class="tab" href="#oak-and-awe" data-sec="oak-and-awe" style="--t:55%;--h:28%">05 Oak</a>
     </div>
 
-    <!-- LEAF 6 · O&A photo + note / O&A problem -->
+    <!-- LEAF 6 · O&A photo sheet / O&A problem card -->
     <div class="leaf">
-      <section class="page f-front r photo-page" aria-label="Oak and Awe — method">
-        <div class="ph full"><div><span class="mono">[ Drop image — full page ]</span><span class="note">Carpet &amp; church-wall patterns</span></div></div>
-        <div class="notecard">
-          <p><span class="k">[01]</span> The brief: we were each given a country and had to design an alcohol bottle for it. I got Armenia.</p>
-          <p><span class="k">[02]</span> Go deep into Armenian geometric folk patterns, the kind on carpets and church walls, and build the brand from that visual language.</p>
+      <section class="page f-front r collage" aria-label="Oak and Awe — method">
+        <i class="bclip" aria-hidden="true"></i>
+        <div class="sheet">
+          <div class="shots">
+            <figure class="polaroid big" style="--rot:1.8deg"><i class="tape" style="--tc:#f2a7b8" aria-hidden="true"></i><div class="ph"><span class="note">[ Drop image ]</span></div><figcaption>Carpet &amp; church-wall patterns</figcaption></figure>
+            <div class="strip" aria-hidden="true"><i></i><i></i><i></i></div>
+          </div>
+          <div class="sticky" style="--rot:-1.6deg"><i class="tape" style="--tc:#c4e6a6" aria-hidden="true"></i>
+            <p><span class="k">[01]</span> The brief: we were each given a country and had to design an alcohol bottle for it. I got Armenia.</p>
+            <p><span class="k">[02]</span> Go deep into Armenian geometric folk patterns, the kind on carpets and church walls, and build the brand from that visual language.</p>
+          </div>
         </div>
         <span class="folio">11</span>
       </section>
-      <section class="page f-back l alt" style="justify-content:center" aria-label="Oak and Awe — the problem">
+      <section class="page f-back l collage" aria-label="Oak and Awe — the problem">
         <span class="rh">Process</span>
-        <div class="step"><b>3</b><p>Know what you're fixing.</p></div>
-        <blockquote class="quote" style="font-size:calc(var(--u)*6.2)">Brandy sits on your dad's shelf and comes out at <span class="hl">funerals.</span></blockquote>
-        <p class="note c-muted">Nobody under 30 thinks it's for them. It's serious in a way that feels uninviting.</p>
+        <div class="kcard lined" style="--rot:-1deg;justify-content:center">
+          <i class="pclip" aria-hidden="true"></i>
+          <div class="step sticker"><b>3</b><p>Know what you're fixing.</p></div>
+          <blockquote class="quote" style="font-size:calc(var(--u)*5.6)">Brandy sits on your dad's shelf and comes out at <span class="hl">funerals.</span></blockquote>
+          <p class="note c-muted">Nobody under 30 thinks it's for them. It's serious in a way that feels uninviting.</p>
+        </div>
         <span class="folio">12</span>
       </section>
     </div>
 
-    <!-- LEAF 7 · O&A plating / still in the kitchen -->
+    <!-- LEAF 7 · O&A final sheet / still on the desk -->
     <div class="leaf">
-      <section class="page f-front r" aria-label="Oak and Awe — final">
-        <span class="rh">Final</span>
-        <div class="ph grow"><span class="note">[ Drop image ] flask in the gift set</span></div>
-        <div class="step"><b>4</b><p>Build with burgundy, gold and symmetry. Assemble by hand into a real prototype.</p></div>
-        <p class="mono hl" style="margin-top:calc(var(--u)*1)">Designer's note</p>
-        <blockquote class="quote" style="font-size:calc(var(--u)*4.2)">“The goal wasn't to make brandy look young. It was to make it look worth keeping.”</blockquote>
+      <section class="page f-front r collage" aria-label="Oak and Awe — final">
+        <i class="bclip" aria-hidden="true"></i>
+        <div class="sheet">
+          <span class="rh">Final</span>
+          <div class="shots">
+            <figure class="polaroid" style="--rot:-2.2deg"><i class="tape" style="--tc:#9fd0f0" aria-hidden="true"></i><div class="ph"><span class="note">[ Drop image ]</span></div><figcaption>flask in the gift set</figcaption></figure>
+            <div class="strip" aria-hidden="true"><i></i><i></i><i></i></div>
+          </div>
+          <div class="step sticker"><b>4</b><p>Build with burgundy, gold and symmetry. Assemble by hand into a real prototype.</p></div>
+          <div class="scrap" style="--rot:1.2deg"><i class="tape" style="--tc:#f6e79a" aria-hidden="true"></i>
+            <p class="mono hl">Designer's note</p>
+            <blockquote class="quote" style="font-size:calc(var(--u)*3.6)">“The goal wasn't to make brandy look young. It was to make it look worth keeping.”</blockquote>
+          </div>
+        </div>
         <span class="folio">13</span>
       </section>
       <section class="page f-back l" id="kitchen" aria-labelledby="kit-h">
@@ -743,7 +864,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
   <div class="desk-item" style="--fx:0.258;--fy:0.3818;--fw:0.125;--mfx:0.4258;--mfy:0.7095;--r:-9deg;z-index:3" aria-hidden="true"><img src="desk/sketchbook.webp" alt="" draggable="false"></div>
   <div class="desk-item" style="--fx:0.6985;--fy:0.2626;--fw:0.109;--mfx:0.0949;--mfy:0.7683;--r:5deg;z-index:4" aria-hidden="true"><img src="desk/pad.webp" alt="" draggable="false"></div>
   <div class="desk-item ruler" style="z-index:5" aria-hidden="true"><img src="desk/ruler.webp" alt="" draggable="false"></div>
-  <div class="desk-item" data-book="1" style="--fx:0.4606;--fy:0.0822;--fw:0.17;--mfx:0.0926;--mfy:0.3173;--r:4deg;z-index:6" role="button" tabindex="0" aria-label="Open the portfolio folder"><img src="desk/folder.webp" alt="" draggable="false"></div>
+  <div class="desk-item" data-book="1" style="--fx:0.4606;--fy:0.0822;--fw:0.19;--mfx:0.0926;--mfy:0.3173;--r:4deg;z-index:6" role="button" tabindex="0" aria-label="Open the Proof of Work folder"><img src="desk/folder.webp" alt="" draggable="false"></div>
   <div class="desk-item pencil-anchor" data-pencils style="--fx:0.761;--fy:0.6553;--fw:0.09;--mfx:0.4735;--mfy:0.8124;--r:70deg;z-index:7" aria-hidden="true"></div>
   <div class="pencil" data-u=".1844" data-v=".5315" data-a="-9.52" data-w=".2624" data-h=".9133" aria-hidden="true"><div class="pencil-body" style="--m:url(desk/pencil-red.webp)"><img src="desk/pencil-red.webp" alt="" draggable="false"><i class="pencil-shade"></i></div></div>
   <div class="pencil" data-u=".4858" data-v=".4505" data-a="2.43" data-w=".2426" data-h=".9133" aria-hidden="true"><div class="pencil-body" style="--m:url(desk/pencil-green.webp)"><img src="desk/pencil-green.webp" alt="" draggable="false"><i class="pencil-shade"></i></div></div>
@@ -795,9 +916,9 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     }
     var br=book.getBoundingClientRect(), cr=cover.getBoundingClientRect();
     var bw=img.offsetWidth, bh=img.offsetHeight, R=parseFloat(getComputedStyle(book).getPropertyValue('--r'))||0;
-    // in desk/folder.webp the cover board spans x 0.6%..94% (the coloured index tabs stick out to its
-    // right) and its top edge sits 5.2% down (the cream sheet peeks out above it): line those up
-    var W=cr.width/.934, H=W*bh/bw, L=cr.left-.006*W, T=cr.top-.052*H;
+    // in desk/folder.webp the cover board spans x 15.4%..93.1% (the back panel and prints stick out on the left,
+    // tabs on the right) and its top edge sits 36.3% down (work sticks out above it): line those up
+    var W=cr.width/.777, H=W*bh/bw, L=cr.left-.154*W, T=cr.top-.363*H;
     var fly=document.createElement('img');
     fly.src=img.currentSrc||img.src; fly.alt=''; fly.setAttribute('aria-hidden','true');
     fly.style.cssText='position:fixed;z-index:2000;pointer-events:none;margin:0;left:'+L+'px;top:'+T+'px;width:'+W+'px;height:'+H+'px;'+
@@ -1475,9 +1596,9 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 
   function size(){
     if(!H()){ root.style.removeProperty('--ph'); root.style.removeProperty('--tabpad'); return; }
-    // leave headroom for the cream sheet peeking out above the closed cover
-    var availH=(innerHeight-40)/1.04, availW=innerWidth-60;
-    root.style.setProperty('--tabpad', Math.round(Math.min(availH, availW/2/0.72)*.04)+'px');
+    // leave headroom for the project prints peeking out above the closed cover
+    var availH=(innerHeight-47)/1.231, availW=innerWidth-60;
+    root.style.setProperty('--tabpad', Math.round(Math.min(availH, availW/2/0.72)*.231+7)+'px');
     var ph=Math.min(availH, availW/2/0.72);
     root.style.setProperty('--ph', Math.max(320,Math.floor(ph))+'px');
   }
