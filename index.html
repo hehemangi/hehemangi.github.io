@@ -8,7 +8,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap">
 <style>
 /* Mynerve by Sudtipos (Google Fonts, SIL Open Font License) — self-hosted in fonts/ */
 @font-face{font-family:"Mynerve";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/mynerve-latin.woff2) format("woff2");
@@ -28,7 +28,7 @@
   --yellow:#FFD60A; --note:#FFE24A; --muted:#7A7060;
   --display:"Mynerve","Libre Caslon Text",Georgia,serif;
   --text:"Schoolbell","Libre Caslon Text",Georgia,serif;
-  --mono:"Space Mono",ui-monospace,"Courier New",monospace;
+  --mono:"Schoolbell","Libre Caslon Text",Georgia,serif;   /* labels use the handwriting font too (no typewriter face) */
   --hdr:72px; --ftr:44px; --gap:26px;
   --ph:640px; --pw:calc(var(--ph) * .72); --u:calc(var(--ph) / 100);
   /* a reusable fibre/grain texture, baked low-opacity so it layers safely under any background */
@@ -149,10 +149,6 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
 /* silver fastener on the hinge strip, in the same metal as the old rings */
 .cover .clip{position:absolute;left:calc(9% - 15px);top:37%;width:30px;height:28%;pointer-events:none;filter:drop-shadow(2px 4px 1.5px rgba(40,20,5,.42));
   background:center/100% 100% no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 150' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='m' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%23fbfcfd'/%3E%3Cstop offset='.35' stop-color='%23c3c9d0'/%3E%3Cstop offset='.6' stop-color='%23eef1f4'/%3E%3Cstop offset='1' stop-color='%23858c96'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='2' y='2' width='20' height='146' rx='8' fill='url(%23m)' stroke='%23454a51' stroke-width='2.4'/%3E%3Crect x='8' y='14' width='8' height='54' rx='4' fill='%236d737b' stroke='%23454a51' stroke-width='1.2'/%3E%3Crect x='8' y='82' width='8' height='54' rx='4' fill='%236d737b' stroke='%23454a51' stroke-width='1.2'/%3E%3Cpath d='M4 72h16M4 78h16' stroke='%23454a51' stroke-width='1.6'/%3E%3Cpath d='M5.5 10v52M5.5 86v52' stroke='%23fff' stroke-width='1.4' stroke-linecap='round'/%3E%3C/svg%3E")}
-/* project prints + cream sheet peeking out above the closed cover: the top strip of the desk folder
-   art (binder/peek.webp), scaled down and centred, its board-top line lined up with the cover top */
-.cover-sheet{position:absolute;--cw:calc(var(--pw) + 22px);--pk:calc(var(--cw) * .62);left:calc(50% + 4px + (var(--cw) - var(--pk) * .777) / 2 - var(--pk) * .154);width:var(--pk);height:calc(var(--pk) * .5343);  top:calc(-14px - var(--pk) * .5177);pointer-events:none;background:url(binder/peek.webp) 0 0/100% 100% no-repeat}
-/* (stays visible once the folder is open too: the work stays tucked in behind the pages) */
 /* index tabs in different colours, like a real document file */
 .tab[data-sec="chef"],.tab-back[data-sec="chef"]{--tc:#f6e79a}
 .tab[data-sec="mains"],.tab-back[data-sec="mains"]{--tc:#f7b8c9}
@@ -230,6 +226,7 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
 .collage .ph-photo img{object-position:50% 45%;transform:none;transition:none}
 .collage .ph-photo.fit{background:#ebe6e0} .collage .ph-photo.fit img{object-fit:contain}
 .split.moments{font-size:calc(var(--u)*5.4)} .split.moments .ln small{display:block;margin:calc(var(--u)*.6) 0 0;font-size:9px}
+/* brief page: a lined card with handwritten section heads */.kcard.brief{gap:calc(var(--u)*2.2)}.brief-block{display:flex;flex-direction:column;gap:calc(var(--u)*.6)}.brief-h{font-family:var(--display);font-weight:400;font-size:calc(var(--u)*3.4);line-height:1;align-self:flex-start;  background:linear-gradient(transparent 55%,color-mix(in srgb,var(--yellow) 70%,transparent) 55% 92%,transparent 92%);padding:0 .1em}.brief-block p{font-size:calc(var(--u)*2.35);line-height:1.45}.brief-foot{margin-top:auto;font-size:calc(var(--u)*2);opacity:.7;text-align:center}
 /* image-led project layouts: big photos, short handwritten captions */.kcard.img-led .polaroid.grow{width:94%;flex:1;min-height:0}.kcard.img-led .polaroid .ph{flex:1;min-height:0}.collage .tags{margin-top:calc(var(--u)*.4);text-align:center}.sheet.photos{gap:calc(var(--u)*2.2)}.polaroid.wide{flex:none} .polaroid.wide .ph{flex:none;aspect-ratio:16/9;min-height:0}.pair{display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--u)*2.2);flex:1;min-height:0}.pair .polaroid .ph{flex:1;min-height:calc(var(--u)*8)} .pair.tall{flex:1.4}.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(var(--u)*1.6)}.polaroid.mini{padding:calc(var(--u)*.8) calc(var(--u)*.8) 0} .polaroid.mini .ph{flex:none;aspect-ratio:4/3;min-height:0}.polaroid.mini figcaption{font-size:calc(var(--u)*1.7);padding:calc(var(--u)*.6) 0 calc(var(--u)*.8)}.scribble{font-family:var(--display);font-size:calc(var(--u)*2.7);line-height:1.15;color:#2c2a6e;transform:rotate(-1.5deg);text-align:center;margin:0}.tee-grid{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:calc(var(--u)*2.8) calc(var(--u)*2.4);padding-top:calc(var(--u)*1.4)}.tee-grid .polaroid .ph{flex:1;min-height:0}.tee-grid figcaption small{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.08em;text-transform:uppercase;color:#7a6a5a;margin-top:3px}
 
 /* sticky note (the old notecard) and a torn paper scrap for the designer's note */
@@ -412,7 +409,6 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
   .board,.spine,.rings,.holes,.tab,.tab-back,.navbtn,.hint{display:none}
   .leaf,.leaf.flipped,.leaf.cover-leaf{position:static;width:auto;height:auto;transform:none;display:flex;flex-direction:column;gap:18px;cursor:auto}
 
-  .cover-sheet{display:none}
   .page,.f-back{position:relative;inset:auto;transform:none;backface-visibility:visible;-webkit-backface-visibility:visible;min-height:calc(var(--u)*82);padding:54px 20px 50px!important}
   .page::after{display:none}
   .photo-page{min-height:calc(var(--u)*110)}
@@ -432,7 +428,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
    keyboard (arrow keys, Home/End) to turn pages; the header, footer, nav buttons and hint text
    are all hidden rather than deleted, so this is easy to bring back later if wanted. */
 .hdr,.ftr,.navbtn,.hint{display:none}
-.stage{top:0;bottom:0;padding-top:var(--tabpad,0px)}
+.stage{top:0;bottom:0}
 
 /* ---------- Desk-clutter intro: the table mid-cooking, dragged aside to reach the book ----------
    A full-viewport layer of hand-drawn desk objects sitting on top of the binder. Everything in
@@ -486,6 +482,62 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 .desk-hint-tag .hand{position:absolute;left:50%;bottom:-19px;width:26px;height:26px;margin-left:-13px;border-radius:50%;
   background:#fff8ea center/18px no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 11V4.5a1.5 1.5 0 0 1 3 0V10m0-.5V8.5a1.5 1.5 0 0 1 3 0V11m0-1a1.5 1.5 0 0 1 3 0v1m0-.5a1.5 1.5 0 0 1 3 0v4.5c0 3.6-2.6 6.5-6.2 6.5H13c-2 0-3.3-.8-4.4-2.3L5.4 15a1.5 1.5 0 0 1 2.3-1.9L9 14.4' fill='%23fff8ea' stroke='%234a2c12' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   border:2px solid #4a2c12;box-shadow:2px 3px 0 rgba(40,18,4,.25)}
+
+/* ---- designer ID card on the desk (opens the About card) ---- */
+.idcard{position:relative;aspect-ratio:54/93;background:#fbf3df url(binder/paper.webp) 0 0/360px 360px;border:2.5px solid #4a2c12;border-radius:9px;
+  display:flex;flex-direction:column;align-items:center;padding:0 9% 7%;overflow:hidden;font-size:calc(var(--matw) * .0045 * var(--k));color:#2c1a0c}
+.idcard .id-top{align-self:stretch;margin:0 -12%;background:#2c5a3c;color:#fbf3df;text-align:center;font-family:var(--mono);font-weight:700;letter-spacing:.14em;
+  font-size:1em;padding:2.1em 0 .7em;position:relative}
+.idcard .id-top::before{content:"";position:absolute;top:.7em;left:50%;width:22%;height:.8em;margin-left:-11%;border-radius:1em;background:#fbf3df;border:2px solid #4a2c12}
+.desk-item .idcard img.id-photo{width:72%;aspect-ratio:1;object-fit:cover;object-position:50% 22%;margin-top:8%;border:2px solid #4a2c12;border-radius:4px;filter:sepia(.15)}
+.idcard .id-name{font-family:var(--display);font-size:1.8em;line-height:1;margin-top:7%;text-align:center}
+.idcard .id-sub{font-family:var(--mono);font-size:.82em;letter-spacing:.1em;text-transform:uppercase;margin-top:5%;opacity:.75;text-align:center}
+.idcard .id-bar{margin-top:auto;align-self:stretch;height:6%;background:repeating-linear-gradient(90deg,#2c1a0c 0 2px,transparent 2px 4px,#2c1a0c 4px 5px,transparent 5px 8px)}
+
+/* ---- About card: the ID flips open into a big card with the photo and the note ---- */
+.about-ov{position:fixed;inset:0;z-index:1200;display:grid;place-items:center;padding:24px;background:rgba(28,14,4,.55);opacity:0;transition:opacity .3s}
+.about-ov.on{opacity:1}
+.about-ov[hidden]{display:none}
+.about-card{position:relative;width:min(980px,100%);max-height:calc(100vh - 48px);overflow:auto;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(18px,3vw,40px);
+  padding:clamp(22px,3.4vw,44px);color:#2c1a0c;background:#fbf3df url(binder/paper.webp) 0 0/360px 360px;border:3px solid #4a2c12;border-radius:16px;box-shadow:6px 9px 0 rgba(20,8,2,.35);
+  transform:perspective(1400px) rotateY(-78deg) scale(.6);opacity:0;transition:transform .6s cubic-bezier(.2,1.2,.4,1),opacity .3s}
+.about-ov.on .about-card{transform:none;opacity:1}
+.about-card .ab-photo{margin:0;align-self:start;background:#fffdf8;padding:12px 12px 0;transform:rotate(-2.5deg);box-shadow:3px 5px 0 rgba(40,18,4,.25);position:relative}
+.about-card .ab-photo img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 20%;filter:sepia(.15)}
+.about-card .ab-photo figcaption{font-family:var(--display);font-size:17px;line-height:1.25;color:#2c2a6e;text-align:center;padding:10px 4px 14px}
+.about-card .ab-note{display:flex;flex-direction:column;gap:12px;font-size:clamp(14px,1.35vw,17px);line-height:1.5}
+.about-card .ab-note h2{font-size:clamp(34px,4.4vw,56px);line-height:1}
+.about-card .ab-note .sign{font-family:var(--display);font-size:22px}
+.about-card .ab-role{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.75}
+@media (max-width:700px){ .about-card{grid-template-columns:1fr} .about-card .ab-photo{width:72%;justify-self:center} }
+
+/* ---- "Back to desk" sticky note: on the About card and while the folder is open ---- */
+.back-note{position:fixed;top:16px;left:16px;z-index:1300;display:flex;align-items:center;gap:8px;border:0;cursor:pointer;
+  background:#fbe58a;color:#2c1a0c;font-family:var(--display);font-size:19px;line-height:1;padding:14px 18px 12px 14px;transform:rotate(-3deg);
+  box-shadow:3px 5px 0 rgba(40,18,4,.3);transition:transform .2s cubic-bezier(.3,1.5,.5,1)}
+.back-note::before{content:"";position:absolute;top:-9px;left:50%;width:52px;height:16px;margin-left:-26px;transform:rotate(4deg);
+  background:repeating-linear-gradient(45deg,rgba(255,255,255,.3) 0 5px,transparent 5px 10px),rgba(159,208,240,.85)}
+.back-note:hover,.back-note:focus-visible{transform:rotate(-1deg) scale(1.05)}
+.back-note svg{width:22px;height:16px;flex:none}
+.about-ov .back-note{position:absolute}
+#deskBack[hidden]{display:none}
+
+/* ---- landing intro: the desk gets set up, objects drop onto the mat one by one ---- */
+.desk-scene.setting-up .desk-fixed.mat,.desk-scene.setting-up .desk-item,.desk-scene.setting-up .pencil,.desk-scene.setting-up .desk-end,
+.desk-scene.setting-up .desk-wire,.desk-scene.setting-up .desk-hint{opacity:0}
+.desk-scene.setting-up{pointer-events:none}
+.desk-loading{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-2deg);font-family:var(--display);font-size:24px;color:#fbf3df;
+  text-shadow:2px 2px 0 rgba(20,8,2,.4);transition:opacity .3s;pointer-events:none;z-index:2}
+.desk-loading i{display:inline-block;animation:dot 1s infinite} .desk-loading i:nth-child(2){animation-delay:.15s} .desk-loading i:nth-child(3){animation-delay:.3s}
+@keyframes dot{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.desk-scene.dropping .desk-fixed.mat{animation:matIn .45s ease-out both}
+.desk-scene.dropping .desk-item,.desk-scene.dropping .pencil,.desk-scene.dropping .desk-end{animation:dropIn .55s cubic-bezier(.3,1.4,.5,1) both;animation-delay:var(--d,0ms)}
+.desk-scene.dropping .desk-wire{animation:matIn .5s ease-out both;animation-delay:var(--d,0ms)}
+.desk-scene.dropping .desk-hint{animation:matIn .4s ease-out both;animation-delay:var(--d,0ms)}
+.desk-scene.dropping [data-spill]{animation:dropIn .55s cubic-bezier(.3,1.4,.5,1) both,wobble .6s ease-in-out both;animation-delay:var(--d,0ms),calc(var(--d,0ms) + 500ms)}
+@keyframes matIn{from{opacity:0}to{opacity:1}}
+@keyframes dropIn{0%{opacity:0;margin-top:-46px;scale:1.1}60%{opacity:1;margin-top:5px;scale:.99}100%{opacity:1;margin-top:0;scale:1}}
+@keyframes wobble{0%,100%{rotate:0deg}25%{rotate:-4deg}50%{rotate:3deg}75%{rotate:-1.5deg}}
 .desk-wire{position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none;z-index:12}
 .desk-wire path{fill:none;stroke-linecap:round;stroke-linejoin:round}
 .desk-wire .w-sh{stroke:rgba(30,14,6,.3);transform:translate(4px,5px)}
@@ -517,6 +569,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
   .desk-scene .desk-item.ruler{--r:90deg;width:var(--rl);left:calc(50% - var(--math) / 2 + var(--math) * .8196 - var(--rl) / 2);top:calc(50% - var(--matw) / 2 + var(--matw) * .3449 - var(--rt) / 2)}
   .desk-hint{font-size:9.5px;padding:6px 12px;white-space:normal;text-align:center;width:80vw}
 }
+/* ---- labels in the handwriting font: no shouty tracked caps, sized up so Schoolbell reads well ---- */.mono,.rh,.folio,.menu-ov li a small,.go,.pocket span,.lined-list li small,dl.cred dt,.desk-hint,.idcard .id-top,.idcard .id-sub,.about-card .ab-role,.tab,.tab-back,.tee-grid figcaption small,.split small,.note,.hint,.ring text{text-transform:none!important;letter-spacing:.01em!important;font-weight:400!important}.mono{font-size:15px} .rh{font-size:15px} .note{font-size:14px} .tab{font-size:13px} .tab-thin{font-size:12px}.desk-hint{font-size:15px} .lined-list li small,dl.cred dt{font-size:13px} .split small{font-size:13px} .tee-grid figcaption small{font-size:12px}.idcard .id-top{font-size:1.25em} .idcard .id-sub{font-size:1.05em} .about-card .ab-role{font-size:15px} .split.moments .ln small{font-size:13px}
 </style>
 <body>
 
@@ -563,12 +616,10 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 <div class="menu-ov" id="menu-ov" role="dialog" aria-modal="true" aria-label="Contents">
   <div class="menu-top"><span class="mono">Proof of Work — contents</span><button class="x" type="button" id="close-menu" aria-label="Close contents"></button></div>
   <ol>
-    <li><a href="#cover"><b>—</b><em>Cover</em> <small>Portfolio</small></a></li>
-    <li><a href="#chef"><b>p.2</b><em>The designer</em> <small>About</small></a></li>
-    <li><a href="#foreword"><b>p.3</b><em>A note from the designer</em> <small>Foreword</small></a></li>
-    <li><a href="#wear-your-stage"><b>p.6</b><em>Wear Your Stage</em> <small>Project</small></a></li>
-    <li><a href="#oak-and-awe"><b>p.10</b><em>Oak &amp; Awe</em> <small>Project</small></a></li>
-    <li><a href="#say-hi"><b>p.16</b><em>Say hi</em> <small>Other</small></a></li>
+    <li><a href="#cover"><b>—</b><em>Cover</em> <small>Proof of Work</small></a></li>
+    <li><a href="#wear-your-stage"><b>p.2</b><em>Wear Your Stage</em> <small>Project</small></a></li>
+    <li><a href="#oak-and-awe"><b>p.6</b><em>Oak &amp; Awe</em> <small>Project</small></a></li>
+    <li><a href="#say-hi"><b>p.12</b><em>Say hi</em> <small>Other</small></a></li>
   </ol>
   <div class="menu-top"><span class="mono">Packaging · Brand identity · Advertising · Copywriting</span><span class="note">ganatrahemangi93@gmail.com</span></div>
 </div>
@@ -580,7 +631,6 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
 <main class="stage" id="stage" aria-label="Proof of Work folder">
   <div class="binder at-start" id="binder">
     <div class="board board-r kraft" aria-hidden="true"><p class="fin"><span class="big" style="font-size:calc(var(--u)*8);display:block">Fin.</span><span class="mono">Every project made for a real brief</span></p></div>
-    <i class="cover-sheet" aria-hidden="true"></i>
     <div class="spine kraft" aria-hidden="true"></div>
 
     <!-- LEAF 0 · cover / inside cover -->
@@ -603,76 +653,28 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
       </section>
     </div>
 
-    <!-- LEAF 1 · divider: the chef / pocket page -->
-    <div class="leaf">
-      <section class="page f-front r divider" aria-label="Section: About">
-        <svg viewBox="0 0 200 170" aria-hidden="true"><use href="#ill-bowl"/></svg>
-        <h2 class="dtitle">About</h2>
-        <span class="folio">1</span>
-      </section>
-      <section class="page f-back l pocket-page" id="chef" aria-labelledby="chef-h">
-        <span class="rh" style="color:var(--paper)">About</span>
-        <h2 id="chef-h" class="mono" style="align-self:flex-start;margin-bottom:auto;color:#fff4dc">Fig. 1 — The designer</h2>
-        <div class="pocket-wrap" tabindex="0" role="button" aria-label="Pull the designer's photo out of the pocket" data-noflip>
-          <div class="photo-card"><div class="ph ph-photo"><img src="chef.jpg" alt="Hemangi Ganatra on a footbridge in Mumbai" loading="lazy"></div></div>
-          <div class="pocket"><span>Hemangi Ganatra</span><span>2026</span></div>
-        </div>
-        <p class="pocket-cap">Hemangi Ganatra. Mumbai, 2026. Graphic designer, packaging nerd, judge of labels. Pictured here probably holding coffee.</p>
-        <span class="folio" style="color:var(--paper)">2</span>
-        <i class="tab-back" data-sec="chef" style="--t:10%;--h:16%" aria-hidden="true"></i>
-      </section>
-      <a class="tab" href="#chef" data-sec="chef" style="--t:10%;--h:16%">About</a>
-    </div>
-
-    <!-- LEAF 2 · foreword / contents -->
-    <div class="leaf">
-      <section class="page f-front r letter" id="foreword" aria-labelledby="fw-h">
-        <span class="rh">Foreword</span>
-        <p class="mono hl">A note from the designer</p>
-        <h2 id="fw-h" class="big" style="font-size:calc(var(--u)*7.4)">Hi. I'm <span class="hl" style="display:inline-block;transform:rotate(2deg)">Hemangi.</span></h2>
-        <p>I'm a graphic designer who somehow ended up with feelings all over her work, and honestly? Not complaining.</p>
-        <p>This is my project folder. Most of what's in it started with something I've lived, felt, or found deeply annoying. I figured out I was serious about packaging during an internship: something about holding a thing you made with your hands and thinking, yeah, that's it.</p>
-        <p>I work where design meets writing: packaging, brand identity, advertising and copy. Sometimes all four in one project, which is chaotic and also my favourite.</p>
-        <p style="margin-top:auto">Junior Graphic Designer at SMDB. Studying Visual Communication at Ecole Intuit Lab, Mumbai.</p>
-        <p class="sign">— Hemangi</p>
-        <span class="folio">3</span>
-      </section>
-      <section class="page f-back l" id="contents" aria-labelledby="toc-h">
-        <span class="rh">Contents</span>
-        <h2 id="toc-h" class="big" style="font-size:calc(var(--u)*9)"><span class="hl" style="display:inline-block;transform:rotate(-1.5deg)">Con&shy;tents</span></h2>
-        <ol class="toc">
-          <li class="sec mono">About</li>
-          <li><a href="#chef" style="display:contents"><span class="t">Fig. 1, in the pocket</span><span class="pg">p.2</span></a></li>
-          <li><a href="#foreword" style="display:contents"><span class="t">A note from the designer</span><span class="pg">p.3</span></a></li>
-          <li class="sec mono">Projects</li>
-          <li><a href="#wear-your-stage" style="display:contents"><span class="t">Wear Your Stage</span><span class="pg">p.6</span></a></li>
-          <li><a href="#oak-and-awe" style="display:contents"><span class="t">Oak &amp; Awe</span><span class="pg">p.10</span></a></li>
-          <li class="sec mono">Other</li>
-          <li><a href="#kitchen" style="display:contents"><span class="t">Still on the desk</span><span class="pg">p.14</span></a></li>
-          <li><a href="#say-hi" style="display:contents"><span class="t">Say hi</span><span class="pg">p.16</span></a></li>
-        </ol>
-        <span class="folio">4</span>
-      </section>
-    </div>
-
     <!-- LEAF 3 · divider: projects / SKB spec card -->
     <div class="leaf">
       <section class="page f-front r divider" id="mains" aria-label="Section: Projects">
         <svg viewBox="0 0 200 170" aria-hidden="true"><use href="#ill-plate"/></svg>
         <h2 class="dtitle">Projects</h2>
-        <span class="folio">5</span>
+        <span class="folio">1</span>
       </section>
       <section class="page f-back l collage" id="wear-your-stage" aria-labelledby="wys-h">
         <span class="rh">Project 04</span>
-        <div class="kcard img-led" style="--rot:-1.2deg">
+        <div class="kcard lined brief" style="--rot:-1deg">
           <i class="pclip" aria-hidden="true"></i><i class="tape" style="--tl:64%;--tr:5deg" aria-hidden="true"></i>
           <p class="mono hl">Project 04 · UNIQLO UT × Tour de France</p>
-          <h2 id="wys-h" class="big" style="font-size:calc(var(--u)*7.6)">Wear Your <span class="hl" style="display:inline-block;transform:rotate(2.5deg)">Stage.</span></h2>
-          <p class="lede">A tee for every rider's real moment.</p>
-          <figure class="polaroid grow" style="--rot:1.4deg"><i class="tape" style="--tc:#f2a7b8" aria-hidden="true"></i><div class="ph ph-photo"><img src="work/wear-your-stage/mockup-01-store-sign.webp" alt="Wear Your Stage sign next to the four tees in a UNIQLO store in Mumbai" loading="lazy" style="object-position:22% 50%"></div><figcaption>in store, Mumbai</figcaption></figure>
-          <p class="mono c-muted tags">Advertising · Merch · Copy</p>
+          <h2 id="wys-h" class="big" style="font-size:calc(var(--u)*7.4)">Wear Your <span class="hl" style="display:inline-block;transform:rotate(2.5deg)">Stage.</span></h2>
+          <div class="brief-block"><h3 class="brief-h">The brief</h3>
+            <p>Create a brand collaboration between UNIQLO's UT line and the Tour de France.</p></div>
+          <div class="brief-block"><h3 class="brief-h">The idea</h3>
+            <p>Skip the jerseys and team logos. Every tee is one rider's real moment from the Tour: the stage, the place, the year, and one line that says it all.</p></div>
+          <div class="brief-block"><h3 class="brief-h">What I made</h3>
+            <p>Four tees, back prints, neck labels, caps, bucket hats and the in-store signage.</p></div>
+          <p class="brief-foot">UNIQLO, Mumbai · ₹1,490 · Advertising, merch &amp; copy</p>
         </div>
-        <span class="folio">6</span>
+        <span class="folio">2</span>
         <i class="tab-back" data-sec="mains" style="--t:28%;--h:7%" aria-hidden="true"></i>
         <i class="tab-back" data-sec="wear-your-stage" style="--t:37%;--h:16%" aria-hidden="true"></i>
       </section>
@@ -685,14 +687,14 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
       <section class="page f-front r collage" aria-label="Wear Your Stage — in store">
         <i class="bclip" aria-hidden="true"></i>
         <div class="sheet photos">
-          <figure class="polaroid wide" style="--rot:-1.4deg"><i class="tape" aria-hidden="true"></i><div class="ph ph-photo"><img src="work/wear-your-stage/mockup-03-ut-shelf.webp" alt="The four Wear Your Stage tees on the UT wall" loading="lazy"></div><figcaption>the UT wall</figcaption></figure>
+          <figure class="polaroid wide" style="--rot:-1.4deg"><i class="tape" aria-hidden="true"></i><div class="ph ph-photo"><img src="work/wear-your-stage/mockup-01-store-sign.webp" alt="Wear Your Stage sign next to the four tees in a UNIQLO store in Mumbai" loading="lazy"></div><figcaption>in store, Mumbai</figcaption></figure>
           <div class="pair">
             <figure class="polaroid" style="--rot:2deg"><i class="tape" style="--tc:#9fd0f0" aria-hidden="true"></i><div class="ph ph-photo"><img src="work/wear-your-stage/mockup-06-store-banner.webp" alt="Wear Your Stage store banner" loading="lazy"></div><figcaption>the banner</figcaption></figure>
             <figure class="polaroid" style="--rot:-2.4deg"><i class="tape" style="--tc:#f6e79a" aria-hidden="true"></i><div class="ph ph-photo"><img src="work/wear-your-stage/mockup-02-shopper.webp" alt="A shopper with the Wear Your Stage tees" loading="lazy"></div><figcaption>out the door</figcaption></figure>
           </div>
-          <p class="scribble">the brief: a brand collab ↗</p>
+          <p class="scribble">the sign, the banner, the bag</p>
         </div>
-        <span class="folio">7</span>
+        <span class="folio">3</span>
       </section>
       <section class="page f-back l collage" aria-label="Wear Your Stage — four riders, four moments">
         <span class="rh">Four riders, four moments</span>
@@ -702,7 +704,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
           <figure class="polaroid" style="--rot:1.2deg"><i class="tape" style="--tc:#f6e79a" aria-hidden="true"></i><div class="ph ph-photo fit"><img src="work/wear-your-stage/tee-3-thomas-not-the-plan.webp" alt="Not the plan. tee" loading="lazy"></div><figcaption>Not the plan.<small>Thomas · Tour winner · 2018</small></figcaption></figure>
           <figure class="polaroid" style="--rot:-1.6deg"><i class="tape" style="--tc:#9fd0f0" aria-hidden="true"></i><div class="ph ph-photo fit"><img src="work/wear-your-stage/tee-4-vollering-close-the-gap.webp" alt="Close the gap. tee" loading="lazy"></div><figcaption>Close the gap.<small>Vollering · Tourmalet · 2023</small></figcaption></figure>
         </div>
-        <span class="folio">8</span>
+        <span class="folio">4</span>
       </section>
     </div>
 
@@ -723,7 +725,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
           </div>
           <p class="scribble">“You don't wear the team. You wear the moment.”</p>
         </div>
-        <span class="folio">9</span>
+        <span class="folio">5</span>
       </section>
       <section class="page f-back l collage" id="oak-and-awe" aria-labelledby="oa-h">
         <span class="rh">Project 05</span>
@@ -741,7 +743,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
           <div><p class="mono c-muted" style="margin-bottom:4px">What went in</p>
             <ul class="ingredients"><li>Armenian folk patterns</li><li>Deep burgundy &amp; gold</li><li>Bold symmetry, one hand-assembled box</li></ul></div>
         </div>
-        <span class="folio">10</span>
+        <span class="folio">6</span>
         <i class="tab-back" data-sec="oak-and-awe" style="--t:55%;--h:28%" aria-hidden="true"></i>
       </section>
       <a class="tab" href="#oak-and-awe" data-sec="oak-and-awe" style="--t:55%;--h:28%">05 Oak</a>
@@ -761,7 +763,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
             <p><span class="k">[02]</span> Go deep into Armenian geometric folk patterns, the kind on carpets and church walls, and build the brand from that visual language.</p>
           </div>
         </div>
-        <span class="folio">11</span>
+        <span class="folio">7</span>
       </section>
       <section class="page f-back l collage" aria-label="Oak and Awe — the problem">
         <span class="rh">Process</span>
@@ -771,7 +773,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
           <blockquote class="quote" style="font-size:calc(var(--u)*5.6)">Brandy sits on your dad's shelf and comes out at <span class="hl">funerals.</span></blockquote>
           <p class="note c-muted">Nobody under 30 thinks it's for them. It's serious in a way that feels uninviting.</p>
         </div>
-        <span class="folio">12</span>
+        <span class="folio">8</span>
       </section>
     </div>
 
@@ -791,7 +793,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
             <blockquote class="quote" style="font-size:calc(var(--u)*3.6)">“The goal wasn't to make brandy look young. It was to make it look worth keeping.”</blockquote>
           </div>
         </div>
-        <span class="folio">13</span>
+        <span class="folio">9</span>
       </section>
       <section class="page f-back l" id="kitchen" aria-labelledby="kit-h">
         <span class="rh">Notes</span>
@@ -803,7 +805,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
           <li>Ganatra Foods <small>In progress</small></li>
         </ul>
         <p class="note c-muted" style="margin-top:auto">Coming in the next edition.</p>
-        <span class="folio">14</span>
+        <span class="folio">10</span>
       </section>
     </div>
 
@@ -812,7 +814,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
       <section class="page f-front r divider" aria-label="Section: Other">
         <svg viewBox="0 0 200 180" aria-hidden="true"><use href="#ill-cup"/></svg>
         <h2 class="dtitle">Other</h2>
-        <span class="folio">15</span>
+        <span class="folio">11</span>
       </section>
       <section class="page f-back l" id="say-hi" aria-labelledby="hi-h">
         <span class="rh">Say hi</span>
@@ -820,7 +822,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
         <p style="font-size:calc(var(--u)*2.6)">The desk is open for new briefs.</p>
         <div class="stepbox"><p class="mono c-muted">Step 1</p><h3>Copy my email</h3><span class="email" id="email">ganatrahemangi93@gmail.com</span><button class="go copy" type="button">Copy</button></div>
         <div class="stepbox"><p class="mono c-muted">Step 2</p><h3>Send the brief</h3><p>Packaging, a brand, an ad, or a strong opinion about a label.</p></div>
-        <span class="folio">16</span>
+        <span class="folio">12</span>
         <i class="tab-back" data-sec="say-hi" style="--t:85%;--h:15%" aria-hidden="true"></i>
       </section>
       <a class="tab" href="#say-hi" data-sec="say-hi" style="--t:85%;--h:15%">Other</a>
@@ -835,17 +837,17 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
           <dt>Designer</dt><dd>Hemangi Ganatra</dd>
           <dt>Studio</dt><dd>Ecole Intuit Lab, Mumbai</dd>
           <dt>Edition</dt><dd>Project 03 · Personal Branding &amp; Portfolio</dd>
-          <dt>Type</dt><dd>Mynerve, Schoolbell &amp; Space Mono</dd>
+          <dt>Type</dt><dd>Mynerve &amp; Schoolbell</dd>
         </dl>
         <a class="go" href="#cover">← Close the folder</a>
-        <span class="folio">17</span>
+        <span class="folio">13</span>
       </section>
       <section class="page f-back l alt" aria-label="The end">
         <span class="rh">Notes</span>
         <p class="big" style="font-size:calc(var(--u)*6.4)">Notes</p>
         <p class="ruled" style="font-size:calc(var(--u)*3);line-height:calc(var(--u)*4.4)">Thanks for making it to the end.<br>Still going for the wow, same.<br>Always.</p>
         <p class="sign" style="margin-top:calc(var(--u)*2)">— H.</p>
-        <span class="folio">18</span>
+        <span class="folio">14</span>
       </section>
     </div>
 
@@ -862,7 +864,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
   </div>
 </main>
 
-<div class="desk-scene" id="deskScene">
+<div class="desk-scene setting-up" id="deskScene">
   <p class="desk-hint">My desk, mid-project &mdash; move things aside, then open the folder</p>
   <div class="desk-fixed mat" style="left:50%;top:50%;--r:-1deg" aria-hidden="true"><img src="desk/mat-wide.webp" alt="" draggable="false"></div>
   <!-- --fw = real width in inches x .0198 (see .desk-scene). Real sizes used: paper 4x6in card, sketchbook A5, notepad 5x7in,
@@ -872,7 +874,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
   <div class="desk-item" data-hint="Ideas live in here" style="--fx:0.258;--fy:0.3818;--fw:0.125;--mfx:0.4258;--mfy:0.7095;--r:-9deg;z-index:3" aria-hidden="true"><img src="desk/sketchbook.webp" alt="" draggable="false"></div>
   <div class="desk-item" data-hint="First sketch, ever" style="--fx:0.6985;--fy:0.2626;--fw:0.109;--mfx:0.0949;--mfy:0.7683;--r:5deg;z-index:4" aria-hidden="true"><img src="desk/pad.webp" alt="" draggable="false"></div>
   <div class="desk-item ruler" data-hint="Measure twice, drag once" style="z-index:5" aria-hidden="true"><img src="desk/ruler.webp" alt="" draggable="false"></div>
-  <div class="desk-item" data-book="1" data-hint="Open me, the proof's inside" style="--fx:0.4606;--fy:0.0822;--fw:0.19;--mfx:0.0926;--mfy:0.3173;--r:4deg;z-index:6" role="button" tabindex="0" aria-label="Open the Proof of Work folder"><img src="desk/folder.webp" alt="" draggable="false"></div>
+  <div class="desk-item" data-book="1" data-hint="Open me, the proof's inside" style="--fx:0.4606;--fy:0.0822;--fw:0.162;--mfx:0.0926;--mfy:0.3173;--r:4deg;z-index:6" role="button" tabindex="0" aria-label="Open the Proof of Work folder"><img src="desk/folder.webp" alt="" draggable="false"></div>
   <div class="desk-item pencil-anchor" data-pencils style="--fx:0.761;--fy:0.6553;--fw:0.09;--mfx:0.4735;--mfy:0.8124;--r:70deg;z-index:7" aria-hidden="true"></div>
   <div class="pencil" data-hint="Give it a roll" data-u=".1844" data-v=".5315" data-a="-9.52" data-w=".2624" data-h=".9133" aria-hidden="true"><div class="pencil-body" style="--m:url(desk/pencil-red.webp)"><img src="desk/pencil-red.webp" alt="" draggable="false"><i class="pencil-shade"></i></div></div>
   <div class="pencil" data-hint="Give it a roll" data-u=".4858" data-v=".4505" data-a="2.43" data-w=".2426" data-h=".9133" aria-hidden="true"><div class="pencil-body" style="--m:url(desk/pencil-green.webp)"><img src="desk/pencil-green.webp" alt="" draggable="false"><i class="pencil-shade"></i></div></div>
@@ -887,9 +889,32 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
   <img class="desk-end" data-hint="Untangle me" data-end="remote" src="desk/ear-remote.webp" alt="" draggable="false" aria-hidden="true">
   <img class="desk-end" data-hint="Untangle me" data-end="jack" src="desk/ear-usbc.webp" alt="" draggable="false" aria-hidden="true">
   <div class="desk-item" data-hint="Scroll later, drag now" style="--fx:0.0592;--fy:0.0767;--fw:0.158;--mfx:0.0846;--mfy:0.0581;--r:-7deg;z-index:13" aria-hidden="true"><img src="desk/ipad.webp" alt="" draggable="false"></div>
-  <div class="desk-item" data-hint="Say cheese" style="--fx:0.7011;--fy:0.0497;--fw:0.085;--mfx:0.5342;--mfy:0.3462;--r:9deg;z-index:14" aria-hidden="true"><img src="desk/camera.webp" alt="" draggable="false"></div>
+  <div class="desk-item" data-link="https://neferchipss.github.io/hemangi-portfolio-26/" data-hint="Say cheese: tap for my centrepiece" style="--fx:0.7011;--fy:0.0497;--fw:0.085;--mfx:0.5342;--mfy:0.3462;--r:9deg;z-index:14" role="link" tabindex="0" aria-label="Open my centrepiece assignment (opens in a new tab)"><img src="desk/camera.webp" alt="" draggable="false"></div>
   <div class="desk-item" data-hint="Do not disturb" style="--fx:0.2554;--fy:0.0626;--fw:0.058;--mfx:0.4882;--mfy:0.0538;--r:13deg;z-index:15" aria-hidden="true"><img src="desk/phone.webp" alt="" draggable="false"></div>
+  <div class="desk-item id-card-item" data-about data-hint="Hi, that's me" style="--fx:0.9;--fy:0.53;--fw:0.062;--mfx:0.8;--mfy:0.62;--r:-9deg;z-index:16" role="button" tabindex="0" aria-label="About Hemangi: open the ID card">
+    <div class="idcard"><span class="id-top">DESIGNER</span><img class="id-photo" src="chef.jpg" alt="" draggable="false"><b class="id-name">Hemangi Ganatra</b><span class="id-sub">Mumbai · 2026</span><i class="id-bar"></i></div>
+  </div>
+  <p class="desk-loading" aria-live="polite">setting up the desk<i>.</i><i>.</i><i>.</i></p>
 </div>
+
+<!-- About: the desk ID card flips open into this card -->
+<div class="about-ov" id="aboutOv" role="dialog" aria-modal="true" aria-labelledby="ab-h" hidden>
+  <button class="back-note" type="button" data-about-close><svg viewBox="0 0 22 16" aria-hidden="true"><path d="M20 8.5H3M8.5 2.5 2.5 8.5l6 6" fill="none" stroke="#2c1a0c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Back to desk</button>
+  <div class="about-card">
+    <figure class="ab-photo"><img src="chef.jpg" alt="Hemangi Ganatra on a footbridge in Mumbai" loading="lazy"><figcaption>Mumbai, 2026. Graphic designer, packaging nerd, judge of labels. Pictured here probably holding coffee.</figcaption></figure>
+    <div class="ab-note">
+      <p class="mono hl" style="align-self:flex-start">A note from the designer</p>
+      <h2 id="ab-h" class="big">Hi. I'm <span class="hl" style="display:inline-block;transform:rotate(2deg)">Hemangi.</span></h2>
+      <p>I'm a graphic designer who somehow ended up with feelings all over her work, and honestly? Not complaining.</p>
+      <p>That green folder on my desk is my Proof of Work. Most of what's in it started with something I've lived, felt, or found deeply annoying. I figured out I was serious about packaging during an internship: something about holding a thing you made with your hands and thinking, yeah, that's it.</p>
+      <p>I work where design meets writing: packaging, brand identity, advertising and copy. Sometimes all four in one project, which is chaotic and also my favourite.</p>
+      <p class="ab-role">Junior Graphic Designer at SMDB · Visual Communication, Ecole Intuit Lab, Mumbai</p>
+      <p class="sign">— Hemangi</p>
+    </div>
+  </div>
+</div>
+<!-- while the folder is open: back to the desk -->
+<button class="back-note" id="deskBack" type="button" hidden><svg viewBox="0 0 22 16" aria-hidden="true"><path d="M20 8.5H3M8.5 2.5 2.5 8.5l6 6" fill="none" stroke="#2c1a0c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>Back to desk</button>
 
 <footer class="ftr" aria-hidden="true">
   <span class="mono" id="pageno">Cover</span>
@@ -924,9 +949,9 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     }
     var br=book.getBoundingClientRect(), cr=cover.getBoundingClientRect();
     var bw=img.offsetWidth, bh=img.offsetHeight, R=parseFloat(getComputedStyle(book).getPropertyValue('--r'))||0;
-    // in desk/folder.webp the cover board spans x 15.4%..93.1% (the back panel and prints stick out on the left,
-    // tabs on the right) and its top edge sits 36.3% down (work sticks out above it): line those up
-    var W=cr.width/.777, H=W*bh/bw, L=cr.left-.154*W, T=cr.top-.363*H;
+    // in desk/folder.webp the cover board spans x 0.8%..91.8% (the coloured index tabs stick out to its
+    // right) and its top edge sits 2.8% down: line those up with the binder cover
+    var W=cr.width/.91, H=W*bh/bw, L=cr.left-.008*W, T=cr.top-.028*H;
     var fly=document.createElement('img');
     fly.src=img.currentSrc||img.src; fly.alt=''; fly.setAttribute('aria-hidden','true');
     fly.style.cssText='position:fixed;z-index:2000;pointer-events:none;margin:0;left:'+L+'px;top:'+T+'px;width:'+W+'px;height:'+H+'px;'+
@@ -958,7 +983,8 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
   items.forEach(function(el){
     var dx=0, dy=0, startX=0, startY=0, dragging=false, pid=null, moved=0;
     var vx=0, vy=0, lx=0, ly=0, lt=0, raf=0, last=0;
-    var isBook=el.hasAttribute('data-book');
+    var isBook=el.hasAttribute('data-book'), isAbout=el.hasAttribute('data-about'), link=el.getAttribute('data-link');
+    function openLink(){ var w=window.open(link,'_blank','noopener'); if(w) w.opener=null; }
     function place(){ el.style.setProperty('--dx', dx+'px'); el.style.setProperty('--dy', dy+'px'); }
     function coast(now){
       var f=Math.min(3,(now-last)/16.67)||1; last=now;
@@ -996,6 +1022,8 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
       el.classList.remove('dragging');
       try{ el.releasePointerCapture(pid); }catch(err){}
       if(isBook && moved<TAP_SLOP){ reveal(); return; }
+      if(isAbout && moved<TAP_SLOP){ if(window.openAbout) window.openAbout(); return; }
+      if(link && moved<TAP_SLOP){ openLink(); return; }
       if(still || moved<TAP_SLOP || performance.now()-lt>80) return;   // a pause before letting go: no throw
       vx*=FLING; vy*=FLING;
       var sp=Math.sqrt(vx*vx+vy*vy); if(sp>MAXV){ vx*=MAXV/sp; vy*=MAXV/sp; }
@@ -1003,10 +1031,81 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     }
     el.addEventListener('pointerup', end);
     el.addEventListener('pointercancel', end);
+    if(link) el.addEventListener('keydown', function(e){
+      if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openLink(); }
+    });
+    if(isAbout) el.addEventListener('keydown', function(e){
+      if(e.key==='Enter'||e.key===' '){ e.preventDefault(); if(window.openAbout) window.openAbout(); }
+    });
     if(isBook) el.addEventListener('keydown', function(e){
       if(e.key==='Enter'||e.key===' '){ e.preventDefault(); reveal(); }
     });
   });
+})();
+</script>
+<script>
+/* About card, "Back to desk" and the landing intro.
+   - Tapping the desk ID card flips open the About card (photo + note); the sticky note, Esc or a
+     click on the dimmed desk closes it again.
+   - While the folder is open, a "Back to desk" sticky note shuts the folder and brings the desk back.
+   - On landing, the mat appears and the objects drop onto it one by one (coffee last, with a little
+     wobble) once the images have loaded; reduced-motion just shows the desk. */
+(function(){
+  var scene=document.getElementById('deskScene'), ov=document.getElementById('aboutOv'), back=document.getElementById('deskBack');
+  if(!scene) return;
+  var still=matchMedia('(prefers-reduced-motion: reduce)').matches, lastFocus=null;
+
+  window.openAbout=function(){
+    if(!ov || !ov.hidden) return;
+    lastFocus=document.activeElement;
+    ov.hidden=false; void ov.offsetWidth; ov.classList.add('on');
+    ov.querySelector('[data-about-close]').focus({preventScroll:true});
+  };
+  function closeAbout(){
+    if(!ov || ov.hidden) return;
+    ov.classList.remove('on');
+    setTimeout(function(){ ov.hidden=true; if(lastFocus && lastFocus.focus) lastFocus.focus({preventScroll:true}); }, still?0:320);
+  }
+  if(ov){
+    ov.querySelector('[data-about-close]').addEventListener('click',closeAbout);
+    ov.addEventListener('click',function(e){ if(e.target===ov) closeAbout(); });
+    addEventListener('keydown',function(e){ if(e.key==='Escape') closeAbout(); },true);
+  }
+
+  // "Back to desk": visible only while the desk is put away (folder open)
+  function syncBack(){ if(back) back.hidden=!scene.hidden; }
+  new MutationObserver(syncBack).observe(scene,{attributes:true,attributeFilter:['hidden']});
+  syncBack();
+  if(back) back.addEventListener('click',function(){
+    if(window.binderClose) window.binderClose();
+    back.hidden=true;
+    setTimeout(function(){
+      scene.classList.add('hiding'); scene.hidden=false; void scene.offsetWidth;
+      scene.classList.remove('hiding');
+      var bk=scene.querySelector('[data-book]'); if(bk) bk.focus({preventScroll:true});
+    }, still?0:650);
+  });
+
+  // landing intro: the desk gets set up
+  var loading=scene.querySelector('.desk-loading');
+  var order=['.desk-item.ruler','.desk-item [src*="paper.webp"]','.desk-item [src*="sketchbook"]','.desk-item [src*="pad.webp"]','[data-book]','.desk-item [src*="knife"]',
+    '.pencil','.desk-item [src*="ipad"]','.desk-item [src*="phone.webp"]','.desk-item [src*="camera"]','.desk-item [src*="cereal"]','[data-about]','.desk-wire','.desk-end','[data-spill]','.desk-hint'];
+  function setUp(){
+    if(!scene.classList.contains('setting-up')) return;
+    if(still){ scene.classList.remove('setting-up'); if(loading) loading.remove(); return; }
+    var step=110, t=320, seen=new Set();
+    order.forEach(function(sel){
+      var els=[].slice.call(scene.querySelectorAll(sel)).map(function(e){ return e.closest('.desk-item,.pencil,.desk-end,.desk-wire,.desk-hint')||e; });
+      els=els.filter(function(e){ return !seen.has(e); }); if(!els.length) return;
+      els.forEach(function(e,i){ seen.add(e); e.style.setProperty('--d',(t+i*45)+'ms'); });
+      t+=step;
+    });
+    if(loading){ loading.style.opacity='0'; setTimeout(function(){ loading.remove(); },300); }
+    scene.classList.add('dropping'); scene.classList.remove('setting-up');
+    setTimeout(function(){ scene.classList.remove('dropping'); }, t+1300);
+  }
+  if(document.readyState==='complete') setUp(); else addEventListener('load',setUp);
+  setTimeout(setUp,6000);   // never leave the desk empty if an image is slow
 })();
 </script>
 <script>
@@ -1631,10 +1730,8 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
   }).sort(function(a,b){ return a.start-b.start; });
 
   function size(){
-    if(!H()){ root.style.removeProperty('--ph'); root.style.removeProperty('--tabpad'); return; }
-    // leave headroom for the project prints peeking out above the closed cover
-    var availH=(innerHeight-47)/1.231, availW=innerWidth-60;
-    root.style.setProperty('--tabpad', Math.round(Math.min(availH, availW/2/0.72)*.231+7)+'px');
+    if(!H()){ root.style.removeProperty('--ph'); return; }
+    var availH=innerHeight-40, availW=innerWidth-60;
     var ph=Math.min(availH, availW/2/0.72);
     root.style.setProperty('--ph', Math.max(320,Math.floor(ph))+'px');
   }
@@ -1731,6 +1828,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
   function next(){ goTo(cur+1); } function prev(){ goTo(cur-1); }
   prevB.addEventListener('click',prev); nextB.addEventListener('click',next);
   window.binderOpen=function(){ if(cur===0) next(); };   // the desk's "open the book" hand-off
+  window.binderClose=function(){ if(cur!==0) goTo(0); };  // "Back to desk" shuts the folder first
 
   var acc=0, accT=0;
   stage.addEventListener('wheel',function(e){
