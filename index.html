@@ -244,6 +244,28 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
   box-shadow:2px 3px 0 rgba(40,18,4,.18);transform:rotate(-1.2deg);align-items:center}
 .kcard .step.sticker{border-color:var(--ink)}
 
+/* ---- painted paper: the inside pages, cards, sheets, polaroids and notes are skinned with real
+   hand-painted paper (binder/paint-*.webp, painted to match the desk art) instead of CSS boxes.
+   border-image 9-slices each piece, so the wobbly outline, rounded corners and white highlight
+   strokes stay crisp at any size while the middle stretches. */
+.page.collage{background:url(binder/paint-kraft.webp) center/100% 100% no-repeat!important;box-shadow:none!important}
+.collage .kcard,.collage .sheet,.collage .scrap,.collage .polaroid,.collage .step.sticker{
+  background:none;border:calc(var(--u)*3.2) solid transparent;border-image:url(binder/paint-card.webp) 64 fill / calc(var(--u)*3.2) stretch;
+  border-radius:0;box-shadow:none;filter:drop-shadow(4px 6px 0 rgba(30,14,6,.28))}
+.collage .kcard{padding:calc(var(--u)*1.6) calc(var(--u)*1.2) calc(var(--u)*.8)}
+.collage .sheet{padding:calc(var(--u)*3) calc(var(--u)*1.6) calc(var(--u)*1.6) calc(var(--u)*4.4)}
+.collage .sheet::before,.collage .sheet::after{left:calc(var(--u)*.6);border:2px solid #4a2c12;background:#8a5a2b;box-shadow:inset 1px 2px 2px rgba(0,0,0,.45)}
+.collage .polaroid{border-width:calc(var(--u)*1.9);border-image-width:calc(var(--u)*1.9);border-image-slice:64 fill;padding:calc(var(--u)*.4) calc(var(--u)*.4) 0;filter:drop-shadow(3px 5px 0 rgba(30,14,6,.26))}
+.collage .polaroid .ph{border:2px solid #4a2c12;border-radius:4px}
+.collage .scrap{padding:calc(var(--u)*1.2) calc(var(--u)*1.4)}
+.collage .step.sticker{border-width:calc(var(--u)*1.8);border-image-width:calc(var(--u)*1.8);border-image-slice:64 fill;padding:0 calc(var(--u)*.6)}
+.collage .sticky{background:none;border:calc(var(--u)*2.2) solid transparent;border-image:url(binder/paint-note.webp) 60 fill / calc(var(--u)*2.6) stretch;
+  border-radius:0;box-shadow:none;padding:calc(var(--u)*1.2) calc(var(--u)*1.4);filter:drop-shadow(3px 5px 0 rgba(30,14,6,.26))}
+/* lined cards keep their ruled lines, drawn just above the painted paper and below the text */
+.collage .kcard.lined::after{content:"";position:absolute;inset:calc(var(--u)*-.4) calc(var(--u)*-.2);z-index:-1;pointer-events:none;
+  background:repeating-linear-gradient(transparent 0 calc(var(--u)*4.4 - 1px),rgba(70,110,170,.2) calc(var(--u)*4.4 - 1px) calc(var(--u)*4.4)) 0 calc(var(--u)*1.6)}
+.collage .strip{border:2.5px solid #2a1a0a;border-radius:8px 6px 9px 5px;background:#3a302a;filter:drop-shadow(3px 5px 0 rgba(30,14,6,.26));box-shadow:none}.collage .strip i{border-radius:3px;border:1.5px solid #1a120a}
+
 .leaf{position:absolute;top:0;left:calc(50% + var(--gap) / 2);width:var(--pw);height:100%;transform-origin:calc(var(--gap) / -2) 50%;transform-style:preserve-3d;
   transition:transform .95s cubic-bezier(.645,.045,.355,1);cursor:pointer}
 .leaf.flipped{transform:rotateY(-180deg)}
@@ -287,6 +309,7 @@ p{margin:0} h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance} ul,ol{list-s
    rotates away with it; what rotates into view on the back is the same flap's blank reverse,
    a plain paper tab with no writing, on the left edge where the sheet now sits. Hidden on the
    closed cover. */
+/* side tabs removed (the folder has no index tabs any more); page turns, keys and swipe still navigate */.tab,.tab-back{display:none!important}
 .tab,.tab-back{position:absolute;width:34px;top:var(--t);height:var(--h);display:flex;align-items:center;justify-content:center;text-align:center;
   background:linear-gradient(color-mix(in srgb,var(--tc,#f3ead2) 92%,transparent),color-mix(in srgb,var(--tc,#f3ead2) 92%,transparent)),var(--paper) url(binder/paper.webp) 0 0/360px 360px;font-family:var(--mono);font-weight:700;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;writing-mode:vertical-rl;color:color-mix(in srgb,var(--tc,#8a4a17) 30%,#1c1208);
   border:2.5px solid color-mix(in srgb,var(--tc,#8a4a17) 50%,#2a1a0a);backface-visibility:hidden;-webkit-backface-visibility:hidden;
@@ -874,7 +897,7 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
   <div class="desk-item" data-hint="Ideas live in here" style="--fx:0.258;--fy:0.3818;--fw:0.125;--mfx:0.4258;--mfy:0.7095;--r:-9deg;z-index:3" aria-hidden="true"><img src="desk/sketchbook.webp" alt="" draggable="false"></div>
   <div class="desk-item" data-hint="First sketch, ever" style="--fx:0.6985;--fy:0.2626;--fw:0.109;--mfx:0.0949;--mfy:0.7683;--r:5deg;z-index:4" aria-hidden="true"><img src="desk/pad.webp" alt="" draggable="false"></div>
   <div class="desk-item ruler" data-hint="Measure twice, drag once" style="z-index:5" aria-hidden="true"><img src="desk/ruler.webp" alt="" draggable="false"></div>
-  <div class="desk-item" data-book="1" data-hint="Open me, the proof's inside" style="--fx:0.4606;--fy:0.0822;--fw:0.162;--mfx:0.0926;--mfy:0.3173;--r:4deg;z-index:6" role="button" tabindex="0" aria-label="Open the Proof of Work folder"><img src="desk/folder.webp" alt="" draggable="false"></div>
+  <div class="desk-item" data-book="1" data-hint="Open me, the proof's inside" style="--fx:0.4606;--fy:0.0822;--fw:0.157;--mfx:0.0926;--mfy:0.3173;--r:4deg;z-index:6" role="button" tabindex="0" aria-label="Open the Proof of Work folder"><img src="desk/folder.webp" alt="" draggable="false"></div>
   <div class="desk-item pencil-anchor" data-pencils style="--fx:0.761;--fy:0.6553;--fw:0.09;--mfx:0.4735;--mfy:0.8124;--r:70deg;z-index:7" aria-hidden="true"></div>
   <div class="pencil" data-hint="Give it a roll" data-u=".1844" data-v=".5315" data-a="-9.52" data-w=".2624" data-h=".9133" aria-hidden="true"><div class="pencil-body" style="--m:url(desk/pencil-red.webp)"><img src="desk/pencil-red.webp" alt="" draggable="false"><i class="pencil-shade"></i></div></div>
   <div class="pencil" data-hint="Give it a roll" data-u=".4858" data-v=".4505" data-a="2.43" data-w=".2426" data-h=".9133" aria-hidden="true"><div class="pencil-body" style="--m:url(desk/pencil-green.webp)"><img src="desk/pencil-green.webp" alt="" draggable="false"><i class="pencil-shade"></i></div></div>
@@ -949,9 +972,9 @@ dl.cred dd{margin:0;font-size:calc(var(--u)*2.2)}
     }
     var br=book.getBoundingClientRect(), cr=cover.getBoundingClientRect();
     var bw=img.offsetWidth, bh=img.offsetHeight, R=parseFloat(getComputedStyle(book).getPropertyValue('--r'))||0;
-    // in desk/folder.webp the cover board spans x 0.8%..91.8% (the coloured index tabs stick out to its
+    // in desk/folder.webp the cover board spans x 0.8%..94.6% (only cream page edges show to its
     // right) and its top edge sits 2.8% down: line those up with the binder cover
-    var W=cr.width/.91, H=W*bh/bw, L=cr.left-.008*W, T=cr.top-.028*H;
+    var W=cr.width/.94, H=W*bh/bw, L=cr.left-.008*W, T=cr.top-.028*H;
     var fly=document.createElement('img');
     fly.src=img.currentSrc||img.src; fly.alt=''; fly.setAttribute('aria-hidden','true');
     fly.style.cssText='position:fixed;z-index:2000;pointer-events:none;margin:0;left:'+L+'px;top:'+T+'px;width:'+W+'px;height:'+H+'px;'+
